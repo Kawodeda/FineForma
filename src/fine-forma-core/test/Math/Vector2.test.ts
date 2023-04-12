@@ -16,7 +16,7 @@ suite('Vector2', () => {
 
         testCases.forEach(({ a, b, expected }) => {
             test(`add (${a.x}, ${a.y}) to (${b.x}, ${b.y})`, () => {
-                expect(a.add(b)).to.be.deep.equal(expected);
+                expect(a.add(b).equals(expected)).to.be.true;
             });
         });
     });
@@ -33,7 +33,7 @@ suite('Vector2', () => {
 
         testCases.forEach(({ a, b }) => {
             test(`add vectors (${a.x}, ${a.y}) and (${b.x}, ${b.y})`, () => {
-                expect(a.add(b)).to.be.deep.equal(b.add(a));
+                expect(a.add(b).equals(b.add(a))).to.be.true;
             });
         });
     });
@@ -54,7 +54,7 @@ suite('Vector2', () => {
 
         testCases.forEach(({ vector, scalar, expected }) => {
             test(`scale (${vector.x}, ${vector.y}) by ${scalar}`, () => {
-                expect(vector.scale(scalar)).to.be.deep.equal(expected);
+                expect(vector.scale(scalar).equals(expected)).to.be.true;
             });
         });
     });

@@ -1,3 +1,5 @@
+import { nearlyEquals } from "./Utils";
+
 export class Vector2 {
 
     private readonly _x: number;
@@ -17,12 +19,15 @@ export class Vector2 {
     }
 
     add(other: Vector2): Vector2 {
-        other;
-        return new Vector2(0, 0);
+        return new Vector2(this.x + other.x, this.y + other.y);
     }
 
     scale(factor: number): Vector2 {
-        factor;
-        return new Vector2(0, 0);
+        return new Vector2(this.x * factor, this.y * factor);
+    }
+
+    equals(other: Vector2): boolean {
+        return nearlyEquals(this.x, other.x) 
+            && nearlyEquals(this.y, other.y);
     }
 }
