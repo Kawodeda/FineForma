@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import { expect } from "chai";
 import { suite, test } from "mocha";
 
@@ -38,5 +37,25 @@ suite('Vector2', () => {
             });
         });
     });
+
+    suite('scale returns scaled vector', () => {
+        const testCases = [
+            { vector: new Vector2(0, 0), scalar: 0, expected: new Vector2(0, 0) },
+            { vector: new Vector2(1.5, -4), scalar: 0, expected: new Vector2(0, 0) },
+            { vector: new Vector2(0, 0), scalar: 12, expected: new Vector2(0, 0) },
+            { vector: new Vector2(80, 14.2), scalar: 1, expected: new Vector2(80, 14.2) },
+            { vector: new Vector2(-910.05, 11), scalar: 1, expected: new Vector2(-910.05, 11) },
+            { vector: new Vector2(-910.05, 11), scalar: 2, expected: new Vector2(-1820.1, 22) },
+            { vector: new Vector2(80, 14.2), scalar: 10, expected: new Vector2(800, 142) },
+            { vector: new Vector2(80, 14.2), scalar: 2.5, expected: new Vector2(200, 35.5) },
+            { vector: new Vector2(80, 14.2), scalar: -1, expected: new Vector2(-80, -14.2) },
+            { vector: new Vector2(80, -14.2), scalar: -3, expected: new Vector2(-240, 42.6) }
+        ];
+
+        testCases.forEach(({ vector, scalar, expected }) => {
+            test(`scale (${vector.x}, ${vector.y}) by ${scalar}`, () => {
+                expect(vector.scale(scalar)).to.be.deep.equal(expected);
+            });
+        });
     });
 });
