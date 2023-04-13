@@ -1,10 +1,5 @@
 import { nearlyEquals } from "./Utils";
 
-/**
- * m11 m12 d1
- * m21 m22 d2
- * 0   0   1
- */
 export class Matrix {
 
     private readonly _m11: number;
@@ -27,24 +22,68 @@ export class Matrix {
         return new Matrix(1, 0, 0, 1, 0, 0);
     }
 
+    get m11(): number {
+        return this._m11;
+    }
+
+    get m12(): number {
+        return this._m12;
+    }
+
+    get m21(): number {
+        return this._m21;
+    }
+
+    get m22(): number {
+        return this._m22;
+    }
+
+    get d1(): number {
+        return this._d1;
+    }
+
+    get d2(): number {
+        return this._d2;
+    }
+
     append(other: Matrix): Matrix {
-        return other;
+        return new Matrix(
+            this.m11 * other.m11 + this.m12 * other.m21,
+            this.m11 * other.m12 + this.m12 * other.m22,
+            this.m21 * other.m11 + this.m22 * other.m21,
+            this.m21 * other.m12 + this.m22 * other.m22,
+            this.m11 * other.d1 + this.m12 * other.d2 + this.d1,
+            this.m21 * other.d1 + this.m22 * other.d2 + this.d2
+        );
     }
 
     prepend(other: Matrix): Matrix {
-        return other;
+        return other.append(this);
     }
 
     inverse(): Matrix {
-        throw Error();
+        const determinant = this.determinant();
+
+        return new Matrix(
+            this.m22 / determinant,
+            -this.m12 / determinant,
+            -this.m21 / determinant,
+            this.m11 / determinant,
+            (this.m12 * this.d2 - this.d1 * this.m22) / determinant,
+            -(this.m11 * this.d2 - this.d1 * this.m21) / determinant
+        );
     }
 
     equals(other: Matrix): boolean {
-        return nearlyEquals(this._m11, other._m11)
-            && nearlyEquals(this._m12, other._m12)
-            && nearlyEquals(this._m21, other._m21)
-            && nearlyEquals(this._m22, other._m22)
-            && nearlyEquals(this._d1, other._d1)
-            && nearlyEquals(this._d2, other._d2);
+        return nearlyEquals(this.m11, other.m11)
+            && nearlyEquals(this.m12, other.m12)
+            && nearlyEquals(this.m21, other.m21)
+            && nearlyEquals(this.m22, other.m22)
+            && nearlyEquals(this.d1, other.d1)
+            && nearlyEquals(this.d2, other.d2);
+    }
+
+    private determinant(): number {
+        return this.m11 * this.m22 - this.m12 * this.m21;
     }
 }

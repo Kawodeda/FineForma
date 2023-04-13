@@ -29,7 +29,7 @@ suite('Matrix', () => {
             { 
                 a: new Matrix(2, 0, 0, 2, 0, 0),
                 b: new Matrix(1, 0, 0, 1, 40, 20.2),
-                expected: new Matrix(2, 0, 0, 2, 80, 40.2) 
+                expected: new Matrix(2, 0, 0, 2, 80, 40.4) 
             },
             { 
                 a: new Matrix(1, 0, 0, 1, 40, 20.2),
@@ -136,7 +136,7 @@ suite('Matrix', () => {
 
         testCases.forEach((matrix, index) => {
             test(`inverse #${index + 1}`, () => {
-                expect(matrix.inverse().equals(Matrix.identity)).to.be.true;
+                expect(matrix.inverse().append(matrix).equals(Matrix.identity)).to.be.true;
             })
         });
     });
