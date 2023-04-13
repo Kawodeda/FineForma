@@ -1,3 +1,5 @@
+import { nearlyEquals } from "./Utils";
+
 /**
  * m11 m12 d1
  * m21 m22 d2
@@ -29,7 +31,20 @@ export class Matrix {
         return other;
     }
 
+    prepend(other: Matrix): Matrix {
+        return other;
+    }
+
     inverse(): Matrix {
         throw Error();
+    }
+
+    equals(other: Matrix): boolean {
+        return nearlyEquals(this._m11, other._m11)
+            && nearlyEquals(this._m12, other._m12)
+            && nearlyEquals(this._m21, other._m21)
+            && nearlyEquals(this._m22, other._m22)
+            && nearlyEquals(this._d1, other._d1)
+            && nearlyEquals(this._d2, other._d2);
     }
 }
