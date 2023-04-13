@@ -4,6 +4,33 @@ import { expect } from "chai";
 import { Matrix } from '../../src/Math/Matrix';
 
 suite('Matrix', () => {
+    suite('create Matrix from non-real numbers results in error', () => {
+        const testCases = [
+            () => new Matrix(Infinity, 0, 0, 1, 0, 0),
+            () => new Matrix(-Infinity, 0, 0, 1, 0, 0),
+            () => new Matrix(1, Infinity, 0, 1, 0, 0),
+            () => new Matrix(1, 0, Infinity, 1, 0, 0),
+            () => new Matrix(1, 0, 0, Infinity, 0, 0),
+            () => new Matrix(1, 0, 0, 1, Infinity, 0),
+            () => new Matrix(1, 0, 0, 1, 0, Infinity),
+            () => new Matrix(Infinity, -Infinity, Infinity, Infinity, -Infinity, Infinity),
+            () => new Matrix(NaN, 0, 0, 1, 0, 0),
+            () => new Matrix(1, NaN, 0, 1, 0, 0),
+            () => new Matrix(1, 0, NaN, 1, 0, 0),
+            () => new Matrix(1, 0, 0, NaN, 0, 0),
+            () => new Matrix(1, 0, 0, 1, NaN, 0),
+            () => new Matrix(1, 0, 0, 1, 0, NaN),
+            () => new Matrix(NaN, NaN, NaN, NaN, NaN, NaN),
+            () => new Matrix(-NaN, 0, 0, 1, 0, 0)
+        ];
+
+        testCases.forEach((createMatrix, index) => {
+            test(`non-real numbers #${index + 1}`, () => {
+                expect(createMatrix).to.throw(Error);
+            })
+        });
+    });
+
     suite('append returns product of matrices', () => {
         const testCases = [
             { 

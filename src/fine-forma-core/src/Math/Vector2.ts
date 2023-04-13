@@ -1,4 +1,4 @@
-import { nearlyEquals } from "./Utils";
+import { isRealNumber, nearlyEquals } from "./Utils";
 
 export class Vector2 {
 
@@ -6,6 +6,8 @@ export class Vector2 {
     private readonly _y: number;
 
     constructor(x: number, y: number) {
+        this._validateElements(x, y);
+
         this._x = x;
         this._y = y;
     }
@@ -29,5 +31,11 @@ export class Vector2 {
     equals(other: Vector2): boolean {
         return nearlyEquals(this.x, other.x) 
             && nearlyEquals(this.y, other.y);
+    }
+
+    private _validateElements(x: number, y: number) {
+        if(!isRealNumber(x) || !isRealNumber(y)) {
+            throw new Error('Could not create Vector2 from non-real element values');
+        }
     }
 }

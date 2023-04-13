@@ -4,6 +4,23 @@ import { suite, test } from "mocha";
 import { Vector2 } from "../../src/Math/Vector2";
 
 suite('Vector2', () => {
+    suite('create Vector2 from non-real numbers result in error', () => {
+        const testCases = [
+            () => new Vector2(Infinity, 0),
+            () => new Vector2(0, Infinity),
+            () => new Vector2(-Infinity, Infinity),
+            () => new Vector2(NaN, 0),
+            () => new Vector2(0, NaN),
+            () => new Vector2(NaN, NaN)
+        ];
+
+        testCases.forEach((createVector, index) => {
+            test(`non-real numbers #${index + 1}`, () => {
+                expect(createVector).to.throw(Error);
+            });
+        });
+    });
+
     suite('add returns the sum of vectors', () => {
         const testCases = [
             { a: new Vector2(2, 2), b: new Vector2(1, 1), expected: new Vector2(3, 3) },

@@ -1,4 +1,4 @@
-import { nearlyEquals } from "./Utils";
+import { isRealNumber, nearlyEquals } from "./Utils";
 
 export class Matrix {
 
@@ -10,6 +10,8 @@ export class Matrix {
     private readonly _d2: number;
 
     constructor(m11: number, m12: number, m21: number, m22: number, d1: number, d2: number) {
+        this._validateElements(m11, m12, m21, m22, d1, d2);
+        
         this._m11 = m11;
         this._m12 = m12;
         this._m21 = m21;
@@ -62,7 +64,7 @@ export class Matrix {
     }
 
     inverse(): Matrix {
-        const determinant = this.determinant();
+        const determinant = this._determinant();
 
         return new Matrix(
             this.m22 / determinant,
@@ -83,7 +85,15 @@ export class Matrix {
             && nearlyEquals(this.d2, other.d2);
     }
 
-    private determinant(): number {
+    private _determinant(): number {
         return this.m11 * this.m22 - this.m12 * this.m21;
+    }
+
+    private _validateElements(m11: number, m12: number, m21: number, m22: number, d1: number, d2: number): void {
+        for(let element of [ m11, m12, m21, m22, d1, d2 ]) {
+            if(!isRealNumber(element)) {
+                throw new Error('Could not create Matrix from non-real element values');
+            }
+        }
     }
 }
