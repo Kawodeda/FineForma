@@ -14,5 +14,5 @@ export interface IPathBuilder {
 
     cubicCurveTo(control1: Vector2, control2: Vector2, end: Vector2): void;
 
-    arcTo(xRadius: number, yRadius: number, end: Vector2): void;
+    arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void;
 }

@@ -1,6 +1,6 @@
 import { IPathBuilder } from "./IPathBuilder";
 import { Path } from "./Path";
-import { Segment } from "./Segment";
+import { Segment } from "./Segments/Segment";
 
 export class OpenPath extends Path {
 

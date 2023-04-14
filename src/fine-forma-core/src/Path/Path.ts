@@ -1,4 +1,4 @@
-import { Segment } from "./Segment";
+import { Segment } from "./Segments/Segment";
 import { IPathBuilder } from './IPathBuilder';
 
 export abstract class Path {
