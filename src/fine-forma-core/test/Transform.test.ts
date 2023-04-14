@@ -2,10 +2,15 @@ import { suite, test } from "mocha";
 import { expect } from "chai";
 
 import { Transform } from '../src/Transform';
-import { Vector2 } from '../src/Math/Vector2';
-import { Matrix } from '../src/Math/Matrix';
+import { Vector2, Matrix } from '../src/Math';
 
 suite('Transform', () => {
+    const epsilon = 0.01;
+    const assertVectors = (a: Vector2, b: Vector2) => {
+        expect(a.x).to.be.closeTo(b.x, epsilon);
+        expect(a.y).to.be.closeTo(b.y, epsilon);
+    };
+
     suite('apply translate to vector', () => {
         const testCases = [
             { 
@@ -21,7 +26,7 @@ suite('Transform', () => {
             { 
                 transform: () => Transform.createIdentity().translate(new Vector2(10, -10)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(100, 4)
+                expected: new Vector2(-100, 4)
             },
             { 
                 transform: () => Transform.createIdentity().translate(new Vector2(0, 0)), 
@@ -51,7 +56,7 @@ suite('Transform', () => {
             { 
                 transform: () => new Transform(new Matrix(1, 0, 0, 1, 10, -10)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(100, 4)
+                expected: new Vector2(-100, 4)
             },
             { 
                 transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
@@ -67,7 +72,7 @@ suite('Transform', () => {
 
         testCases.forEach(({ transform, vector, expected }, index) => {
             test(`translate #${index + 1}`, () => {
-                expect(transform().applyTo(vector).equals(expected)).to.be.true;
+                assertVectors(transform().applyTo(vector), expected);
             });
         });
     });
@@ -77,7 +82,7 @@ suite('Transform', () => {
             { 
                 transform: () => Transform.createIdentity().scale(new Vector2(1, 1)), 
                 vector: new Vector2(0, 0), 
-                expected: new Vector2(10, -10) 
+                expected: new Vector2(0, 0) 
             },
             { 
                 transform: () => Transform.createIdentity().scale(new Vector2(1, 1)), 
@@ -100,14 +105,14 @@ suite('Transform', () => {
                 expected: new Vector2(-275, 33.6)
             },
             { 
-                transform: () => Transform.createIdentity().translate(new Vector2(-200, -200.04)), 
+                transform: () => Transform.createIdentity().scale(new Vector2(-200, -200.04)), 
                 vector: new Vector2(-80.03, 99), 
                 expected: new Vector2(16006, -19803.96)
             },
             { 
                 transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
                 vector: new Vector2(0, 0), 
-                expected: new Vector2(10, -10) 
+                expected: new Vector2(0, 0) 
             },
             { 
                 transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
@@ -138,7 +143,7 @@ suite('Transform', () => {
 
         testCases.forEach(({ transform, vector, expected }, index) => {
             test(`scale #${index + 1}`, () => {
-                expect(transform().applyTo(vector).equals(expected)).to.be.true;
+                assertVectors(transform().applyTo(vector), expected);
             });
         });
     });
@@ -153,22 +158,22 @@ suite('Transform', () => {
             { 
                 transform: () => Transform.createIdentity().rotate(30), 
                 vector: new Vector2(4.2, 40), 
-                expected: new Vector2(23.6372, 32.54)
+                expected: new Vector2(-16.36, 36.74)
             },
             { 
                 transform: () => Transform.createIdentity().rotate(90), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(14, 110)
+                expected: new Vector2(-14, -110)
             },
             { 
                 transform: () => Transform.createIdentity().rotate(-30), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(-102.26, -42.876)
+                expected: new Vector2(-88.26, 67.12)
             },
             { 
-                transform: () => Transform.createIdentity().rotate(270), 
+                transform: () => Transform.createIdentity().rotate(330), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(-102.26, -42.876)
+                expected: new Vector2(-88.26, 67.12)
             },
             { 
                 transform: () => Transform.createIdentity().rotate(180), 
@@ -183,7 +188,7 @@ suite('Transform', () => {
             { 
                 transform: () => Transform.createIdentity().rotate(1.5), 
                 vector: new Vector2(-80.03, 99), 
-                expected: new Vector2(-77.4111595, 101.0597351)
+                expected: new Vector2(-82.59, 96.87)
             },
             { 
                 transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
@@ -193,17 +198,17 @@ suite('Transform', () => {
             { 
                 transform: () => new Transform(new Matrix(0.866, -0.5, 0.5, 0.866, 0, 0)), 
                 vector: new Vector2(4.2, 40), 
-                expected: new Vector2(23.6372, 32.54)
+                expected: new Vector2(-16.36, 36.74)
             },
             { 
                 transform: () => new Transform(new Matrix(0, -1, 1, 0, 0, 0)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(14, 110)
+                expected: new Vector2(-14, -110)
             },
             { 
                 transform: () => new Transform(new Matrix(0.866, 0.5, -0.5, 0.866, 0, 0)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(-102.26, -42.876)
+                expected: new Vector2(-88.26, 67.12)
             },
             { 
                 transform: () => new Transform(new Matrix(-1, 0, 0, -1, 0, 0)), 
@@ -213,13 +218,13 @@ suite('Transform', () => {
             { 
                 transform: () => new Transform(new Matrix(0.99965, -0.02617, 0.02617, 0.99965, 0, 0)), 
                 vector: new Vector2(-80.03, 99), 
-                expected: new Vector2(-77.4111595, 101.0597351)
+                expected: new Vector2(-82.59, 96.87)
             }
         ];
 
         testCases.forEach(({ transform, vector, expected }, index) => {
             test(`rotate #${index + 1}`, () => {
-                expect(transform().applyTo(vector).equals(expected)).to.be.true;
+                assertVectors(transform().applyTo(vector), expected);
             });
         });
     });
@@ -260,13 +265,13 @@ suite('Transform', () => {
                     .scale(new Vector2(-2, -3))
                     .rotate(90), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(281.504, 599.56)
+                expected: new Vector2(311.5, 604.57)
             },
             
             { 
                 transform: () => new Transform(new Matrix(-1.732, 1, 1, 1.732, 20, -10)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(204.52, -85.752) 
+                expected: new Vector2(224.52, -95.752) 
             },
             { 
                 transform: () => new Transform(new Matrix(-1.732, 1, 1, 1.732, 20, 20)), 
@@ -276,13 +281,13 @@ suite('Transform', () => {
             { 
                 transform: () => new Transform(new Matrix(-3, -3.464, -5.196, 2, 30, 5)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(281.504, 599.56)
+                expected: new Vector2(311.504, 604.56)
             }
         ];
 
         testCases.forEach(({transform, vector, expected}, index) => {
             test(`transform #${index + 1}`, () => {
-                expect(transform().applyTo(vector).equals(expected)).to.be.true;
+                assertVectors(transform().applyTo(vector), expected);
             });
         });
     });
