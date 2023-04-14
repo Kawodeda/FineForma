@@ -11,3 +11,7 @@ export function isRealNumber(number: number): boolean {
 export function degreeToRadians(angle: number): number {
     return Math.PI * angle / 180;
 }
+
+export function clamp(value: number, min: number, max: number): number {
+    return Math.min(max, Math.max(value, min));
+}
