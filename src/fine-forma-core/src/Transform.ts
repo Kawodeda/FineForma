@@ -10,18 +10,6 @@ export class Transform {
 
     get matrix(): Matrix {
         return this._matrix;
-    } 
-
-    get translation(): Vector2 {
-        throw new Error();
-    }
-
-    get scaleFactor(): Vector2 {
-        throw new Error();
-    }
-
-    get rotation(): number {
-        throw new Error();
     }
 
     static createIdentity(): Transform {

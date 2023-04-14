@@ -90,7 +90,7 @@ export class Matrix {
     }
 
     private _validateElements(m11: number, m12: number, m21: number, m22: number, d1: number, d2: number): void {
-        for(let element of [ m11, m12, m21, m22, d1, d2 ]) {
+        for(const element of [ m11, m12, m21, m22, d1, d2 ]) {
             if(!isRealNumber(element)) {
                 throw new Error('Could not create Matrix from non-real element values');
             }
