@@ -1,5 +1,5 @@
 import { IPathBuilder } from '../Path/IPathBuilder';
-import { Color } from '../Style/Color/Color';
+import { IColorPreview } from '../Style/Color/IColorPreview';
 import { IFillStyleContext } from '../Style/IFillStyleContext';
 import { Transform } from '../Transform';
 
@@ -9,7 +9,7 @@ export interface IRenderingContext extends IFillStyleContext {
 
     setTransform(transform: Transform): void;
 
-    setStrokeStyle(color: Color): void;
+    setStrokeStyle(color: IColorPreview): void;
 
     setLineWidth(width: number): void;
 
