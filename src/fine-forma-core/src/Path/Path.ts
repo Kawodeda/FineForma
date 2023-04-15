@@ -9,7 +9,7 @@ export abstract class Path {
         this._segments = segments;
     }
 
-    protected get segments(): readonly Segment[] {
+    get segments(): readonly Segment[] {
         return this._segments;
     }
 
