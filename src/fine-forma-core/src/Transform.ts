@@ -1,4 +1,4 @@
-import { Matrix, Vector2, degreeToRadians } from "./Math";
+import { Matrix, Vector2, degreeToRadians } from './Math';
 
 export class Transform {
 

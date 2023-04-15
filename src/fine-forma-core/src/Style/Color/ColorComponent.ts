@@ -1,4 +1,4 @@
-import { clamp } from "./../../Math";
+import { clamp } from './../../Math';
 
 export class ColorComponent {
 

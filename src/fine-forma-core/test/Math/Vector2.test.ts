@@ -1,7 +1,7 @@
-import { expect } from "chai";
-import { suite, test } from "mocha";
+import { expect } from 'chai';
+import { suite, test } from 'mocha';
 
-import { Vector2 } from "../../src/Math/Vector2";
+import { Vector2 } from '../../src/Math/Vector2';
 
 suite('Vector2', () => {
     suite('create Vector2 from non-real numbers result in error', () => {
@@ -33,7 +33,7 @@ suite('Vector2', () => {
 
         testCases.forEach(({ a, b, expected }) => {
             test(`add (${a.x}, ${a.y}) to (${b.x}, ${b.y})`, () => {
-                expect(a.add(b).equals(expected)).to.be.true;
+                void expect(a.add(b).equals(expected)).to.be.true;
             });
         });
     });
@@ -45,12 +45,12 @@ suite('Vector2', () => {
             { a: new Vector2(-1, 2.5), b: new Vector2(0, 0) },
             { a: new Vector2(-9, 4.67), b: new Vector2(3.2, -4) },
             { a: new Vector2(-100390, -3956703.56701), b: new Vector2(100390, 3956703.56701) },
-            { a: new Vector2(0.76, 99), b: new Vector2(11, -5.8) },
+            { a: new Vector2(0.76, 99), b: new Vector2(11, -5.8) }
         ];
 
         testCases.forEach(({ a, b }) => {
             test(`add vectors (${a.x}, ${a.y}) and (${b.x}, ${b.y})`, () => {
-                expect(a.add(b).equals(b.add(a))).to.be.true;
+                void expect(a.add(b).equals(b.add(a))).to.be.true;
             });
         });
     });
@@ -71,7 +71,7 @@ suite('Vector2', () => {
 
         testCases.forEach(({ vector, scalar, expected }) => {
             test(`scale (${vector.x}, ${vector.y}) by ${scalar}`, () => {
-                expect(vector.scale(scalar).equals(expected)).to.be.true;
+                void expect(vector.scale(scalar).equals(expected)).to.be.true;
             });
         });
     });

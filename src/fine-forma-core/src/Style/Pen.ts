@@ -1,5 +1,5 @@
-import { Brush } from "./Brush";
-import { DashSettings } from "./DashSettings";
+import { Brush } from './Brush';
+import { DashSettings } from './DashSettings';
 
 export class Pen {
 

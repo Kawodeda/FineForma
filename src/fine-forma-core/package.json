@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "npm run lint & tsc",
+    "build": "tsc",
     "test": "mocha --reporter nyan -r ts-node/register 'test/**/*.ts' --recursive",
     "lint": "npx eslint ."
   },

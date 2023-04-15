@@ -1,12 +1,12 @@
-import { suite, test } from "mocha";
-import { expect } from "chai";
+import { suite, test } from 'mocha';
+import { expect } from 'chai';
 
 import { Transform } from '../src/Transform';
 import { Vector2, Matrix } from '../src/Math';
 
 suite('Transform', () => {
     const epsilon = 0.01;
-    const assertVectors = (a: Vector2, b: Vector2) => {
+    const assertVectors = (a: Vector2, b: Vector2): void => {
         expect(a.x).to.be.closeTo(b.x, epsilon);
         expect(a.y).to.be.closeTo(b.y, epsilon);
     };
@@ -138,7 +138,7 @@ suite('Transform', () => {
                 transform: () => new Transform(new Matrix(-200, 0, 0, -200.04, 0, 0)), 
                 vector: new Vector2(-80.03, 99), 
                 expected: new Vector2(16006, -19803.96)
-            },
+            }
         ];
 
         testCases.forEach(({ transform, vector, expected }, index) => {
@@ -285,7 +285,7 @@ suite('Transform', () => {
             }
         ];
 
-        testCases.forEach(({transform, vector, expected}, index) => {
+        testCases.forEach(({ transform, vector, expected }, index) => {
             test(`transform #${index + 1}`, () => {
                 assertVectors(transform().applyTo(vector), expected);
             });

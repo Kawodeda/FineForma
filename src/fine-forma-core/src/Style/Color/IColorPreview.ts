@@ -1,4 +1,4 @@
-import { ColorComponent } from "./ColorComponent";
+import { ColorComponent } from './ColorComponent';
 
 export interface IColorPreview {
 

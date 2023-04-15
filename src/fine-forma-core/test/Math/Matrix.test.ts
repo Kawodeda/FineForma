@@ -1,5 +1,5 @@
-import { suite, test } from "mocha";
-import { expect } from "chai";
+import { suite, test } from 'mocha';
+import { expect } from 'chai';
 
 import { Matrix } from '../../src/Math/Matrix';
 
@@ -70,12 +70,12 @@ suite('Matrix', () => {
             },
             { 
                 a: new Matrix(2.4, 0, 0, 2.4, 0, 0),
-                b:  new Matrix(0, -1, 1, 0, 0, 0),
+                b: new Matrix(0, -1, 1, 0, 0, 0),
                 expected: new Matrix(0, -2.4, 2.4, 0, 0, 0) 
             },
             { 
                 a: new Matrix(0.866, -0.5, 0.5, 0.866, 0, 0),
-                b:  new Matrix(1, 0, 0, 1, -48, 112),
+                b: new Matrix(1, 0, 0, 1, -48, 112),
                 expected: new Matrix(0.866, -0.5, 0.5, 0.866, -97.568, 72.992)
             },
             { 
@@ -107,7 +107,7 @@ suite('Matrix', () => {
 
         testCases.forEach(({ a, b, expected }, index) => {
             test(`append #${index + 1}`, () => {
-                expect(a.append(b).equals(expected)).to.be.true;
+                void expect(a.append(b).equals(expected)).to.be.true;
             });
         });
     });
@@ -116,7 +116,7 @@ suite('Matrix', () => {
         const testCases = [
             { 
                 a: new Matrix(1, 0, 0, 1, 0, 0), 
-                b: new Matrix(4.2, -1, 1, 2.4, 20, 32.11), 
+                b: new Matrix(4.2, -1, 1, 2.4, 20, 32.11) 
             },
             { 
                 a: new Matrix(2, 0, 0, 2, 0, 0),
@@ -128,7 +128,7 @@ suite('Matrix', () => {
             },
             { 
                 a: new Matrix(0.866, -0.5, 0.5, 0.866, 0, 0),
-                b:  new Matrix(1, 0, 0, 1, -48, 112)
+                b: new Matrix(1, 0, 0, 1, -48, 112)
             },
             { 
                 a: new Matrix(2.5, 0, 0, 2.5, 0, 0),
@@ -142,7 +142,7 @@ suite('Matrix', () => {
 
         testCases.forEach(({ a, b }, index) => {
             test(`prepend #${index + 1}`, () => {
-                expect(a.prepend(b).equals(b.append(a))).to.be.true;
+                void expect(a.prepend(b).equals(b.append(a))).to.be.true;
             });
         });
     });
@@ -163,7 +163,7 @@ suite('Matrix', () => {
 
         testCases.forEach((matrix, index) => {
             test(`inverse #${index + 1}`, () => {
-                expect(matrix.inverse().append(matrix).equals(Matrix.identity)).to.be.true;
+                void expect(matrix.inverse().append(matrix).equals(Matrix.identity)).to.be.true;
             })
         });
     });

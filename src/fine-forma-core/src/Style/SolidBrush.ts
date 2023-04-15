@@ -1,6 +1,6 @@
-import { Brush } from "./Brush";
-import { Color } from "./Color/Color";
-import { IFillStyleContext } from "./IFillStyleContext";
+import { Brush } from './Brush';
+import { Color } from './Color/Color';
+import { IFillStyleContext } from './IFillStyleContext';
 
 export class SolidBrush extends Brush {
 

@@ -1,4 +1,4 @@
-import { isRealNumber, nearlyEquals } from "./Utils";
+import { isRealNumber, nearlyEquals } from './Utils';
 
 export class Matrix {
 
@@ -88,10 +88,10 @@ export class Matrix {
     private _determinant(): number {
         return this.m11 * this.m22 - this.m12 * this.m21;
     }
-
+    
     private _validateElements(m11: number, m12: number, m21: number, m22: number, d1: number, d2: number): void {
-        for(const element of [ m11, m12, m21, m22, d1, d2 ]) {
-            if(!isRealNumber(element)) {
+        for (const element of [ m11, m12, m21, m22, d1, d2 ]) {
+            if (!isRealNumber(element)) {
                 throw new Error('Could not create Matrix from non-real element values');
             }
         }

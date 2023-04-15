@@ -1,6 +1,6 @@
 export class DashSettings {
 
-    private readonly _dashes: ReadonlyArray<number>;
+    private readonly _dashes: readonly number[];
     private readonly _dashOffset: number;
 
     constructor(dashes: readonly number[], dashOffset = 0) {
@@ -11,8 +11,8 @@ export class DashSettings {
     static get empty(): DashSettings {
         return new DashSettings([], 0);
     }
-
-    get dashes(): ReadonlyArray<number> {
+    
+    get dashes(): readonly number[] {
         return this._dashes;
     }
 

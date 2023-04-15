@@ -1,8 +1,8 @@
-import { nearlyEquals } from "./../../Math";
-import { Color } from "./Color";
-import { ColorComponent } from "./ColorComponent";
-import { ColorPreview } from "./ColorPreview";
-import { IColorPreview } from "./IColorPreview";
+import { nearlyEquals } from './../../Math';
+import { Color } from './Color';
+import { ColorComponent } from './ColorComponent';
+import { ColorPreview } from './ColorPreview';
+import { IColorPreview } from './IColorPreview';
 
 export class RgbColor extends Color {
     

@@ -1,6 +1,6 @@
-import { nearlyEquals } from "./../../Math";
-import { ColorComponent } from "./ColorComponent";
-import { IColorPreview } from "./IColorPreview";
+import { nearlyEquals } from './../../Math';
+import { ColorComponent } from './ColorComponent';
+import { IColorPreview } from './IColorPreview';
 
 export abstract class Color {
 

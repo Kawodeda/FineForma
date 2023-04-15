@@ -1,5 +1,5 @@
-import { Vector2 } from "Math";
-import { IPathBuilder } from "../IPathBuilder";
+import { Vector2 } from 'Math';
+import { IPathBuilder } from '../IPathBuilder';
 
 export abstract class Segment {
 
