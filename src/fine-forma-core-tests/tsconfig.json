@@ -1,12 +1,11 @@
 {
-  "include": [ "./src/**/*.ts", "index.ts" ],
+  "include": [ "**/*.ts" ],
   "compilerOptions": {
-    "declaration": true,
     "target": "es2016",
     "module": "commonjs",
-    "rootDir": "./",
     "baseUrl": ".",
     "outDir": "./build/",
+    "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,

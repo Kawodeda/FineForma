@@ -11,7 +11,7 @@ module.exports = {
     },
     plugins: ['@typescript-eslint'],
     root: true,
-    ignorePatterns: ['build', '*.cjs'],
+    ignorePatterns: ['build', '*.cjs', 'index.ts'],
     rules: {
       "@typescript-eslint/class-literal-property-style": ["error", "getters"],
       "@typescript-eslint/consistent-type-definitions": "error",
@@ -84,6 +84,10 @@ module.exports = {
           "selector": ["interface"],
           "format": ["StrictPascalCase"],
           "prefix": ["I"]
+        },
+        {
+          "selector": ["typeAlias"],
+          "format": ["StrictPascalCase"]
         },
         {
           "selector": "default",

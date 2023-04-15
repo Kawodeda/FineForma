@@ -1,7 +1,7 @@
 import { suite, test } from 'mocha';
 import { expect } from 'chai';
 
-import { Matrix } from '../../src/Math/Matrix';
+import { Matrix } from 'fine-forma-core';
 
 suite('Matrix', () => {
     suite('create Matrix from non-real numbers results in error', () => {

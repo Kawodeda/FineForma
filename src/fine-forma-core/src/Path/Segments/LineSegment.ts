@@ -1,5 +1,5 @@
 import { Segment } from './Segment';
-import { IPathBuilder } from 'Path/IPathBuilder';
+import { IPathBuilder } from './../IPathBuilder';
 
 export class LineSegment extends Segment {
 

@@ -1,8 +1,7 @@
 import { suite, test } from 'mocha';
 import { expect } from 'chai';
 
-import { Transform } from '../src/Transform';
-import { Vector2, Matrix } from '../src/Math';
+import { Vector2, Matrix, Transform } from 'fine-forma-core';
 
 suite('Transform', () => {
     const epsilon = 0.01;

@@ -1,4 +1,4 @@
-import { Path } from 'Path/Path';
+import { Path } from './../../../Path';
 
 export interface IShapeControls {
 

@@ -1,4 +1,5 @@
 {
+  "name": "fine-forma-core",
   "scripts": {
     "build": "tsc",
     "test": "mocha --reporter nyan -r ts-node/register 'test/**/*.ts' --recursive",

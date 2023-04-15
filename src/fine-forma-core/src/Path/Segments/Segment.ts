@@ -1,4 +1,4 @@
-import { Vector2 } from 'Math';
+import { Vector2 } from './../../Math';
 import { IPathBuilder } from '../IPathBuilder';
 
 export abstract class Segment {
