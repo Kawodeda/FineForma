@@ -1,20 +1,20 @@
-import { Color } from "./Color/Color";
+import { Brush } from "./Brush";
 import { DashSettings } from "./DashSettings";
 
 export class Pen {
 
-    private readonly _color: Color;
+    private readonly _style: Brush;
     private readonly _width: number;
     private readonly _dash: DashSettings;
 
-    constructor(color: Color, width: number, dash = DashSettings.empty) {
-        this._color = color;
+    constructor(style: Brush, width: number, dash = DashSettings.empty) {
+        this._style = style;
         this._width = width;
         this._dash = dash;
     }
 
-    get color(): Color {
-        return this._color;
+    get style(): Brush {
+        return this._style;
     }
 
     get width(): number {
