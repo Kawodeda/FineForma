@@ -1,3 +1,4 @@
+import { nearlyEquals } from "./../../Math";
 import { ColorComponent } from "./ColorComponent";
 import { IColorPreview } from "./IColorPreview";
 
@@ -29,5 +30,12 @@ export class ColorPreview implements IColorPreview {
 
     get alpha(): ColorComponent {
         return this._alpha;
+    }
+
+    equals(other: ColorPreview): boolean {
+        return nearlyEquals(this.r.value, other.r.value)
+            && nearlyEquals(this.g.value, other.g.value)
+            && nearlyEquals(this.b.value, other.b.value)
+            && nearlyEquals(this.alpha.value, other.alpha.value);
     }
 }

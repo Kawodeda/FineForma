@@ -1,3 +1,4 @@
+import { nearlyEquals } from "./../../Math";
 import { Color } from "./Color";
 import { ColorComponent } from "./ColorComponent";
 import { ColorPreview } from "./ColorPreview";
@@ -31,5 +32,12 @@ export class RgbColor extends Color {
 
     override get preview(): IColorPreview {
         return new ColorPreview(this.r, this.g, this.b, this.alpha);
+    }
+
+    override equals(other: RgbColor): boolean {
+        return super.equals(other)
+            && nearlyEquals(this.r.value, other.r.value)
+            && nearlyEquals(this.g.value, other.g.value)
+            && nearlyEquals(this.b.value, other.b.value);
     }
 }

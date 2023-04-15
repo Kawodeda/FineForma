@@ -9,4 +9,6 @@ export interface IColorPreview {
     get b(): ColorComponent;
 
     get alpha(): ColorComponent;
+
+    equals(other: IColorPreview): boolean;
 }
