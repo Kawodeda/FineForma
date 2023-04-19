@@ -1,6 +1,6 @@
-import { Color } from './Color/Color';
+import { IColorPreview } from './Color';
 
 export interface IFillStyleContext {
     
-    setFillStyle(color: Color): void;
+    setFillStyle(color: IColorPreview): void;
 }

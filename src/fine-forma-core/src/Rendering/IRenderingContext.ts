@@ -19,7 +19,7 @@ export interface IRenderingContext extends IFillStyleContext {
 
     fill(): void;
 
-    drawImage(image: Uint8Array, x: number, y: number, width: number, height: number): void;
+    drawImage(image: Uint8ClampedArray, x: number, y: number, width: number, height: number): void;
 
     save(): void;
 

@@ -13,6 +13,6 @@ export class SolidBrush extends Brush {
     }
 
     override addToStyle(context: IFillStyleContext): void {
-        context.setFillStyle(this._color);
+        context.setFillStyle(this._color.preview);
     }
 }
