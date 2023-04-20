@@ -1,6 +1,6 @@
 import { CanvasRenderingContext2D, Image } from 'canvas';
 
-import { IColorPreview, IPathBuilder, IRenderingContext, Transform } from 'fine-forma-core';
+import { IColorPreview, IPathBuilder, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
 
 import { PathBuilderFake } from '../PathBuilderFake';
 import { colorPreviewToHtml } from './Utils';
@@ -15,10 +15,6 @@ export class RenderingContextFake implements IRenderingContext {
         this._pathBuilder = new PathBuilderFake(this._context);
     }
 
-    get pathBuilder(): IPathBuilder {
-        return this._pathBuilder;
-    }
-
     setTransform(transform: Transform): void {
         this._context.setTransform(new DOMMatrix([
             transform.matrix.m11,
@@ -28,6 +24,17 @@ export class RenderingContextFake implements IRenderingContext {
             transform.matrix.d1,
             transform.matrix.d2
         ]));
+    }
+
+    transform(transform: Transform): void {
+        this._context.transform(
+            transform.matrix.m11,
+            transform.matrix.m21,
+            transform.matrix.m12,
+            transform.matrix.m22,
+            transform.matrix.d1,
+            transform.matrix.d2
+        );
     }
 
     setStrokeStyle(color: IColorPreview): void {
@@ -72,5 +79,33 @@ export class RenderingContextFake implements IRenderingContext {
 
     setFillStyle(color: IColorPreview): void {
         this._context.fillStyle = colorPreviewToHtml(color);
+    }
+
+    beginPath(): void {
+        this._pathBuilder.beginPath();
+    }
+    
+    closePath(): void {
+        this._pathBuilder.closePath();
+    }
+
+    moveTo(position: Vector2): void {
+        this._pathBuilder.moveTo(position);
+    }
+
+    lineTo(end: Vector2): void {
+        this._pathBuilder.lineTo(end);
+    }
+
+    quadraticCurveTo(control: Vector2, end: Vector2): void {
+        this._pathBuilder.quadraticCurveTo(control, end);
+    }
+
+    cubicCurveTo(control1: Vector2, control2: Vector2, end: Vector2): void {
+        this._pathBuilder.cubicCurveTo(control1, control2, end);
+    }
+
+    arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void {
+        this._pathBuilder.arcTo(xRadius, yRadius, xAxisRotation, end);
     }
 }

@@ -29,6 +29,8 @@ import {
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
+import { LayerRenderer } from '../../../fine-forma-core/src/Rendering/LayerRenderer';
+import { ItemRendererFactory } from '../../../fine-forma-core/src/Rendering/Item/ItemRendererFactory';
 
 suite('Render design', () => {
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
@@ -56,7 +58,8 @@ suite('Render design', () => {
             new CubicBezierSegment(new Vector2(300, -404), new Vector2(300, -352), new Vector2(285, -298), new Vector2(254, -244)),
             new CubicBezierSegment(new Vector2(254, -244), new Vector2(235, -211), new Vector2(210, -178), new Vector2(179, -146)),
             new CubicBezierSegment(new Vector2(179, -146), new Vector2(155, -120), new Vector2(128, -94), new Vector2(97, -69)),
-            new CubicBezierSegment(new Vector2(97, -69), new Vector2(46, -27), new Vector2(4, -3), new Vector2(4, -2))
+            new CubicBezierSegment(new Vector2(97, -69), new Vector2(46, -27), new Vector2(4, -3), new Vector2(4, -2)),
+            //new LineSegment(new Vector2(-4, -2), new Vector2(0, 0))
         ]);
         const testCases = [
             {
@@ -571,7 +574,7 @@ suite('Render design', () => {
                     new Layer([
                         new ClosedShapeItem(
                             new Vector2(500, 700),
-                            Transform.createIdentity().scale(new Vector2(1.5, 0.6)).rotate(-40),
+                            Transform.createIdentity().rotate(-40).scale(new Vector2(1.5, 0.6)),
                             new PathControls(pathHeart()),
                             new ClosedShapeStyle(
                                 new Pen(new SolidBrush(new RgbColor(140, 0, 0, 255)), 5),
@@ -1219,13 +1222,13 @@ suite('Render design', () => {
             },
         ];
 
-        testCases.slice(7, 10).forEach(({ title, design, expected }) => {
+        testCases.forEach(({ title, design, expected }) => {
             test(`render: ${title}`, () => {
                 const canvas = createBlankCanvas();
                 const context = new RenderingContextFake(canvas.getContext('2d'));
-                const renderer = createRenderer();
+                const renderer = new DesignRenderer(new LayerRenderer(new ItemRendererFactory()));
 
-                //renderer.render(context, design);
+                renderer.render(context, design());
 
                 expect(canvas.toDataURL()).to.be.equal(expected().toDataURL());
             });
