@@ -3,11 +3,11 @@ import { IColorPreview } from '../Style/Color/IColorPreview';
 import { IFillStyleContext } from '../Style/IFillStyleContext';
 import { Transform } from '../Transform';
 
-export interface IRenderingContext extends IFillStyleContext {
-
-    get pathBuilder(): IPathBuilder;
+export interface IRenderingContext extends IFillStyleContext, IPathBuilder {
 
     setTransform(transform: Transform): void;
+
+    transform(transform: Transform): void;
 
     setStrokeStyle(color: IColorPreview): void;
 

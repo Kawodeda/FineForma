@@ -1,6 +1,7 @@
 import { Pen } from '../../../Style/Pen';
 import { IItemStyle } from '../Interfaces/IItemStyle';
 import { IStyleContext } from '../Interfaces/IStyleContext';
+import * as Brushes from '../../../Style/Brushes';
 
 export class OpenShapeStyle implements IItemStyle {
 
@@ -16,5 +17,6 @@ export class OpenShapeStyle implements IItemStyle {
 
     applyTo(context: IStyleContext): void {
         context.setStrokeStyle(this.stroke);
+        context.setFillStyle(Brushes.transparent());
     }
 }

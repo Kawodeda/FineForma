@@ -72,6 +72,12 @@ module.exports = {
           "leadingUnderscore": "require"
         },
         {
+          "selector": "memberLike",
+          "modifiers": ["protected"],
+          "format": ["strictCamelCase"],
+          "leadingUnderscore": "require"
+        },
+        {
           "selector": "variable",
           "modifiers": ["const", "global"],
           "format": ["UPPER_CASE"],
