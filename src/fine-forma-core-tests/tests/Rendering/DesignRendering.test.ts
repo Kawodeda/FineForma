@@ -59,7 +59,7 @@ suite('Render design', () => {
             new CubicBezierSegment(new Vector2(254, -244), new Vector2(235, -211), new Vector2(210, -178), new Vector2(179, -146)),
             new CubicBezierSegment(new Vector2(179, -146), new Vector2(155, -120), new Vector2(128, -94), new Vector2(97, -69)),
             new CubicBezierSegment(new Vector2(97, -69), new Vector2(46, -27), new Vector2(4, -3), new Vector2(4, -2)),
-            //new LineSegment(new Vector2(-4, -2), new Vector2(0, 0))
+            new LineSegment(new Vector2(4, -2), new Vector2(0, 0))
         ]);
         const testCases = [
             {
@@ -268,15 +268,78 @@ suite('Render design', () => {
                 expected: () => {
                     const canvas = createBlankCanvas();
                     const ctx = canvas.getContext('2d');
-                    ctx.fillStyle = 'rgb(0,255,255)';
-                    ctx.strokeStyle = 'rgb(80,255,90)';
+                    ctx.fillStyle = 'rgb(80,255,90)';
+                    ctx.strokeStyle = 'rgb(0,255,255)';
                     ctx.lineWidth = 4;
                     ctx.translate(400, 400);
                     ctx.rotate(radians(56));
                     ctx.scale(1.6, 1.3);
                     
-                    ctx.rect(-40, -75, 150, 80);
+                    ctx.beginPath();
+                    ctx.moveTo(-40, -75);
+                    ctx.lineTo(40, -75);
+                    ctx.lineTo(40, 75);
+                    ctx.lineTo(-40, 75);
+                    ctx.closePath();
+
                     ctx.fill();
+                    ctx.stroke();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'translated line',
+                design: () => new Design([
+                    new Layer([
+                        new OpenShapeItem(
+                            new Vector2(200, 150),
+                            Transform.createIdentity().translate(new Vector2(0, 300)),
+                            new LineControls(new Vector2(0, 0), new Vector2(80, 150)),
+                            new OpenShapeStyle(new Pen(new SolidBrush(new RgbColor(240, 0, 0, 255)), 2))
+                        )
+                    ],
+                    1)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(240,0,0)';
+                    ctx.lineWidth = 2;
+                    ctx.translate(200, 450);
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(80, 150);
+                    ctx.stroke();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'translated scaled line',
+                design: () => new Design([
+                    new Layer([
+                        new OpenShapeItem(
+                            new Vector2(200, 150),
+                            Transform.createIdentity().translate(new Vector2(0, 300)).scale(new Vector2(2, 1)),
+                            new LineControls(new Vector2(0, 0), new Vector2(80, 150)),
+                            new OpenShapeStyle(new Pen(new SolidBrush(new RgbColor(240, 0, 0, 255)), 2))
+                        )
+                    ],
+                    1)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(240,0,0)';
+                    ctx.lineWidth = 2;
+                    ctx.translate(200, 450);
+                    ctx.scale(2, 1)
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(80, 150);
                     ctx.stroke();
 
                     return canvas;
@@ -301,8 +364,8 @@ suite('Render design', () => {
                     ctx.strokeStyle = 'rgb(240,0,0)';
                     ctx.lineWidth = 2;
                     ctx.translate(200, 150);
-                    ctx.scale(2, 1.1);
                     ctx.rotate(radians(30));
+                    ctx.scale(2, 1.1);
                     
                     ctx.beginPath();
                     ctx.moveTo(0, 0);
@@ -626,6 +689,62 @@ suite('Render design', () => {
                     ctx.strokeStyle = 'rgb(140,0,0)';
                     ctx.lineWidth = 5;
                     ctx.translate(500, 700);
+                    ctx.rotate(radians(-40));
+                    ctx.scale(1.5, 0.6);
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(-4, -2);
+                    ctx.bezierCurveTo(-4, -3, -46, -27, -97, -69);
+                    ctx.bezierCurveTo(-145, -108, -210, -170, -254, -244);
+                    ctx.bezierCurveTo(-285, -298, -300, -352, -300, -404);
+                    ctx.bezierCurveTo(-300, -427, -296, -448, -288, -467);
+                    ctx.bezierCurveTo(-281, -486, -269, -502, -255, -516);
+                    ctx.bezierCurveTo(-227, -543, -188, -558, -146, -558);
+                    ctx.bezierCurveTo(-121, -558, -98, -554, -78, -546);
+                    ctx.bezierCurveTo(-59, -538, -43, -527, -30, -512);
+                    ctx.bezierCurveTo(-16, -498, -6, -479, 0, -459);
+                    ctx.bezierCurveTo(6, -479, 16, -498, 30, -512);
+                    ctx.bezierCurveTo(43, -527, 59, -538, 78, -546);
+                    ctx.bezierCurveTo(98, -554, 121, -558, 146, -558);
+                    ctx.bezierCurveTo(188, -558, 227, -543, 255, -516);
+                    ctx.bezierCurveTo(269, -502, 281, -486, 288, -467);
+                    ctx.bezierCurveTo(296, -448, 300, -427, 300, -404);
+                    ctx.bezierCurveTo(300, -352, 285, -298, 254, -244);
+                    ctx.bezierCurveTo(235, -211, 210, -178, 179, -146);
+                    ctx.bezierCurveTo(155, -120, 128, -94, 97, -69);
+                    ctx.bezierCurveTo(46, -27, 4, -3, 4, -2);
+                    ctx.lineTo(0, 0);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.stroke();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'filled translated scaled rotated path heart with outline',
+                design: () => new Design([
+                    new Layer([
+                        new ClosedShapeItem(
+                            new Vector2(500, 700),
+                            Transform.createIdentity().rotate(-40).scale(new Vector2(1.5, 0.6)).translate(new Vector2(0, -100)),
+                            new PathControls(pathHeart()),
+                            new ClosedShapeStyle(
+                                new Pen(new SolidBrush(new RgbColor(140, 0, 0, 255)), 5),
+                                new SolidBrush(new RgbColor(225, 0, 0, 255))
+                            )
+                        )
+                    ],
+                    1)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = 'rgb(225,0,0)';
+                    ctx.strokeStyle = 'rgb(140,0,0)';
+                    ctx.lineWidth = 5;
+                    ctx.translate(500, 600);
                     ctx.rotate(radians(-40));
                     ctx.scale(1.5, 0.6);
                     
@@ -1257,7 +1376,7 @@ suite('Render design', () => {
             },
         ];
 
-        testCases.slice(0, 10).forEach(({ title, design, expected }) => {
+        testCases.forEach(({ title, design, expected }) => {
             test(`render: ${title}`, () => {
                 const canvas = createBlankCanvas();
                 const context = new RenderingContextFake(canvas.getContext('2d'));

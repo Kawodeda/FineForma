@@ -1,7 +1,7 @@
 import { suite, test } from 'mocha';
 import { expect } from 'chai';
 
-import { Vector2, Matrix, Transform } from 'fine-forma-core';
+import { Vector2, Transform } from 'fine-forma-core';
 
 suite('Transform', () => {
     const epsilon = 0.01;
@@ -43,27 +43,27 @@ suite('Transform', () => {
                 expected: new Vector2(-119.97, -101.04)
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 10, -10)), 
+                transform: () => new Transform(new Vector2(10, -10), new Vector2(1, 1), 0), 
                 vector: new Vector2(0, 0), 
                 expected: new Vector2(10, -10) 
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 4.2, 40)), 
+                transform: () => new Transform(new Vector2(4.2, 40), new Vector2(1, 1), 0), 
                 vector: new Vector2(0, 0), 
                 expected: new Vector2(4.2, 40) 
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 10, -10)), 
+                transform: () => new Transform(new Vector2(10, -10), new Vector2(1, 1), 0), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-100, 4)
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
+                transform: () => new Transform(new Vector2(0, 0), new Vector2(1, 1), 0), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-110, 14)
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, -200, -200.04)), 
+                transform: () => new Transform(new Vector2(-200, -200.04), new Vector2(1, 1), 0), 
                 vector: new Vector2(80.03, 99), 
                 expected: new Vector2(-119.97, -101.04)
             }
@@ -109,32 +109,32 @@ suite('Transform', () => {
                 expected: new Vector2(16006, -19803.96)
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 0), 
                 vector: new Vector2(0, 0), 
                 expected: new Vector2(0, 0) 
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 0), 
                 vector: new Vector2(4.2, 40), 
                 expected: new Vector2(4.2, 40) 
             },
             { 
-                transform: () => new Transform(new Matrix(2, 0, 0, -2, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(2, -2), 0), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-220, -28)
             },
             { 
-                transform: () => new Transform(new Matrix(0, 0, 0, 0, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(0, 0), 0), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(0, 0)
             },
             { 
-                transform: () => new Transform(new Matrix(2.5, 0, 0, 2.4, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(2.5, 2.4), 0), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-275, 33.6)
             },
             { 
-                transform: () => new Transform(new Matrix(-200, 0, 0, -200.04, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(-200, -200.04), 0), 
                 vector: new Vector2(-80.03, 99), 
                 expected: new Vector2(16006, -19803.96)
             }
@@ -190,32 +190,42 @@ suite('Transform', () => {
                 expected: new Vector2(-82.59, 96.87)
             },
             { 
-                transform: () => new Transform(new Matrix(1, 0, 0, 1, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 0), 
                 vector: new Vector2(10, -10), 
                 expected: new Vector2(10, -10) 
             },
             { 
-                transform: () => new Transform(new Matrix(0.866, -0.5, 0.5, 0.866, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 30), 
                 vector: new Vector2(4.2, 40), 
                 expected: new Vector2(-16.36, 36.74)
             },
             { 
-                transform: () => new Transform(new Matrix(0, -1, 1, 0, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 90), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-14, -110)
             },
             { 
-                transform: () => new Transform(new Matrix(0.866, 0.5, -0.5, 0.866, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), -30), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(-88.26, 67.12)
             },
             { 
-                transform: () => new Transform(new Matrix(-1, 0, 0, -1, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 330), 
+                vector: new Vector2(-110, 14), 
+                expected: new Vector2(-88.26, 67.12)
+            },
+            { 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 180), 
                 vector: new Vector2(-110, 14), 
                 expected: new Vector2(110, -14)
             },
             { 
-                transform: () => new Transform(new Matrix(0.99965, -0.02617, 0.02617, 0.99965, 0, 0)), 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), -180), 
+                vector: new Vector2(-110, 14), 
+                expected: new Vector2(110, -14)
+            },
+            { 
+                transform: () => new Transform(Vector2.zero, new Vector2(1, 1), 1.5),
                 vector: new Vector2(-80.03, 99), 
                 expected: new Vector2(-82.59, 96.87)
             }
@@ -236,7 +246,7 @@ suite('Transform', () => {
                     .scale(new Vector2(-2, 2))
                     .rotate(30), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(224.52, -95.752) 
+                expected: new Vector2(196.52, 124.248) 
             },
             { 
                 transform: () => Transform.createIdentity()
@@ -244,7 +254,15 @@ suite('Transform', () => {
                     .rotate(30)
                     .translate(new Vector2(20, -10)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(224.52, -95.752) 
+                expected: new Vector2(196.52, 124.248) 
+            },
+            { 
+                transform: () => Transform.createIdentity()
+                    .translate(new Vector2(20, -10))
+                    .rotate(30)
+                    .scale(new Vector2(-2, 2)),
+                vector: new Vector2(-110, 14), 
+                expected: new Vector2(196.52, 124.248) 
             },
             { 
                 transform: () => Transform.createIdentity()
@@ -253,7 +271,7 @@ suite('Transform', () => {
                     .rotate(30)
                     .translate(new Vector2(10, 10)), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(224.52, -65.752) 
+                expected: new Vector2(196.52, 154.248) 
             },
             { 
                 transform: () => Transform.createIdentity()
@@ -264,23 +282,23 @@ suite('Transform', () => {
                     .scale(new Vector2(-2, -3))
                     .rotate(90), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(311.5, 604.57)
+                expected: new Vector2(322.744, -334.05)
             },
             
             { 
-                transform: () => new Transform(new Matrix(-1.732, 1, 1, 1.732, 20, -10)), 
+                transform: () => new Transform(new Vector2(20, -10), new Vector2(-2, 2), 30), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(224.52, -95.752) 
+                expected: new Vector2(196.52, 124.248) 
             },
             { 
-                transform: () => new Transform(new Matrix(-1.732, 1, 1, 1.732, 20, 20)), 
+                transform: () => new Transform(new Vector2(20, 20), new Vector2(-2, 2), 30), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(224.52, -65.752) 
+                expected: new Vector2(196.52, 154.248) 
             },
             { 
-                transform: () => new Transform(new Matrix(-3, -3.464, -5.196, 2, 30, 5)), 
+                transform: () => new Transform(new Vector2(30, 5), new Vector2(4, -6), 120), 
                 vector: new Vector2(-110, 14), 
-                expected: new Vector2(311.504, 604.56)
+                expected: new Vector2(322.744, -334.05)
             }
         ];
 

@@ -12,6 +12,10 @@ export class Vector2 {
         this._y = y;
     }
 
+    static get zero(): Vector2 {
+        return new Vector2(0, 0);
+    }
+
     get x(): number {
         return this._x;
     }
