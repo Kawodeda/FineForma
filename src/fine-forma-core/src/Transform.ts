@@ -18,6 +18,18 @@ export class Transform {
         return this._matrix;
     }
 
+    get shift(): Vector2 {
+        return this._translate;
+    }
+
+    get scaleFactor(): Vector2 {
+        return this._scale;
+    }
+
+    get angle(): number {
+        return this._rotate;
+    }
+
     static createIdentity(): Transform {
         return new Transform(Vector2.zero, new Vector2(1, 1), 0);
     }
