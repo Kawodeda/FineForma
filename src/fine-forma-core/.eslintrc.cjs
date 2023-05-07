@@ -20,6 +20,7 @@ module.exports = {
       "@typescript-eslint/prefer-readonly": "error",
       "@typescript-eslint/strict-boolean-expressions": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
+      "@typescript-eslint/adjacent-overload-signatures": "off",
 
       // Formatting
       "@typescript-eslint/type-annotation-spacing": "warn",

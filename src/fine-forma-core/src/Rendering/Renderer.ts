@@ -1,7 +1,5 @@
-import { Design } from '../Design';
-import { Viewport } from '../Viewport/Viewport';
 import { IDesignRenderer } from './IDesignRenderer';
-import { IRenderer } from './IRenderer';
+import { IDesignContext, IRenderer, IViewportContext } from './IRenderer';
 import { IRenderingContext } from './IRenderingContext';
 
 export class Renderer implements IRenderer {
@@ -20,14 +18,4 @@ export class Renderer implements IRenderer {
         context.setTransform(this._viewportContext.viewport.transform);
         this._designRenderer.render(context, this._designContext.design);
     }
-}
-
-export interface IViewportContext {
-
-    get viewport(): Viewport;
-}
-
-export interface IDesignContext {
-
-    get design(): Design;
 }
