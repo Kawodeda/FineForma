@@ -2,3 +2,8 @@ export * from './IDesignRenderer';
 export * from './ILayerRenderer';
 export * from './IRenderingContext';
 export * from './DesignRenderer';
+export * from './LayerRenderer';
+export * from './Item/Image/ImageContent';
+export * from './Item/Image/ImageContentProvider';
+export * from './Item/ItemRendererFactory';
+export * from './Item/Image/IImageContentProvider';

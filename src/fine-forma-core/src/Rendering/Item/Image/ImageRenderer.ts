@@ -29,8 +29,8 @@ export class ImageRenderer extends BaseItemRenderer {
     private _drawImage(context: IRenderingContext, imageContent: ImageContent): void {
         context.drawImage(
             Uint8ClampedArray.from(imageContent.image), 
-            this._item.position.x, 
-            this._item.position.y,
+            this._item.rectangle.corner1.x, 
+            this._item.rectangle.corner1.y,
             this._item.rectangle.width,
             this._item.rectangle.height);
     }

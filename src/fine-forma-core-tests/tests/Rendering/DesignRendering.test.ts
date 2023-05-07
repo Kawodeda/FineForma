@@ -2,17 +2,14 @@ import { suite, test } from 'mocha';
 import { expect } from 'chai';
 import { Canvas, Image, createCanvas } from 'canvas';
 
-import { 
-    Brush,
+import {
     ClosedShapeItem, 
     ClosedShapeStyle, 
     CubicBezierSegment, 
     DashSettings, 
     Design, 
     DesignRenderer, 
-    EllipseControls, 
-    IDesignRenderer, 
-    ILayerRenderer, 
+    EllipseControls,
     ImageItem, 
     ImageStyle, 
     Layer, 
@@ -28,15 +25,41 @@ import {
     RgbColor, 
     SolidBrush, 
     Transform, 
-    Vector2 
+    Vector2,
+    ImageContentProvider,
+    LayerRenderer,
+    ItemRendererFactory,
+    IImageContentProvider,
+    IImageContentStorage
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
-import { LayerRenderer } from '../../../fine-forma-core/src/Rendering/LayerRenderer';
-import { ItemRendererFactory } from '../../../fine-forma-core/src/Rendering/Item/ItemRendererFactory';
 import { TEST_RESOURCES_PATH } from '../Settings';
+import { ImageContentStorageStub } from './ImageContentStorageStub';
 
-suite('Render design', () => {
+suite('Render design', async () => {
+    const images = new Map<string, string>([
+        ['masyunya', `${TEST_RESOURCES_PATH}\\masyunya.png`],
+        ['ruka', `${TEST_RESOURCES_PATH}\\ruka.png`],
+        ['blob', `${TEST_RESOURCES_PATH}\\blob.jpg`]
+    ]);
+    let imageStorage: IImageContentStorage;
+    let imageContentProvider: IImageContentProvider;
+
+    before(async () => {
+        imageStorage = await ImageContentStorageStub.setup(images);
+        imageContentProvider = await new Promise<IImageContentProvider>(resolve => {
+            const imageContentProvider = new ImageContentProvider(imageStorage);
+            for(const storageId of images.keys()) {
+                imageContentProvider.getContent(storageId)
+            }
+    
+            setTimeout(() => {
+                resolve(imageContentProvider);
+            }, 10);
+        });
+    });
+
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
     const radians = (degree: number): number => degree * Math.PI / 180;
 
@@ -1383,7 +1406,9 @@ suite('Render design', () => {
             test(`render: ${title}`, () => {
                 const canvas = createBlankCanvas();
                 const context = new RenderingContextFake(canvas.getContext('2d'));
-                const renderer = new DesignRenderer(new LayerRenderer(new ItemRendererFactory()));
+                const renderer = new DesignRenderer(
+                    new LayerRenderer(
+                        new ItemRendererFactory(imageContentProvider)));
 
                 renderer.render(context, design());
 
@@ -1455,7 +1480,7 @@ suite('Render design', () => {
                             Transform.createIdentity(),
                             new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
                             new ImageStyle(),
-                            'masyunya')
+                            'ruka')
                     ], 
                     1)
                 ]),
@@ -1866,7 +1891,9 @@ suite('Render design', () => {
             test(`render: ${title}`, async () => {
                 const canvas = createBlankCanvas();
                 const context = new RenderingContextFake(canvas.getContext('2d'));
-                const renderer = new DesignRenderer(new LayerRenderer(new ItemRendererFactory()));
+                const renderer = new DesignRenderer(
+                    new LayerRenderer(
+                        new ItemRendererFactory(imageContentProvider)));
 
                 renderer.render(context, design());
 
