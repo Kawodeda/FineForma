@@ -30,7 +30,8 @@ import {
     LayerRenderer,
     ItemRendererFactory,
     IImageContentProvider,
-    IImageContentStorage
+    IImageContentStorage,
+    degreeToRadians
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
@@ -61,7 +62,7 @@ suite('Render design', async () => {
     });
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
-    const radians = (degree: number): number => degree * Math.PI / 180;
+    const radians = (degree: number): number => degreeToRadians(degree);
 
     suite('Shapes', () => {
         const pathHeart = (): Path => new OpenPath([
