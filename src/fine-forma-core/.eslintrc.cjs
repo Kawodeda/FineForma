@@ -11,7 +11,7 @@ module.exports = {
     },
     plugins: ['@typescript-eslint'],
     root: true,
-    ignorePatterns: ['build', '*.cjs'],
+    ignorePatterns: ['build', '*.cjs', 'index.ts'],
     rules: {
       "@typescript-eslint/class-literal-property-style": ["error", "getters"],
       "@typescript-eslint/consistent-type-definitions": "error",
@@ -72,6 +72,12 @@ module.exports = {
           "leadingUnderscore": "require"
         },
         {
+          "selector": "memberLike",
+          "modifiers": ["protected"],
+          "format": ["strictCamelCase"],
+          "leadingUnderscore": "require"
+        },
+        {
           "selector": "variable",
           "modifiers": ["const", "global"],
           "format": ["UPPER_CASE"],
@@ -84,6 +90,10 @@ module.exports = {
           "selector": ["interface"],
           "format": ["StrictPascalCase"],
           "prefix": ["I"]
+        },
+        {
+          "selector": ["typeAlias"],
+          "format": ["StrictPascalCase"]
         },
         {
           "selector": "default",

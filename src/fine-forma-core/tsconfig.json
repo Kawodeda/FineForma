@@ -1,11 +1,11 @@
 {
-  "include": [ "./src/**/*.ts" ],
+  "include": [ "./src/**/*.ts", "index.ts" ],
   "compilerOptions": {
     "declaration": true,
-    "target": "es2016",
+    "target": "ES2019",
     "module": "commonjs",
     "rootDir": "./",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "outDir": "./build/",
     "forceConsistentCasingInFileNames": true,
     "strict": true,

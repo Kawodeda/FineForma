@@ -12,6 +12,10 @@ export class Vector2 {
         this._y = y;
     }
 
+    static get zero(): Vector2 {
+        return new Vector2(0, 0);
+    }
+
     get x(): number {
         return this._x;
     }
@@ -20,12 +24,29 @@ export class Vector2 {
         return this._y;
     }
 
+    get magnitude(): number {
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
+    }
+
+    /**
+     * Angle in radians between two vectors
+     */
+    static angle(a: Vector2, b: Vector2): number {
+        const sign = a.x * b.y - a.y * b.x >= 0 ? 1 : -1;
+
+        return sign * Math.acos(a.dot(b) / (a.magnitude * b.magnitude));
+    }
+
     add(other: Vector2): Vector2 {
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
     scale(factor: number): Vector2 {
         return new Vector2(this.x * factor, this.y * factor);
+    }
+
+    dot(other: Vector2): number {
+        return this.x * other.x + this.y + other.y;
     }
 
     equals(other: Vector2): boolean {

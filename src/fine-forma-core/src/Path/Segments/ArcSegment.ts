@@ -1,6 +1,6 @@
-import { Vector2 } from 'Math';
+import { Vector2 } from './../../Math';
 import { Segment } from './Segment';
-import { IPathBuilder } from 'Path/IPathBuilder';
+import { IPathBuilder } from './../IPathBuilder';
 
 export class ArcSegment extends Segment {
 

@@ -1,20 +1,24 @@
-import { Pen } from '../../../Style/Pen';
-import { IItemStyle } from '../Interfaces/IItemStyle';
-import { IStyleContext } from '../Interfaces/IStyleContext';
+import { Brush, Pen, SolidBrush } from '../../../Style';
+import { IItemStyle, IStyleContext } from '../Interfaces';
+import { ClosedShapeStyle } from './ClosedShapeStyle';
 
 export class ImageStyle implements IItemStyle {
 
-    private readonly _border: Pen;
+    private readonly _closedShapeStyle: ClosedShapeStyle;
 
-    constructor(border: Pen) {
-        this._border = border;
+    constructor(border: Pen = Pen.empty, fill: Brush = SolidBrush.empty) {
+        this._closedShapeStyle = new ClosedShapeStyle(border, fill);
     }
 
     get border(): Pen {
-        return this._border;
+        return this._closedShapeStyle.stroke;
+    }
+
+    get fill(): Brush {
+        return this._closedShapeStyle.fill;
     }
 
     applyTo(context: IStyleContext): void {
-        context.setStrokeStyle(this.border);
+        this._closedShapeStyle.applyTo(context);
     }
 }

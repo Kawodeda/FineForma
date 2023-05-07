@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { suite, test } from 'mocha';
 
-import { Vector2 } from '../../src/Math/Vector2';
+import { Vector2 } from 'fine-forma-core';
 
 suite('Vector2', () => {
     suite('create Vector2 from non-real numbers result in error', () => {

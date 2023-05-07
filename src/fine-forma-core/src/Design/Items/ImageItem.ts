@@ -29,6 +29,10 @@ export class ImageItem extends Item {
         return this._storageId;
     }
 
+    get rectangle(): RectangleControls {
+        return this._controls;
+    }
+
     override get controls(): IShapeControls {
         return {
             path: this._controls.closedPath
