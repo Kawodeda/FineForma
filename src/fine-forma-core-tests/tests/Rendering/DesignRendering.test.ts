@@ -402,7 +402,7 @@ suite('Render design', async () => {
                 }
             },
             {
-                title: 'scaled rotated ellipse with stroke', // ??????????
+                title: 'scaled rotated ellipse with stroke',
                 design: () => new Design([
                     new Layer([
                         new ClosedShapeItem(
@@ -422,8 +422,8 @@ suite('Render design', async () => {
                 expected: () => {
                     const canvas = createBlankCanvas();
                     const ctx = canvas.getContext('2d');
-                    ctx.fillStyle = 'rgb(0,255,255)';
-                    ctx.strokeStyle = 'rgb(80,255,90)';
+                    ctx.fillStyle = 'rgb(80,255,90)';
+                    ctx.strokeStyle = 'rgb(0,255,255)';
                     ctx.lineWidth = 4;
                     ctx.translate(400, 400);
                     ctx.rotate(radians(56));
@@ -502,6 +502,59 @@ suite('Render design', async () => {
                     const ctx = canvas.getContext('2d');
                     ctx.strokeStyle = 'rgb(190,0,0)';
                     ctx.lineWidth = 5;
+                    ctx.translate(500, 700);
+                    ctx.rotate(radians(-35));
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(-4, -2);
+                    ctx.bezierCurveTo(-4, -3, -46, -27, -97, -69);
+                    ctx.bezierCurveTo(-145, -108, -210, -170, -254, -244);
+                    ctx.bezierCurveTo(-285, -298, -300, -352, -300, -404);
+                    ctx.bezierCurveTo(-300, -427, -296, -448, -288, -467);
+                    ctx.bezierCurveTo(-281, -486, -269, -502, -255, -516);
+                    ctx.bezierCurveTo(-227, -543, -188, -558, -146, -558);
+                    ctx.bezierCurveTo(-121, -558, -98, -554, -78, -546);
+                    ctx.bezierCurveTo(-59, -538, -43, -527, -30, -512);
+                    ctx.bezierCurveTo(-16, -498, -6, -479, 0, -459);
+                    ctx.bezierCurveTo(6, -479, 16, -498, 30, -512);
+                    ctx.bezierCurveTo(43, -527, 59, -538, 78, -546);
+                    ctx.bezierCurveTo(98, -554, 121, -558, 146, -558);
+                    ctx.bezierCurveTo(188, -558, 227, -543, 255, -516);
+                    ctx.bezierCurveTo(269, -502, 281, -486, 288, -467);
+                    ctx.bezierCurveTo(296, -448, 300, -427, 300, -404);
+                    ctx.bezierCurveTo(300, -352, 285, -298, 254, -244);
+                    ctx.bezierCurveTo(235, -211, 210, -178, 179, -146);
+                    ctx.bezierCurveTo(155, -120, 128, -94, 97, -69);
+                    ctx.bezierCurveTo(46, -27, 4, -3, 4, -2);
+                    ctx.lineTo(0, 0);
+                    ctx.stroke();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'rotated path heart dashed outline',
+                design: () => new Design([
+                    new Layer([
+                        new OpenShapeItem(
+                            new Vector2(500, 700),
+                            Transform.createIdentity().rotate(-35),
+                            new PathControls(pathHeart()),
+                            new OpenShapeStyle(new Pen(
+                                new SolidBrush(new RgbColor(190, 0, 0, 255)), 
+                                5,
+                                new DashSettings([10, 10, 5])))
+                        )
+                    ],
+                    1)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(190,0,0)';
+                    ctx.lineWidth = 5;
+                    ctx.setLineDash([10, 10, 5]);
                     ctx.translate(500, 700);
                     ctx.rotate(radians(-35));
                     

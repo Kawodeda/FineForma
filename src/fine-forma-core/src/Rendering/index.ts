@@ -1,6 +1,7 @@
 export * from './IDesignRenderer';
 export * from './ILayerRenderer';
 export * from './IRenderingContext';
+export * from './IRenderingPathBuilder';
 export * from './DesignRenderer';
 export * from './LayerRenderer';
 export * from './Item/Image/ImageContent';

@@ -1,5 +1,5 @@
 import { Vector2 } from '../../../Math';
-import { IPathBuilder } from '../../../Path';
+import { CenterParametrizedArc, IPathBuilder } from '../../../Path';
 import { IRenderingContext } from '../../IRenderingContext';
 import { NotStartedPathState } from './NotStartedPathState';
 import { IRenderingPathBuilderState } from './IRenderingPathBuilderState';
@@ -17,6 +17,10 @@ export class RenderingPathBuilder implements IPathBuilder {
     constructor(renderingContext: IRenderingContext) {
         this._renderingContext = renderingContext;
         this._state = new NotStartedPathState(this._renderingContext);
+    }
+
+    get currentPoint(): Vector2 {
+        return IS_STARTED_STATE(this._state) ? this._state.currentPoint : Vector2.zero;
     }
 
     beginPath(): void {
@@ -56,8 +60,9 @@ export class RenderingPathBuilder implements IPathBuilder {
     }
 
     arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void {
+        const arc = CenterParametrizedArc.fromEndpointArc(this.currentPoint, end, new Vector2(xRadius, yRadius), xAxisRotation);
         
-        this._renderingContext.arcTo(xRadius, yRadius, xAxisRotation, end);
+        this._renderingContext.ellipse(arc.center, arc.radius, arc.startAngle, arc.endAngle, arc.xAxisRotation);
         this._setStartedState(end);
     }
 

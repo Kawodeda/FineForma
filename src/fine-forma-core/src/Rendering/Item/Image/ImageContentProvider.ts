@@ -33,7 +33,6 @@ export class ImageContentProvider implements IImageContentProvider {
         }
 
         this._requestedImages.add(storageId);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         this._imageContentStorage.getImageContent(storageId)
             .then(imageContent => {
                 this._loadedImages.set(storageId, imageContent)

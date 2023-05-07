@@ -1,9 +1,9 @@
-import { IPathBuilder } from '../Path/IPathBuilder';
 import { IColorPreview } from '../Style/Color/IColorPreview';
 import { IFillStyleContext } from '../Style/IFillStyleContext';
 import { Transform } from '../Transform';
+import { IRenderingPathBuilder } from './IRenderingPathBuilder';
 
-export interface IRenderingContext extends IFillStyleContext, IPathBuilder {
+export interface IRenderingContext extends IFillStyleContext, IRenderingPathBuilder {
 
     setTransform(transform: Transform): void;
 

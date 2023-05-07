@@ -18,6 +18,10 @@ export class StartedPathState implements IRenderingPathBuilderState {
         return this._startPoint;
     }
 
+    get currentPoint(): Vector2 {
+        return this._currentPoint;
+    }
+
     moveTo(position: Vector2): void {
         if (this._currentPoint.equals(position)) {
             return;

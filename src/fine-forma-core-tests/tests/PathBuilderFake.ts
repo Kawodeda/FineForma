@@ -1,8 +1,8 @@
 import { CanvasRenderingContext2D } from 'canvas';
 
-import { IPathBuilder, Vector2 } from 'fine-forma-core';
+import { IRenderingPathBuilder, Vector2 } from 'fine-forma-core';
 
-export class PathBuilderFake implements IPathBuilder {
+export class PathBuilderFake implements IRenderingPathBuilder {
 
     private readonly _context: CanvasRenderingContext2D;
 
@@ -40,7 +40,7 @@ export class PathBuilderFake implements IPathBuilder {
             end.y);
     }
 
-    arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void {
-        throw new Error('Method not implemented.');
+    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number): void {
+        this._context.ellipse(center.x, center.y, radius.x, radius.y, xAxisRotation, startAngle, endAngle);
     }
 }

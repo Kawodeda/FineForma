@@ -107,7 +107,7 @@ export class RenderingContextFake implements IRenderingContext {
         this._pathBuilder.cubicCurveTo(control1, control2, end);
     }
 
-    arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void {
-        this._pathBuilder.arcTo(xRadius, yRadius, xAxisRotation, end);
+    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number): void {
+        this._pathBuilder.ellipse(center, radius, startAngle, endAngle, xAxisRotation);
     }
 }
