@@ -1410,7 +1410,7 @@ suite('Render design', () => {
                             new Vector2(0, 0), 
                             Transform.createIdentity(),
                             new RectangleControls(new Vector2(0, 0), new Vector2(100, 100)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1432,7 +1432,7 @@ suite('Render design', () => {
                             new Vector2(300, 100), 
                             Transform.createIdentity(),
                             new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1454,7 +1454,7 @@ suite('Render design', () => {
                             new Vector2(300, 100), 
                             Transform.createIdentity(),
                             new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1476,7 +1476,7 @@ suite('Render design', () => {
                             new Vector2(100, 100), 
                             Transform.createIdentity(),
                             new RectangleControls(new Vector2(0, 0), new Vector2(500, 200)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1498,7 +1498,7 @@ suite('Render design', () => {
                             new Vector2(200, 200), 
                             Transform.createIdentity().scale(new Vector2(1.4, 2.15)),
                             new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1522,7 +1522,7 @@ suite('Render design', () => {
                             new Vector2(400, 200), 
                             Transform.createIdentity().rotate(57),
                             new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1539,6 +1539,38 @@ suite('Render design', () => {
                 }
             },
             {
+                title: 'filled rotated image',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 200), 
+                            Transform.createIdentity().rotate(57),
+                            new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
+                            new ImageStyle(Pen.empty, new SolidBrush(new RgbColor(250, 250, 200, 255))),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = 'rgb(250, 250, 200)';
+                    ctx.translate(400, 200);
+                    ctx.rotate(radians(57));
+
+                    ctx.beginPath();
+                    ctx.moveTo(-100, -100);
+                    ctx.lineTo(100, -100);
+                    ctx.lineTo(100, 100);
+                    ctx.lineTo(-100, 100);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.drawImage(await image('masyunya.png'), -100, -100, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
                 title: 'scaled rotated image',
                 design: () => new Design([
                     new Layer([
@@ -1546,7 +1578,7 @@ suite('Render design', () => {
                             new Vector2(400, 200), 
                             Transform.createIdentity().scale(new Vector2(1.4, 2.15)).rotate(57),
                             new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
-                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            new ImageStyle(),
                             'masyunya')
                     ], 
                     1)
@@ -1584,10 +1616,10 @@ suite('Render design', () => {
                     ctx.translate(400, 400);
 
                     ctx.beginPath();
-                    ctx.moveTo(-155, -155);
-                    ctx.lineTo(155, -155);
-                    ctx.lineTo(155, 155);
-                    ctx.lineTo(-155, 155);
+                    ctx.moveTo(-150, -150);
+                    ctx.lineTo(150, -150);
+                    ctx.lineTo(150, 150);
+                    ctx.lineTo(-150, 150);
                     ctx.closePath();
                     ctx.stroke();
                     ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
@@ -1618,10 +1650,10 @@ suite('Render design', () => {
                     ctx.scale(2.3, 1.1);
 
                     ctx.beginPath();
-                    ctx.moveTo(-155, -155);
-                    ctx.lineTo(155, -155);
-                    ctx.lineTo(155, 155);
-                    ctx.lineTo(-155, 155);
+                    ctx.moveTo(-150, -150);
+                    ctx.lineTo(150, -150);
+                    ctx.lineTo(150, 150);
+                    ctx.lineTo(-150, 150);
                     ctx.closePath();
                     ctx.stroke();
                     ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
@@ -1656,10 +1688,10 @@ suite('Render design', () => {
                     ctx.scale(2.3, 1.1);
 
                     ctx.beginPath();
-                    ctx.moveTo(-155, -155);
-                    ctx.lineTo(155, -155);
-                    ctx.lineTo(155, 155);
-                    ctx.lineTo(-155, 155);
+                    ctx.moveTo(-150, -150);
+                    ctx.lineTo(150, -150);
+                    ctx.lineTo(150, 150);
+                    ctx.lineTo(-150, 150);
                     ctx.closePath();
                     ctx.stroke();
                     ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
@@ -1693,11 +1725,52 @@ suite('Render design', () => {
                     ctx.rotate(radians(-40));
 
                     ctx.beginPath();
-                    ctx.moveTo(-335, -165);
-                    ctx.lineTo(335, -165);
-                    ctx.lineTo(335, 165);
-                    ctx.lineTo(-335, 165);
+                    ctx.moveTo(-330, -160);
+                    ctx.lineTo(330, -160);
+                    ctx.lineTo(330, 160);
+                    ctx.lineTo(-330, 160);
                     ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -330, -160, 660, 320);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'filled stretched rotated image with dashed border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400), 
+                            Transform.createIdentity().rotate(-40),
+                            new RectangleControls(new Vector2(-330, -160), new Vector2(330, 160)),
+                            new ImageStyle(
+                                new Pen(
+                                    new SolidBrush(new RgbColor(255, 0, 255, 255)), 
+                                    10, 
+                                    new DashSettings([15, 15])),
+                                new SolidBrush(new RgbColor(255, 255, 255, 255))),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(255,0,255)';
+                    ctx.fillStyle = 'rgb(255,255,255)';
+                    ctx.lineWidth = 10;
+                    ctx.setLineDash([15, 15]);
+                    ctx.translate(400, 400);
+                    ctx.rotate(radians(-40));
+
+                    ctx.beginPath();
+                    ctx.moveTo(-330, -160);
+                    ctx.lineTo(330, -160);
+                    ctx.lineTo(330, 160);
+                    ctx.lineTo(-330, 160);
+                    ctx.closePath();
+                    ctx.fill();
                     ctx.stroke();
                     ctx.drawImage(await image('masyunya.png'), -330, -160, 660, 320);
 
@@ -1715,7 +1788,8 @@ suite('Render design', () => {
                             new ImageStyle(
                                 new Pen(new SolidBrush(new RgbColor(255, 90, 255, 153)),
                                     5,
-                                    new DashSettings([10, 10]))),
+                                    new DashSettings([10, 10])),
+                                new SolidBrush(new RgbColor(80, 80, 255, 160))),
                             'masyunya'),
                         new ImageItem(
                             new Vector2(600, 600),
@@ -1724,7 +1798,8 @@ suite('Render design', () => {
                             new ImageStyle(
                                 new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)),
                                     4,
-                                    new DashSettings([10, 10, 5]))),
+                                    new DashSettings([10, 10, 5])),
+                                new SolidBrush(new RgbColor(255, 255, 255, 255))),
                             'ruka')
                     ],
                     1),
@@ -1746,6 +1821,7 @@ suite('Render design', () => {
                     ctx.drawImage(await image('blob.jpg'), -350, -200, 700, 400);
 
                     ctx.strokeStyle = 'rgba(255,90,255,0.6)';
+                    ctx.fillStyle = 'rgba(80,80,255,0.62745098)'
                     ctx.lineWidth = 5;
                     ctx.setLineDash([10, 10]);
                     ctx.resetTransform();
@@ -1754,15 +1830,17 @@ suite('Render design', () => {
                     ctx.scale(1.2, 1.3);
 
                     ctx.beginPath();
-                    ctx.moveTo(-102.5, -102.5);
-                    ctx.lineTo(102.5, -102.5);
-                    ctx.lineTo(102.5, 102.5);
-                    ctx.lineTo(-102.5, 102.5);
+                    ctx.moveTo(-100, -100);
+                    ctx.lineTo(100, -100);
+                    ctx.lineTo(100, 100);
+                    ctx.lineTo(-100, 100);
                     ctx.closePath();
+                    ctx.fill();
                     ctx.stroke();
                     ctx.drawImage(await image('masyunya.png'), -100, -100, 200, 200);
 
-                    ctx.strokeStyle = 'rgba(0,0,0)';
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                    ctx.fillStyle = 'rgb(255,255,255)'
                     ctx.lineWidth = 4;
                     ctx.setLineDash([10, 10, 5]);
                     ctx.resetTransform();
@@ -1770,11 +1848,12 @@ suite('Render design', () => {
                     ctx.rotate(radians(16.5));
 
                     ctx.beginPath();
-                    ctx.moveTo(-182, -162);
-                    ctx.lineTo(182, -162);
-                    ctx.lineTo(182, 162);
-                    ctx.lineTo(-182, 162);
+                    ctx.moveTo(-180, -160);
+                    ctx.lineTo(180, -160);
+                    ctx.lineTo(180, 160);
+                    ctx.lineTo(-180, 160);
                     ctx.closePath();
+                    ctx.fill();
                     ctx.stroke();
                     ctx.drawImage(await image('ruka.png'), -180, -160, 360, 320);
 
@@ -1783,7 +1862,7 @@ suite('Render design', () => {
             },
         ];
 
-        testCases.slice(-1).forEach(({ title, design, expected }) => {
+        testCases.forEach(({ title, design, expected }) => {
             test(`render: ${title}`, async () => {
                 const canvas = createBlankCanvas();
                 const context = new RenderingContextFake(canvas.getContext('2d'));

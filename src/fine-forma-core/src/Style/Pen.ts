@@ -1,5 +1,6 @@
 import { Brush } from './Brush';
 import { DashSettings } from './DashSettings';
+import { SolidBrush } from './SolidBrush';
 
 export class Pen {
 
@@ -11,6 +12,10 @@ export class Pen {
         this._style = style;
         this._width = width;
         this._dash = dash;
+    }
+
+    static get empty(): Pen {
+        return new Pen(SolidBrush.empty, 0, DashSettings.empty);
     }
 
     get style(): Brush {
