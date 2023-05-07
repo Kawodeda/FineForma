@@ -1,17 +1,20 @@
 import { suite, test } from 'mocha';
 import { expect } from 'chai';
-import { Canvas, createCanvas } from 'canvas';
+import { Canvas, Image, createCanvas } from 'canvas';
 
 import { 
     Brush,
     ClosedShapeItem, 
     ClosedShapeStyle, 
     CubicBezierSegment, 
+    DashSettings, 
     Design, 
     DesignRenderer, 
     EllipseControls, 
     IDesignRenderer, 
     ILayerRenderer, 
+    ImageItem, 
+    ImageStyle, 
     Layer, 
     LineControls, 
     LineSegment, 
@@ -31,10 +34,10 @@ import {
 import { RenderingContextFake } from './RenderingContextFake';
 import { LayerRenderer } from '../../../fine-forma-core/src/Rendering/LayerRenderer';
 import { ItemRendererFactory } from '../../../fine-forma-core/src/Rendering/Item/ItemRendererFactory';
+import { TEST_RESOURCES_PATH } from '../Settings';
 
 suite('Render design', () => {
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
-    const createRenderer = (): IDesignRenderer => new DesignRenderer(null as unknown as ILayerRenderer);
     const radians = (degree: number): number => degree * Math.PI / 180;
 
     suite('Shapes', () => {
@@ -1385,6 +1388,412 @@ suite('Render design', () => {
                 renderer.render(context, design());
 
                 expect(canvas.toDataURL()).to.be.equal(expected().toDataURL());
+            });
+        });
+    });
+
+    suite('Images', () => {
+        const image = (name: string) => new Promise<Image>((resolve, reject) => {
+            const image = new Image();
+            image.onload = () => {
+                resolve(image);
+            };
+            image.onerror = () => reject();
+            image.src = `${TEST_RESOURCES_PATH}\\${name}`;
+        }); 
+        const testCases = [
+            {
+                title: 'image #1',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(0, 0), 
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(0, 0), new Vector2(100, 100)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(await image('masyunya.png'), 0, 0, 100, 100);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'image #2',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(300, 100), 
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(await image('masyunya.png'), 300, 100, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'image #3',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(300, 100), 
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(await image('ruka.png'), 300, 100, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'stretched image',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(100, 100), 
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(0, 0), new Vector2(500, 200)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+
+                    ctx.drawImage(await image('masyunya.png'), 100, 100, 500, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'scaled image',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(200, 200), 
+                            Transform.createIdentity().scale(new Vector2(1.4, 2.15)),
+                            new RectangleControls(new Vector2(0, 0), new Vector2(200, 200)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(200, 200);
+                    ctx.scale(1.4, 2.15);
+
+                    ctx.drawImage(await image('masyunya.png'), 0, 0, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'rotated image',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 200), 
+                            Transform.createIdentity().rotate(57),
+                            new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(400, 200);
+                    ctx.rotate(radians(57));
+
+                    ctx.drawImage(await image('masyunya.png'), -100, -100, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'scaled rotated image',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 200), 
+                            Transform.createIdentity().scale(new Vector2(1.4, 2.15)).rotate(57),
+                            new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(400, 200);
+                    ctx.rotate(radians(57));
+                    ctx.scale(1.4, 2.15);
+
+                    ctx.drawImage(await image('masyunya.png'), -100, -100, 200, 200);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'image with border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400), 
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(-150, -150), new Vector2(150, 150)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)), 10)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                    ctx.lineWidth = 10;
+                    ctx.translate(400, 400);
+
+                    ctx.beginPath();
+                    ctx.moveTo(-155, -155);
+                    ctx.lineTo(155, -155);
+                    ctx.lineTo(155, 155);
+                    ctx.lineTo(-155, 155);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'scaled rotated image with border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400), 
+                            Transform.createIdentity().scale(new Vector2(2.3, 1.1)).rotate(-40),
+                            new RectangleControls(new Vector2(-150, -150), new Vector2(150, 150)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)), 10)),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                    ctx.lineWidth = 10;
+                    ctx.translate(400, 400);
+                    ctx.rotate(radians(-40));
+                    ctx.scale(2.3, 1.1);
+
+                    ctx.beginPath();
+                    ctx.moveTo(-155, -155);
+                    ctx.lineTo(155, -155);
+                    ctx.lineTo(155, 155);
+                    ctx.lineTo(-155, 155);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'scaled rotated image with dashed border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400), 
+                            Transform.createIdentity().scale(new Vector2(2.3, 1.1)).rotate(-40),
+                            new RectangleControls(new Vector2(-150, -150), new Vector2(150, 150)),
+                            new ImageStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)), 
+                                10, 
+                                new DashSettings([20, 10]))),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                    ctx.lineWidth = 10;
+                    ctx.setLineDash([20, 10]);
+                    ctx.translate(400, 400);
+                    ctx.rotate(radians(-40));
+                    ctx.scale(2.3, 1.1);
+
+                    ctx.beginPath();
+                    ctx.moveTo(-155, -155);
+                    ctx.lineTo(155, -155);
+                    ctx.lineTo(155, 155);
+                    ctx.lineTo(-155, 155);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -150, -150, 300, 300);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'stretched rotated image with dashed border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400), 
+                            Transform.createIdentity().rotate(-40),
+                            new RectangleControls(new Vector2(-330, -160), new Vector2(330, 160)),
+                            new ImageStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)), 
+                                10, 
+                                new DashSettings([20, 10]))),
+                            'masyunya')
+                    ], 
+                    1)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.strokeStyle = 'rgb(0,0,0)';
+                    ctx.lineWidth = 10;
+                    ctx.setLineDash([20, 10]);
+                    ctx.translate(400, 400);
+                    ctx.rotate(radians(-40));
+
+                    ctx.beginPath();
+                    ctx.moveTo(-335, -165);
+                    ctx.lineTo(335, -165);
+                    ctx.lineTo(335, 165);
+                    ctx.lineTo(-335, 165);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -330, -160, 660, 320);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'overlapping transformed images with border',
+                design: () => new Design([
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(200, 200),
+                            Transform.createIdentity().rotate(-46).scale(new Vector2(1.2, 1.3)),
+                            new RectangleControls(new Vector2(-100, -100), new Vector2(100, 100)),
+                            new ImageStyle(
+                                new Pen(new SolidBrush(new RgbColor(255, 90, 255, 153)),
+                                    5,
+                                    new DashSettings([10, 10]))),
+                            'masyunya'),
+                        new ImageItem(
+                            new Vector2(600, 600),
+                            Transform.createIdentity().rotate(16.5),
+                            new RectangleControls(new Vector2(-180, -160), new Vector2(180, 160)),
+                            new ImageStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 255)),
+                                    4,
+                                    new DashSettings([10, 10, 5]))),
+                            'ruka')
+                    ],
+                    1),
+                    new Layer([
+                        new ImageItem(
+                            new Vector2(400, 400),
+                            Transform.createIdentity(),
+                            new RectangleControls(new Vector2(-350, -200), new Vector2(350, 200)),
+                            new ImageStyle(new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0)),
+                            'blob')
+                    ],
+                    0)
+                ]),
+                expected: async () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(400, 400);
+
+                    ctx.drawImage(await image('blob.jpg'), -350, -200, 700, 400);
+
+                    ctx.strokeStyle = 'rgba(255,90,255,0.6)';
+                    ctx.lineWidth = 5;
+                    ctx.setLineDash([10, 10]);
+                    ctx.resetTransform();
+                    ctx.translate(200, 200);
+                    ctx.rotate(radians(-46));
+                    ctx.scale(1.2, 1.3);
+
+                    ctx.beginPath();
+                    ctx.moveTo(-102.5, -102.5);
+                    ctx.lineTo(102.5, -102.5);
+                    ctx.lineTo(102.5, 102.5);
+                    ctx.lineTo(-102.5, 102.5);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('masyunya.png'), -100, -100, 200, 200);
+
+                    ctx.strokeStyle = 'rgba(0,0,0)';
+                    ctx.lineWidth = 4;
+                    ctx.setLineDash([10, 10, 5]);
+                    ctx.resetTransform();
+                    ctx.translate(600, 600);
+                    ctx.rotate(radians(16.5));
+
+                    ctx.beginPath();
+                    ctx.moveTo(-182, -162);
+                    ctx.lineTo(182, -162);
+                    ctx.lineTo(182, 162);
+                    ctx.lineTo(-182, 162);
+                    ctx.closePath();
+                    ctx.stroke();
+                    ctx.drawImage(await image('ruka.png'), -180, -160, 360, 320);
+
+                    return canvas;
+                }
+            },
+        ];
+
+        testCases.slice(-1).forEach(({ title, design, expected }) => {
+            test(`render: ${title}`, async () => {
+                const canvas = createBlankCanvas();
+                const context = new RenderingContextFake(canvas.getContext('2d'));
+                const renderer = new DesignRenderer(new LayerRenderer(new ItemRendererFactory()));
+
+                renderer.render(context, design());
+
+                const expectedCanvas = await expected();
+
+                expect(canvas.toDataURL()).to.be.equal(expectedCanvas.toDataURL());
             });
         });
     });
