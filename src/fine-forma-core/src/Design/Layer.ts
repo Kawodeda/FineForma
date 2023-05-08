@@ -6,7 +6,7 @@ export class Layer {
     private readonly _zIndex: number;
 
     constructor(items: readonly Item[], zIndex: number) {
-        this._items = items;
+        this._items = [...items];
         this._zIndex = zIndex;
     }
 

@@ -1,4 +1,4 @@
-import { ICommand, IExecutionContext } from './Commands';
+import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design } from './Design';
 import { IRenderer, IDesignContext, IViewportContext, IRendererFactory } from './Rendering';
 import { Viewport } from './Viewport';

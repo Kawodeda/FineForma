@@ -1,5 +1,5 @@
-import { Design } from '../Design';
-import { Viewport } from '../Viewport';
+import { Design } from '../../Design';
+import { Viewport } from '../../Viewport';
 
 export interface ICommand {
 

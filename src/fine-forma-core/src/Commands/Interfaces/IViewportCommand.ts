@@ -1,4 +1,4 @@
-import { Viewport } from '../Viewport';
+import { Viewport } from '../../Viewport';
 
 export interface IViewportCommand {
 

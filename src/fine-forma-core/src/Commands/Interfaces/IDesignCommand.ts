@@ -1,4 +1,4 @@
-import { Design } from '../Design';
+import { Design } from '../../Design';
 
 export interface IDesignCommand {
 
