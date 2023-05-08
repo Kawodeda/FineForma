@@ -1,5 +1,6 @@
 import { Segment } from './Segments/Segment';
 import { IPathBuilder } from './IPathBuilder';
+import { arrayEquals } from '../ArrayUtils';
 
 export abstract class Path {
 
@@ -11,6 +12,10 @@ export abstract class Path {
 
     get segments(): readonly Segment[] {
         return this._segments;
+    }
+
+    equals(other: Path): boolean {
+        return arrayEquals(this.segments, other.segments, (a, b) => a.equals(b));
     }
 
     abstract build(pathBuilder: IPathBuilder): void;

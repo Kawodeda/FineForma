@@ -1,3 +1,4 @@
+import { nearlyEquals } from '../Math';
 import { ReadonlyCollection } from '../ReadonlyCollection';
 import { Item } from './Items/Item';
 
@@ -23,5 +24,10 @@ export class Layer {
 
     get zIndex(): number {
         return this._zIndex;
+    }
+
+    equals(other: Layer): boolean {
+        return this.items.equals(other.items, (a, b) => a.equals(b))
+            && nearlyEquals(this.zIndex, other.zIndex);
     }
 }

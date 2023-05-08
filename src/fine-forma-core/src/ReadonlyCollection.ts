@@ -1,3 +1,5 @@
+import { arrayEquals } from './ArrayUtils';
+
 export class ReadonlyCollection<T> {
     
     private readonly _elements: readonly T[];
@@ -8,6 +10,16 @@ export class ReadonlyCollection<T> {
 
     get elements(): readonly T[] {
         return this._elements;
+    }
+
+    get length(): number {
+        return this.elements.length;
+    }
+
+    *[Symbol.iterator](): Generator<T, void> {
+        for (const element of this.elements) {
+            yield element;
+        }
     }
 
     add(element: T): ReadonlyCollection<T> {
@@ -36,11 +48,19 @@ export class ReadonlyCollection<T> {
         ]);
     }
 
+    equals(other: ReadonlyCollection<T>, comparer: (a: T, b: T) => boolean): boolean {
+        return arrayEquals<T>(this.elements, other.elements, comparer);
+    }
+
     includes(searchElement: T): boolean {
         return this.elements.includes(searchElement);
     }
 
     find(predicate: (value: T) => boolean): T | undefined {
         return this.elements.find(predicate);
+    }
+
+    sort(compareFn?: (a: T, b: T) => number): ReadonlyCollection<T> {
+        return new ReadonlyCollection([...this.elements].sort(compareFn));
     }
 }

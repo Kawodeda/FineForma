@@ -12,8 +12,17 @@ export class QuadraticBezierSegment extends Segment {
         this._control = control;
     }
 
+    get control(): Vector2 {
+        return this._control;
+    }
+
     override addToPath(pathBuilder: IPathBuilder): void {
         pathBuilder.moveTo(this.start);
         pathBuilder.quadraticCurveTo(this._control, this.end);
+    }
+
+    override equals(other: QuadraticBezierSegment): boolean {
+        return super.equals(other)
+            && this.control.equals(other.control);
     }
 }

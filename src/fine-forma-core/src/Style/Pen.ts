@@ -1,4 +1,5 @@
 import { Brushes } from '.';
+import { nearlyEquals } from '../Math';
 import { Brush } from './Brush';
 import { DashSettings } from './DashSettings';
 
@@ -28,5 +29,11 @@ export class Pen {
 
     get dash(): DashSettings {
         return this._dash;
+    }
+
+    equals(other: Pen): boolean {
+        return this.style.equals(other.style)
+            && nearlyEquals(this.width, other.width)
+            && this.dash.equals(other.dash);
     }
 }

@@ -19,5 +19,10 @@ export abstract class Segment {
         return this._end;
     }
 
+    equals(other: Segment): boolean {
+        return this.start.equals(other.start)
+            && this.end.equals(other.end);
+    }
+
     abstract addToPath(pathBuilder: IPathBuilder): void;
 }

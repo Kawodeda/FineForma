@@ -24,4 +24,11 @@ export abstract class Item {
     abstract get controls(): IShapeControls;
 
     abstract get style(): IItemStyle;
+
+    equals(other: Item): boolean {
+        return this.position.equals(other.position)
+            && this.transform.equals(other.transform)
+            && this.controls.path.equals(other.controls.path)
+            && this.style.equals(other.style);
+    }
 }

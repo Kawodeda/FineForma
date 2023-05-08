@@ -8,10 +8,10 @@ export class Design {
 
     constructor(layers: readonly Layer[] | ReadonlyCollection<Layer>) {
         if (layers instanceof ReadonlyCollection<Layer>) {
-            this._layers = layers;
+            this._layers = this._orderByZIindex(layers);
         }
         else {
-            this._layers = new ReadonlyCollection<Layer>(this._orderByZIindex(layers));
+            this._layers = this._orderByZIindex(new ReadonlyCollection<Layer>(layers));
         }
     }
 
@@ -32,9 +32,13 @@ export class Design {
         return result;
     }
 
+    equals(other: Design): boolean {
+        return this.layers.equals(other.layers, (a, b) => a.equals(b));
+    }
+
     // eslint-disable-next-line @typescript-eslint/naming-convention
-    private _orderByZIindex(layers: readonly Layer[]): readonly Layer[] {
-        return [...layers].sort(
+    private _orderByZIindex(layers: ReadonlyCollection<Layer>): ReadonlyCollection<Layer> {
+        return layers.sort(
             (a, b) => a.zIndex - b.zIndex
         );
     }

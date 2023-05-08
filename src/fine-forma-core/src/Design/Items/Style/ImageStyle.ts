@@ -21,4 +21,9 @@ export class ImageStyle implements IItemStyle {
     applyTo(context: IStyleContext): void {
         this._closedShapeStyle.applyTo(context);
     }
+
+    equals(other: ImageStyle): boolean {
+        return this.border.equals(other.border)
+            && this.fill.equals(other.fill);
+    }
 }

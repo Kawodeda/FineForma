@@ -1,3 +1,6 @@
+import { arrayEquals } from '../ArrayUtils';
+import { nearlyEquals } from '../Math';
+
 export class DashSettings {
 
     private readonly _dashes: readonly number[];
@@ -18,5 +21,10 @@ export class DashSettings {
 
     get dashOffset(): number {
         return this._dashOffset;
+    }
+
+    equals(other: DashSettings): boolean {
+        return arrayEquals(this.dashes, other.dashes, nearlyEquals)
+            && nearlyEquals(this.dashOffset, other.dashOffset);
     }
 }
