@@ -1,5 +1,5 @@
 import { Vector2 } from '../../../Math';
-import { Brushes, Pen } from '../../../Style';
+import { Brush, Brushes, Pen } from '../../../Style';
 import { Transform } from '../../../Transform';
 import { ClosedShapeItem } from '../ClosedShapeItem';
 import { IClosedShapeControls } from '../Interfaces';
@@ -37,6 +37,24 @@ export class ClosedShapeBuilder {
 
     setStyle(style: ClosedShapeStyle): ClosedShapeBuilder {
         return new ClosedShapeBuilder(this._controls, this._position, this._transform, style);
+    }
+
+    setStroke(stroke: Pen): ClosedShapeBuilder {
+        return new ClosedShapeBuilder(
+            this._controls, 
+            this._position, 
+            this._transform, 
+            new ClosedShapeStyle(stroke, this._style.fill)
+        );
+    }
+
+    setFill(fill: Brush): ClosedShapeBuilder {
+        return new ClosedShapeBuilder(
+            this._controls, 
+            this._position, 
+            this._transform, 
+            new ClosedShapeStyle(this._style.stroke, fill)
+        );
     }
 
     build(): ClosedShapeItem {

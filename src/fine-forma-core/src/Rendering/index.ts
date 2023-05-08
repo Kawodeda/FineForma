@@ -7,6 +7,7 @@ export * from './LayerRenderer';
 export * from './IRenderer';
 export * from './Renderer';
 export * from './IRendererFactory';
+export * from './RendererFactory';
 export * from './Item/Image/ImageContent';
 export * from './Item/Image/ImageContentProvider';
 export * from './Item/ItemRendererFactory';

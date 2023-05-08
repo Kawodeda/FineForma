@@ -6,7 +6,7 @@ export class QuadraticBezierSegment extends Segment {
 
     private readonly _control: Vector2;
 
-    constructor(start: Vector2, end: Vector2, control: Vector2) {
+    constructor(start: Vector2, control: Vector2, end: Vector2) {
         super(start, end);
 
         this._control = control;

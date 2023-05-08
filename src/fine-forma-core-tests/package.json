@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "test": "mocha --reporter nyan -r ts-node/register 'tests/**/*.ts' --recursive",
-    "test-save-report": "mocha --reporter dot --reporter-options maxDiffSize=10000000 -r ts-node/register 'tests/**/*.ts' --recursive > latest.report.txt 2>&1"
+    "test": "mocha --reporter nyan -r ts-node/register 'tests/**/*.test.ts' --recursive",
+    "test-save-report": "mocha --reporter dot --reporter-options maxDiffSize=10000000 -r ts-node/register 'tests/**/*.test.ts' --recursive > latest.report.txt 2>&1"
   },
   "devDependencies": {
     "typescript": "^5.0.4"

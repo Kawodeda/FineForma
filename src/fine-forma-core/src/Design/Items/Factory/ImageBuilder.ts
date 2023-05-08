@@ -1,4 +1,5 @@
 import { Vector2 } from '../../../Math';
+import { Brush, Pen } from '../../../Style';
 import { Transform } from '../../../Transform';
 import { RectangleControls } from '../Controls';
 import { ImageItem } from '../ImageItem';
@@ -47,6 +48,26 @@ export class ImageBuilder {
 
     setStyle(style: ImageStyle): ImageBuilder {
         return new ImageBuilder(this._storageId, this._controls, this._position, this._transform, style);
+    }
+
+    setBorder(border: Pen): ImageBuilder {
+        return new ImageBuilder(
+            this._storageId,
+            this._controls, 
+            this._position, 
+            this._transform, 
+            new ImageStyle(border, this._style.fill)
+        );
+    }
+
+    setFill(fill: Brush): ImageBuilder {
+        return new ImageBuilder(
+            this._storageId,
+            this._controls, 
+            this._position, 
+            this._transform, 
+            new ImageStyle(this._style.border, fill)
+        );
     }
 
     build(): ImageItem {

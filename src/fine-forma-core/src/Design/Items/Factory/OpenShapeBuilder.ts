@@ -39,6 +39,15 @@ export class OpenShapeBuilder {
         return new OpenShapeBuilder(this._controls, this._position, this._transform, style);
     }
 
+    setStroke(stroke: Pen): OpenShapeBuilder {
+        return new OpenShapeBuilder(
+            this._controls, 
+            this._position, 
+            this._transform, 
+            new OpenShapeStyle(stroke)
+        );
+    }
+
     build(): OpenShapeItem {
         return new OpenShapeItem(this._position, this._transform, this._controls, this._style);
     }
