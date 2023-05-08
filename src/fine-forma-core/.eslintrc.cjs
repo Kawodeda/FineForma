@@ -97,6 +97,10 @@ module.exports = {
           "format": ["StrictPascalCase"]
         },
         {
+          "selector": ["typeParameter"],
+          "format": ["StrictPascalCase"]
+        },
+        {
           "selector": "default",
           "format": ["strictCamelCase"]
         }
