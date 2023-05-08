@@ -1,6 +1,6 @@
+import { Brushes } from '.';
 import { Brush } from './Brush';
 import { DashSettings } from './DashSettings';
-import { SolidBrush } from './SolidBrush';
 
 export class Pen {
 
@@ -15,7 +15,7 @@ export class Pen {
     }
 
     static get empty(): Pen {
-        return new Pen(SolidBrush.empty, 0, DashSettings.empty);
+        return new Pen(Brushes.transparent(), 0, DashSettings.empty);
     }
 
     get style(): Brush {
