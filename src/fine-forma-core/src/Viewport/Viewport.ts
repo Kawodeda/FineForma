@@ -35,7 +35,7 @@ export class Viewport {
     }
 
     get transform(): Transform {
-        return new Transform(this.scroll, new Vector2(this.zoom, this.zoom), this.angle);
+        return new Transform(this.scroll.negate(), new Vector2(this.zoom, this.zoom), -this.angle);
     }
 
     private _validateComponents(constraints: ViewportConstraints, scroll: Vector2, zoom: number, angle: number): void {

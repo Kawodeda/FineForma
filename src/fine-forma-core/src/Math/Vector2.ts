@@ -45,6 +45,10 @@ export class Vector2 {
         return new Vector2(this.x * factor, this.y * factor);
     }
 
+    negate(): Vector2 {
+        return this.scale(-1);
+    }
+
     dot(other: Vector2): number {
         return this.x * other.x + this.y + other.y;
     }

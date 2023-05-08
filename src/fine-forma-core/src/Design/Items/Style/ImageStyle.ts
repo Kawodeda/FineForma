@@ -1,4 +1,4 @@
-import { Brush, Pen, SolidBrush } from '../../../Style';
+import { Brush, Brushes, Pen } from '../../../Style';
 import { IItemStyle, IStyleContext } from '../Interfaces';
 import { ClosedShapeStyle } from './ClosedShapeStyle';
 
@@ -6,7 +6,7 @@ export class ImageStyle implements IItemStyle {
 
     private readonly _closedShapeStyle: ClosedShapeStyle;
 
-    constructor(border: Pen = Pen.empty, fill: Brush = SolidBrush.empty) {
+    constructor(border: Pen = Pen.empty, fill: Brush = Brushes.transparent()) {
         this._closedShapeStyle = new ClosedShapeStyle(border, fill);
     }
 

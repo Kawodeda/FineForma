@@ -1,4 +1,4 @@
-import { CanvasRenderingContext2D, Image } from 'canvas';
+import { CanvasRenderingContext2D, Image, DOMMatrix } from 'canvas';
 import { Buffer } from 'node:buffer';
 
 import { IColorPreview, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
