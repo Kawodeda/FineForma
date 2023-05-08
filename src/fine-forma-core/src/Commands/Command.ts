@@ -10,6 +10,10 @@ export class Command implements ICommand {
         this._viewportCommand = [...viewportCommands];
     }
 
+    static get empty(): Command {
+        return new Command();
+    }
+
     async execute(context: IExecutionContext): Promise<void> {
         for (const command of this._designCommands) {
             await this._executeDesignCommand(context, command);
