@@ -7,4 +7,4 @@ export * from './src/Rendering';
 export * from './src/Storage';
 export * from './src/Viewport';
 export * from './src/Viewer';
-export * from './src/Commands/Interfaces';
+export * from './src/Commands';

@@ -1,4 +1,4 @@
-import { IImageContentStorage, Viewer } from 'fine-forma-core';
+import { DesignRenderer, IImageContentStorage, IRendererFactory, ImageContentProvider, ItemRendererFactory, LayerRenderer, RendererFactory, Viewer } from 'fine-forma-core';
 import { expect } from 'chai';
 
 export function imageStorageDummy(): IImageContentStorage {
@@ -7,6 +7,14 @@ export function imageStorageDummy(): IImageContentStorage {
             throw new Error('Not implemented');
         },
     };
+}
+
+export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
+    return new RendererFactory(
+        new DesignRenderer(
+            new LayerRenderer(
+                new ItemRendererFactory(
+                    new ImageContentProvider(imageStorageDummy())))));
 }
 
 export function assertViewer(actual: Viewer, expected: Viewer): void {

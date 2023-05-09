@@ -4,35 +4,25 @@ import * as chaiAsPromised from 'chai-as-promised';
 
 import { 
     Design,
-    DesignRenderer,
-    ImageContentProvider,
-    ItemRendererFactory,
     Layer,
-    LayerRenderer,
-    RendererFactory,
     Vector2,
     Viewer, 
     Viewport,
     ViewportConstraints,
     createEllipse,
     createImage,
-    createRectangle
+    createRectangle,
+    Command,
+    AddLayerCommand,
+    RemoveLayerCommand
 } from 'fine-forma-core';
 
-import { assertViewer, imageStorageDummy } from './Utils';
-import { Command } from '../../fine-forma-core/src/Commands/Command';
-import { AddLayerCommand } from '../../fine-forma-core/src/Commands/Design/AddLayerCommand';
-import { RemoveLayerCommand } from '../../fine-forma-core/src/Commands/Design/RemoveLayerCommand';
+import { assertViewer, rendererFactoryWithDummyImageStroage } from './Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
 
 suite('Manipulate layers', () => {
-    const createRendererFactory = () => new RendererFactory(
-        new DesignRenderer(
-            new LayerRenderer(
-                new ItemRendererFactory(
-                    new ImageContentProvider(imageStorageDummy())))));
     const testCases = [
         {
             title: 'add layers to blank design, separate commands',
@@ -43,7 +33,7 @@ suite('Manipulate layers', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11))
@@ -62,7 +52,7 @@ suite('Manipulate layers', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         },
         {
             title: 'add layers to blank design, single command',
@@ -73,7 +63,7 @@ suite('Manipulate layers', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11)),
@@ -90,7 +80,7 @@ suite('Manipulate layers', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         },
         {
             title: 'add layers to design, single command',
@@ -101,7 +91,7 @@ suite('Manipulate layers', () => {
                     new Vector2(1, 2),
                     1.3,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11)),
@@ -119,7 +109,7 @@ suite('Manipulate layers', () => {
                     new Vector2(1, 2),
                     1.3,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         },
         {
             title: 'add a layer to design',
@@ -130,7 +120,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([
@@ -152,7 +142,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         },
         {
             title: 'remove a layer from design',
@@ -163,7 +153,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(viewer.design.layers.elements[0]!)
@@ -176,7 +166,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         },
         {
             title: 'remove layers from design, single command',
@@ -191,7 +181,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(viewer.design.layers.elements[0]!),
@@ -205,7 +195,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory())
+                rendererFactoryWithDummyImageStroage())
         }
     ];
 
@@ -227,7 +217,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([], 0)),
@@ -243,7 +233,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([createEllipse(90, 1, 40, 500).build()], 1)),
@@ -259,7 +249,7 @@ suite('Manipulate layers', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                createRendererFactory()),
+                rendererFactoryWithDummyImageStroage()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([createRectangle(90, 1, 40, 500).build()], 1)),

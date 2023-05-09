@@ -22,6 +22,15 @@ export class ReadonlyCollection<T> {
         }
     }
 
+    get(index: number): T {
+        const result = this.elements[index];
+        if (result == null) {
+            throw new Error('Element at specified index does not exist');
+        }
+
+        return result;
+    }
+
     add(element: T): ReadonlyCollection<T> {
         return new ReadonlyCollection<T>([...this.elements, element]);
     }

@@ -1,7 +1,7 @@
 import { Design, Item, Layer } from '../../../Design';
 import { ItemCommand } from './ItemCommand';
 
-export class AddItemCommand extends ItemCommand {
+export class AddItemToLayerCommand extends ItemCommand {
     
     private readonly _layer: Layer;
 
