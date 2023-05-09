@@ -27,4 +27,22 @@ export class OpenShapeItem extends Item {
     override get style(): IItemStyle {
         return this._style;
     }
+
+    override setPosition(position: Vector2): Item {
+        return new OpenShapeItem(
+            position,
+            this.transform,
+            this._controls,
+            this._style
+        );
+    }
+
+    override setTransform(transform: Transform): Item {
+        return new OpenShapeItem(
+            this.position,
+            transform,
+            this._controls,
+            this._style
+        );
+    }
 }

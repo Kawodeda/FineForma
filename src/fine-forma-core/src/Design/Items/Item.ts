@@ -31,4 +31,8 @@ export abstract class Item {
             && this.controls.path.equals(other.controls.path)
             && this.style.equals(other.style);
     }
+
+    abstract setPosition(position: Vector2): Item;
+
+    abstract setTransform(transform: Transform): Item;
 }

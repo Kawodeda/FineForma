@@ -47,4 +47,24 @@ export class ImageItem extends Item {
         return super.equals(other)
             && this.storageId === other.storageId;
     }
+
+    override setPosition(position: Vector2): Item {
+        return new ImageItem(
+            position,
+            this.transform,
+            this._controls,
+            this._style,
+            this.storageId
+        );
+    }
+
+    override setTransform(transform: Transform): Item {
+        return new ImageItem(
+            this.position,
+            transform,
+            this._controls,
+            this._style,
+            this.storageId
+        );
+    }
 }
