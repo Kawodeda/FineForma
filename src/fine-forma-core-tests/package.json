@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "@types/chai": "^4.3.4",
+    "@types/chai-as-promised": "^7.1.5",
     "@types/mocha": "^10.0.1",
     "canvas": "^2.11.2",
     "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
     "fine-forma-core": "file:../fine-forma-core",
     "mocha": "^10.2.0",
     "ts-node": "^10.9.1"

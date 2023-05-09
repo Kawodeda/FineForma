@@ -1,0 +1,276 @@
+import { suite, test } from 'mocha';
+import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
+
+import { 
+    Design,
+    DesignRenderer,
+    ImageContentProvider,
+    ItemRendererFactory,
+    Layer,
+    LayerRenderer,
+    RendererFactory,
+    Vector2,
+    Viewer, 
+    Viewport,
+    ViewportConstraints,
+    createEllipse,
+    createImage,
+    createRectangle
+} from 'fine-forma-core';
+
+import { assertViewer, imageStorageDummy } from './Utils';
+import { Command } from '../../fine-forma-core/src/Commands/Command';
+import { AddLayerCommand } from '../../fine-forma-core/src/Commands/Design/AddLayerCommand';
+import { RemoveLayerCommand } from '../../fine-forma-core/src/Commands/Design/RemoveLayerCommand';
+
+chai.use(chaiAsPromised);
+const expect = chai.expect;
+
+suite('Manipulate layers', () => {
+    const createRendererFactory = () => new RendererFactory(
+        new DesignRenderer(
+            new LayerRenderer(
+                new ItemRendererFactory(
+                    new ImageContentProvider(imageStorageDummy())))));
+    const testCases = [
+        {
+            title: 'add layers to blank design, separate commands',
+            viewer: new Viewer(
+                new Design([]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(0, 0),
+                    1,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new AddLayerCommand(new Layer([], 11))
+                ]));
+                await viewer.execute(new Command([
+                    new AddLayerCommand(new Layer([createRectangle(0, 0, 100, 100).build()], -2))
+                ]));
+            },
+            expected: new Viewer(
+                new Design([
+                    new Layer([], 11),
+                    new Layer([createRectangle(0, 0, 100, 100).build()], -2)
+                ]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(0, 0),
+                    1,
+                    0),
+                createRendererFactory())
+        },
+        {
+            title: 'add layers to blank design, single command',
+            viewer: new Viewer(
+                new Design([]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(0, 0),
+                    1,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new AddLayerCommand(new Layer([], 11)),
+                    new AddLayerCommand(new Layer([createRectangle(0, 0, 100, 100).build()], -2))
+                ]));
+            },
+            expected: new Viewer(
+                new Design([
+                    new Layer([], 11),
+                    new Layer([createRectangle(0, 0, 100, 100).build()], -2)
+                ]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(0, 0),
+                    1,
+                    0),
+                createRendererFactory())
+        },
+        {
+            title: 'add layers to design, single command',
+            viewer: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(1, 2),
+                    1.3,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new AddLayerCommand(new Layer([], 11)),
+                    new AddLayerCommand(new Layer([createRectangle(0, 0, 100, 100).build()], -2))
+                ]));
+            },
+            expected: new Viewer(
+                new Design([
+                    new Layer([], 11),
+                    new Layer([createRectangle(90, 1, 40, 500).build()], 1),
+                    new Layer([createRectangle(0, 0, 100, 100).build()], -2)
+                ]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(1, 2),
+                    1.3,
+                    0),
+                createRendererFactory())
+        },
+        {
+            title: 'add a layer to design',
+            viewer: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new AddLayerCommand(new Layer([
+                        createImage(64, 128, 200, 200, 'poka').build(),
+                        createEllipse(400, -11, 300, 190).build()
+                    ], 0))
+                ]));
+            },
+            expected: new Viewer(
+                new Design([
+                    new Layer([
+                        createImage(64, 128, 200, 200, 'poka').build(),
+                        createEllipse(400, -11, 300, 190).build()
+                    ], 0),
+                    new Layer([createRectangle(90, 1, 40, 500).build()], 1),
+                ]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory())
+        },
+        {
+            title: 'remove a layer from design',
+            viewer: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new RemoveLayerCommand(viewer.design.layers.elements[0]!)
+                ]));
+            },
+            expected: new Viewer(
+                new Design([]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory())
+        },
+        {
+            title: 'remove layers from design, single command',
+            viewer: new Viewer(
+                new Design([
+                    new Layer([], 11),
+                    new Layer([createRectangle(90, 1, 40, 500).build()], 1),
+                    new Layer([createRectangle(0, 0, 100, 100).build()], -2)
+                ]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new RemoveLayerCommand(viewer.design.layers.elements[0]!),
+                    new RemoveLayerCommand(viewer.design.layers.elements[2]!),
+                ]));
+            },
+            expected: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory())
+        }
+    ];
+
+    testCases.forEach(({ title, viewer, actions, expected }) => {
+        test(title, async () => {
+            await actions(viewer);
+
+            assertViewer(viewer, expected);
+        });
+    });
+
+    const invalidTestCases = [
+        {
+            title: 'remove layer from blank design',
+            viewer: new Viewer(
+                new Design([]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new RemoveLayerCommand(new Layer([], 0)),
+                ]));
+            }
+        },
+        {
+            title: 'remove non-existing layer from design #1',
+            viewer: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new RemoveLayerCommand(new Layer([createEllipse(90, 1, 40, 500).build()], 1)),
+                ]));
+            }
+        },
+        {
+            title: 'remove non-existing layer from design #2',
+            viewer: new Viewer(
+                new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
+                new Viewport(
+                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new Vector2(100, 100),
+                    0.9,
+                    0),
+                createRendererFactory()),
+            actions: async (viewer: Viewer) => {
+                await viewer.execute(new Command([
+                    new RemoveLayerCommand(new Layer([createRectangle(90, 1, 40, 500).build()], 1)),
+                ]));
+            }
+        },
+    ];
+
+    invalidTestCases.forEach(({ title, viewer, actions }) => {
+        test(title, async () => {
+            await expect(actions(viewer)).to.be.eventually.rejected;
+        });
+    });
+});
