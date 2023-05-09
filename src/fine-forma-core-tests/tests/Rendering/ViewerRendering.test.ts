@@ -33,7 +33,7 @@ import {
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { setupImageContentProvider } from './Utils';
-import { loadImage } from 'canvas';
+import { loadImage } from '../Utils';
 import { RenderingContextFake } from '../RenderingContextFake';
 
 suite('Viewer rendering', () => {

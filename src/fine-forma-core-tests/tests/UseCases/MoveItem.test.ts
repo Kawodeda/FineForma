@@ -14,7 +14,8 @@ import {
     ViewportConstraints, 
     createCircle,
     createImage,
-    degreeToRadians
+    degreeToRadians,
+    MoveItemCommand
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
@@ -22,7 +23,6 @@ import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
 import { clearCanvas, delay, loadImage } from '../Utils';
-import { MoveItemCommand } from '../../../fine-forma-core/src/Commands/Design/Items/MoveItemCommand';
 
 const expect = chai.expect;
 
@@ -76,7 +76,7 @@ suite('UseCase: move item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot4(canvas);
-    }).timeout(5000);
+    }).timeout(1000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 
