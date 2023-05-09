@@ -1,4 +1,4 @@
-import { Rectangle, Vector2 } from './../../Math';
+import { Bounds, Vector2 } from './../../Math';
 import { IPathBuilder } from '../IPathBuilder';
 
 export abstract class Segment {
@@ -19,7 +19,7 @@ export abstract class Segment {
         return this._end;
     }
 
-    abstract get bounds(): Rectangle;
+    abstract get bounds(): Bounds;
 
     equals(other: Segment): boolean {
         return this.start.equals(other.start)

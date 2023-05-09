@@ -1,4 +1,4 @@
-import { Vector2, degreeToRadians } from '../Math';
+import { Vector2, degreeToRadians, nearlyEquals } from '../Math';
 
 export class CenterParametrizedArc {
 
@@ -52,23 +52,14 @@ export class CenterParametrizedArc {
 
         const radius = this._correctRadii(signedRadius, x1p, y1p);
 
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        const sign = largeArc !== sweep ? 1 : -1;
-        const n = radius.x ** 2 * radius.y ** 2 - radius.x ** 2 * y1p ** 2 - radius.y ** 2 * x1p ** 2;
-        const d = radius.x ** 2 * y1p ** 2 + radius.y ** 2 * x1p ** 2;
-
-        const cp = new Vector2(radius.x * y1p / radius.y, -radius.y * x1p / radius.x)
-            .scale(sign * Math.sqrt(Math.abs(n / d)));
+        const cp = this._centerP(radius, x1p, y1p, largeArc, sweep);
         const center = new Vector2(
             cp.x * cosphi + cp.y * -sinphi + (start.x + end.x) / 2,
             cp.x * sinphi + cp.y * cosphi + (start.y + end.y) / 2
         );
 
-        const a = new Vector2((x1p - cp.x) / radius.x, (y1p - cp.y) / radius.y);
-        const b = new Vector2((-x1p - cp.x) * radius.x, (-y1p - cp.y) / radius.y);
-        const startAngle = Vector2.angle(new Vector2(1, 0), a);
-        const deltaAngle0 = Vector2.angle(a, b) % (2 * Math.PI);
-        const deltaAngle = this._correctDeltaAngle(deltaAngle0, sweep);
+        const startAngle = this._startAngle(cp, radius, x1p, y1p, phi);
+        const deltaAngle = this._deltaAngle(cp, radius, x1p, y1p, sweep);
         const endAngle = startAngle + deltaAngle;
 
         return new CenterParametrizedArc(
@@ -85,10 +76,52 @@ export class CenterParametrizedArc {
             Math.abs(signedRadius.x), 
             Math.abs(signedRadius.y)
         );
+        if (this._isRadiusZero(radius)) {
+            return radius;
+        }
 
         const lambda = x1p ** 2 / radius.x ** 2 + y1p ** 2 / radius.y ** 2;
 
         return lambda > 1 ? radius.scale(Math.sqrt(lambda)) : radius;
+    }
+
+    private static _centerP(radius: Vector2, x1p: number, y1p: number, largeArc: boolean, sweep: boolean): Vector2 {
+        if (this._isRadiusZero(radius)) {
+            return Vector2.zero;
+        }
+        
+        const sign = largeArc !== sweep ? 1 : -1;
+        const n = radius.x ** 2 * radius.y ** 2 - radius.x ** 2 * y1p ** 2 - radius.y ** 2 * x1p ** 2;
+        const d = radius.x ** 2 * y1p ** 2 + radius.y ** 2 * x1p ** 2;
+
+        return new Vector2(radius.x * y1p / radius.y, -radius.y * x1p / radius.x)
+            .scale(sign * Math.sqrt(Math.abs(n / d)));
+    }
+
+    private static _startAngle(centerP: Vector2, radius: Vector2, x1p: number, y1p: number, phi: number): number {
+        if (this._isRadiusZero(radius)) {
+            return phi;
+        }
+
+        const a = new Vector2((x1p - centerP.x) / radius.x, (y1p - centerP.y) / radius.y);
+
+        return Vector2.angle(new Vector2(1, 0), a);
+    }
+
+    private static _deltaAngle(centerP: Vector2, radius: Vector2, x1p: number, y1p: number, sweep: boolean): number {
+        if (this._isRadiusZero(radius)) {
+            return Math.PI;
+        }
+        
+        const a = new Vector2((x1p - centerP.x) / radius.x, (y1p - centerP.y) / radius.y);
+        const b = new Vector2((-x1p - centerP.x) * radius.x, (-y1p - centerP.y) / radius.y);
+        const deltaAngle0 = Vector2.angle(a, b) % (2 * Math.PI);
+
+        return this._correctDeltaAngle(deltaAngle0, sweep);
+    }
+
+    private static _isRadiusZero(radius: Vector2): boolean {
+        return nearlyEquals(radius.x, 0) || nearlyEquals(radius.y, 0);
     }
 
     private static _correctDeltaAngle(deltaAngle0: number, sweep: boolean): number {
