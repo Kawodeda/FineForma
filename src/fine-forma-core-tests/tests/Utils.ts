@@ -19,5 +19,5 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
 
 export function assertViewer(actual: Viewer, expected: Viewer): void {
     expect(actual.design.equals(expected.design)).to.be.true;
-    expect(actual.viewport).to.be.eql(expected.viewport);
+    expect(actual.viewport.equals(expected.viewport)).to.be.true;
 }

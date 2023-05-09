@@ -19,7 +19,7 @@ import {
     createRectangle
 } from 'fine-forma-core';
 
-import { assertViewer, rendererFactoryWithDummyImageStroage } from './Utils';
+import { assertViewer, rendererFactoryWithDummyImageStroage } from '../Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;

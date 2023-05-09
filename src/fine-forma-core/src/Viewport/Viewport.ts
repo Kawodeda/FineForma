@@ -1,4 +1,4 @@
-import { Vector2 } from '../Math';
+import { Vector2, nearlyEquals } from '../Math';
 import { Transform } from '../Transform';
 import { ViewportConstraints } from './ViewportConstraints';
 
@@ -36,6 +36,13 @@ export class Viewport {
 
     get transform(): Transform {
         return new Transform(this.scroll.negate(), new Vector2(this.zoom, this.zoom), -this.angle);
+    }
+
+    equals(other: Viewport): boolean {
+        return this.constraints.equals(other.constraints)
+            && this.scroll.equals(other.scroll)
+            && nearlyEquals(this.zoom, other.zoom)
+            && nearlyEquals(this.angle, other.angle);
     }
 
     private _validateComponents(constraints: ViewportConstraints, scroll: Vector2, zoom: number, angle: number): void {
