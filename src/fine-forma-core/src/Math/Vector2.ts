@@ -50,7 +50,7 @@ export class Vector2 {
     }
 
     dot(other: Vector2): number {
-        return this.x * other.x + this.y + other.y;
+        return this.x * other.x + this.y * other.y;
     }
 
     equals(other: Vector2): boolean {

@@ -36,7 +36,9 @@ import {
     Brushes,
     createImage,
     QuadraticBezierSegment,
-    Rectangle
+    Rectangle,
+    ClosedPath,
+    ArcSegment
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
@@ -144,6 +146,36 @@ suite('Render design', async () => {
                     const ctx = canvas.getContext('2d');
                     ctx.fillStyle = 'rgb(255,0,255)';
                     ctx.fillRect(100, 100, 100, 100);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'arc',
+                design: () => new Design([
+                    new Layer([
+                        new ClosedShapeItem(
+                            new Vector2(100, 100),
+                            Transform.createIdentity(),
+                            new PathControls(new ClosedPath([new ArcSegment(new Vector2(0, 200), new Vector2(0, 0), new Vector2(400, 100), 0)])),
+                            new ClosedShapeStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0),
+                                new SolidBrush(new RgbColor(0, 255, 0, 255))
+                            )
+                        )
+                    ],
+                    0)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = 'rgb(0,255,0)';
+                    ctx.translate(100, 100);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 200);
+                    ctx.ellipse(0, 100, 400, 100, 0, Math.PI / 2, -Math.PI / 2, true);
+                    ctx.closePath();
+                    ctx.fill();
 
                     return canvas;
                 }
@@ -429,7 +461,11 @@ suite('Render design', async () => {
                     ctx.rotate(radians(56));
                     ctx.scale(1.6, 1.3);
                     
-                    ctx.ellipse(0, 0, 40, 75, 0, 0, radians(360));
+                    ctx.beginPath();
+                    ctx.moveTo(-40, 0);
+                    ctx.ellipse(0, 0, 40, 75, 0, Math.PI, 0, true);
+                    ctx.ellipse(0, 0, 40, 75, 0, 0, -Math.PI, true);
+                    ctx.closePath();
                     ctx.fill();
                     ctx.stroke();
 

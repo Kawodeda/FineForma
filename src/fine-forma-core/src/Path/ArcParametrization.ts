@@ -7,13 +7,15 @@ export class CenterParametrizedArc {
     private readonly _startAngle: number;
     private readonly _endAngle: number;
     private readonly _xAxisRotation: number;
+    private readonly _anticlockwise: boolean;
 
-    constructor(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number) {
+    constructor(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number, anticlockwise: boolean) {
         this._center = center;
         this._radius = radius;
         this._startAngle = startAngle;
         this._endAngle = endAngle;
         this._xAxisRotation = xAxisRotation;
+        this._anticlockwise = anticlockwise;
     }
 
     get center(): Vector2 {
@@ -37,6 +39,10 @@ export class CenterParametrizedArc {
     /**Angle in radians between the coordinate system X-axis and the arc X-axis */
     get xAxisRotation(): number {
         return this._xAxisRotation;
+    }
+
+    get anticlockwise(): boolean {
+        return this._anticlockwise;
     }
 
     static fromEndpointArc(start: Vector2, end: Vector2, signedRadius: Vector2, xAxisRotation: number): CenterParametrizedArc {
@@ -67,7 +73,8 @@ export class CenterParametrizedArc {
             radius,
             startAngle,
             endAngle,
-            phi
+            phi,
+            deltaAngle < 0
         );
     }
 

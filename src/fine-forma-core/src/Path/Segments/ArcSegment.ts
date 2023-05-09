@@ -1,4 +1,4 @@
-import { Bounds, Vector2, nearlyEquals } from './../../Math';
+import { Bounds, Vector2, angleToPositive, nearlyEquals } from './../../Math';
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
 import { CenterParametrizedArc } from '../ArcParametrization';
@@ -26,7 +26,6 @@ export class ArcSegment extends Segment {
     }
 
     override get bounds(): Bounds {
-        throw new Error();
         const radius = this._centerParametrized.radius;
         const phi = this._centerParametrized.xAxisRotation;
 
@@ -35,7 +34,11 @@ export class ArcSegment extends Segment {
         const thetaX2 = Math.PI - thetaX1;
         const thetaY2 = Math.PI + thetaY1;
 
-        const extreme1 = this._ellipseAt(thetaX1);
+        return Bounds.from([
+            ...this._pointsOfArc([thetaX1, thetaX2, thetaY1, thetaY2]),
+            this.start,
+            this.end
+        ]);
     }
 
     override addToPath(pathBuilder: IPathBuilder): void {
@@ -58,5 +61,19 @@ export class ArcSegment extends Segment {
             center.x + radius.x * Math.cos(theta) * Math.cos(phi) - radius.y * Math.sin(theta) * Math.sin(phi),
             center.y + radius.x * Math.cos(theta) * Math.sin(phi) + radius.y * Math.sin(theta) * Math.cos(phi)
         );
+    }
+
+    private _pointsOfArc(thetas: number[]): Vector2[] {
+        const startAngle = this._centerParametrized.endAngle < 0 
+            ? Math.PI * 2 + this._centerParametrized.endAngle
+            : this._centerParametrized.endAngle;
+        const endAngle = this._centerParametrized.endAngle < 0 
+            ? Math.PI * 2 + this._centerParametrized.startAngle
+            : this._centerParametrized.startAngle;
+
+        return thetas
+            .filter(theta => (theta > startAngle || nearlyEquals(theta, startAngle))
+                && (theta < endAngle || nearlyEquals(theta, endAngle)))
+            .map(theta => this._ellipseAt(theta));
     }
 }
