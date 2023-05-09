@@ -31,9 +31,10 @@ import {
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from '../Settings';
-import { ImageContentStorageStub } from './ImageContentStorageStub';
-import { loadImage, setupImageContentProvider } from './Utils';
-import { RenderingContextFake } from './RenderingContextFake';
+import { ImageContentStorageStub } from '../ImageContentStorageStub';
+import { setupImageContentProvider } from './Utils';
+import { loadImage } from 'canvas';
+import { RenderingContextFake } from '../RenderingContextFake';
 
 suite('Viewer rendering', () => {
     const createBlankCanvas = () => createCanvas(800, 800);

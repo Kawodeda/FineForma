@@ -1,7 +1,10 @@
 {
   "scripts": {
-    "test": "mocha --reporter nyan -r ts-node/register 'tests/**/*.test.ts' --recursive",
-    "test-save-report": "mocha --reporter dot --reporter-options maxDiffSize=10000000 -r ts-node/register 'tests/**/*.test.ts' --recursive > latest.report.txt 2>&1"
+    "all": "mocha --reporter nyan -r ts-node/register 'tests/**/*.test.ts' --recursive",
+    "unit": "mocha --reporter nyan -r ts-node/register 'tests/{,!(UseCases)/**/}*.test.ts' --recursive",
+    "unit-save-report": "mocha --reporter dot --reporter-options maxDiffSize=10000000 -r ts-node/register 'tests/{,!(UseCases)/**/}*.test.ts' --recursive > latest.report.txt 2>&1",
+    "use-cases": "mocha --reporter nyan -r ts-node/register 'tests/UseCases/**/*.test.ts' --recursive",
+    "use-cases-save-report": "mocha --reporter dot --reporter-options maxDiffSize=10000000 -r ts-node/register 'tests/UseCases/**/*.test.ts' --recursive > latest.report.txt 2>&1"
   },
   "devDependencies": {
     "typescript": "^5.0.4"
