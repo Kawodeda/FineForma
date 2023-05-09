@@ -35,7 +35,8 @@ import {
     createCircle,
     Brushes,
     createImage,
-    QuadraticBezierSegment
+    QuadraticBezierSegment,
+    Rectangle
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
@@ -408,7 +409,7 @@ suite('Render design', async () => {
                             new Vector2(400, 400),
                             Transform.createIdentity().scale(new Vector2(1.6, 1.3)).rotate(56),
                             new EllipseControls(
-                                new RectangleControls(new Vector2(-40, -75), new Vector2(40, 75))
+                                new Rectangle(new Vector2(-40, -75), new Vector2(40, 75))
                             ),
                             new ClosedShapeStyle(
                                 new Pen(new SolidBrush(new RgbColor(0, 255, 255, 255)), 4),

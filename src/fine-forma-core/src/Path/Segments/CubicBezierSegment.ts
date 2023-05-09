@@ -1,4 +1,4 @@
-import { Vector2 } from './../../Math';
+import { Rectangle, Vector2 } from './../../Math';
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
 
@@ -20,6 +20,10 @@ export class CubicBezierSegment extends Segment {
 
     get control2(): Vector2 {
         return this._control2;
+    }
+
+    override get bounds(): Rectangle {
+        throw new Error();
     }
 
     override addToPath(pathBuilder: IPathBuilder): void {

@@ -20,11 +20,11 @@ export class RectangleControls implements IClosedShapeControls {
     }
 
     get width(): number {
-        return this.corner2.x - this.corner1.x;
+        return this._rectangle.width;
     }
 
     get height(): number {
-        return this.corner2.y - this.corner1.y;
+        return this._rectangle.height;
     }
 
     get closedPath(): ClosedPath {

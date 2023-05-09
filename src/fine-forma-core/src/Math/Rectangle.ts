@@ -17,4 +17,17 @@ export class Rectangle {
     get corner2(): Vector2 {
         return this._corner2;
     }
+
+    get width(): number {
+        return this.corner2.x - this.corner1.x;
+    }
+
+    get height(): number {
+        return this.corner2.y - this.corner1.y;
+    }
+
+    equals(other: Rectangle): boolean {
+        return this.corner1.equals(other.corner1)
+            && this.corner2.equals(other.corner2);
+    }
 }

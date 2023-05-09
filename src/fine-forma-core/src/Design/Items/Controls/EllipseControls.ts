@@ -1,18 +1,17 @@
-import { Vector2 } from '../../../Math';
+import { Rectangle, Vector2 } from '../../../Math';
 import { ClosedPath } from '../../../Path/ClosedPath';
 import { ArcSegment } from '../../../Path/Segments/ArcSegment';
 import { IClosedShapeControls } from '../Interfaces/IClosedShapeControls';
-import { RectangleControls } from './RectangleControls';
 
 export class EllipseControls implements IClosedShapeControls {
 
-    private readonly _rectangle: RectangleControls;
+    private readonly _rectangle: Rectangle;
 
-    constructor(rectangle: RectangleControls) {
+    constructor(rectangle: Rectangle) {
         this._rectangle = rectangle;
     }
 
-    get rectangle(): RectangleControls {
+    get rectangle(): Rectangle {
         return this._rectangle;
     }
 

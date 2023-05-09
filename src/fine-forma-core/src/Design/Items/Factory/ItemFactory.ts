@@ -1,4 +1,4 @@
-import { Vector2 } from '../../../Math';
+import { Rectangle, Vector2 } from '../../../Math';
 import { EllipseControls, LineControls, RectangleControls } from '../Controls';
 import { ClosedShapeBuilder } from './ClosedShapeBuilder';
 import { ImageBuilder } from './ImageBuilder';
@@ -13,14 +13,14 @@ export function createRectangle(x: number, y: number, width: number, height: num
 
 export function createEllipse(x: number, y: number, width: number, height: number): ClosedShapeBuilder {
     return new ClosedShapeBuilder(
-        new EllipseControls(new RectangleControls(new Vector2(-width / 2, -height / 2), new Vector2(width / 2, height / 2))), 
+        new EllipseControls(new Rectangle(new Vector2(-width / 2, -height / 2), new Vector2(width / 2, height / 2))), 
         new Vector2(x, y)
     );
 }
 
 export function createCircle(x: number, y: number, radius: number): ClosedShapeBuilder {
     return new ClosedShapeBuilder(
-        new EllipseControls(new RectangleControls(new Vector2(-radius, -radius), new Vector2(radius, radius))), 
+        new EllipseControls(new Rectangle(new Vector2(-radius, -radius), new Vector2(radius, radius))), 
         new Vector2(x, y)
     );
 }
