@@ -25,4 +25,9 @@ export class ClosedShapeStyle implements IItemStyle {
         context.setStrokeStyle(this.stroke);
         context.setFillStyle(this.fill);
     }
+
+    equals(other: ClosedShapeStyle): boolean {
+        return this.stroke.equals(other.stroke)
+            && this.fill.equals(other.fill);
+    }
 }

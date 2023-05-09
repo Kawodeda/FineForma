@@ -42,4 +42,9 @@ export class ImageItem extends Item {
     override get style(): IItemStyle {
         return this._style;
     }
+
+    override equals(other: ImageItem): boolean {
+        return super.equals(other)
+            && this.storageId === other.storageId;
+    }
 }

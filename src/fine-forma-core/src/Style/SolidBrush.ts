@@ -12,7 +12,15 @@ export class SolidBrush extends Brush {
         this._color = color;
     }
 
+    get color(): Color {
+        return this._color;
+    }
+
     override addToStyle(context: IFillStyleContext): void {
         context.setFillStyle(this._color.preview);
+    }
+
+    override equals(other: SolidBrush): boolean {
+        return this.color.equals(other.color);
     }
 }

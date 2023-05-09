@@ -1,4 +1,4 @@
-import { Vector2 } from './../../Math';
+import { Vector2, nearlyEquals } from './../../Math';
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
 
@@ -14,8 +14,22 @@ export class ArcSegment extends Segment {
         this._xAxisRotation = xAxisRotation;
     }
 
+    get radius(): Vector2 {
+        return this._radius;
+    }
+
+    get xAxisRotation(): number {
+        return this._xAxisRotation;
+    }
+
     override addToPath(pathBuilder: IPathBuilder): void {
         pathBuilder.moveTo(this.start);
         pathBuilder.arcTo(this._radius.x, this._radius.y, this._xAxisRotation, this.end);
+    }
+
+    override equals(other: ArcSegment): boolean {
+        return super.equals(other)
+            && this.radius.equals(other.radius)
+            && nearlyEquals(this.xAxisRotation, other.xAxisRotation);
     }
 }

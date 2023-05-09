@@ -46,4 +46,11 @@ export class ViewportConstraints {
     isValidAngle(angle: number): boolean {
         return isRealNumber(angle);
     }
+
+    equals(other: ViewportConstraints): boolean {
+        return this.minScroll.equals(other.minScroll)
+            && this.maxScroll.equals(other.maxScroll)
+            && nearlyEquals(this.minZoom, other.minZoom)
+            && nearlyEquals(this.maxZoom, other.maxZoom);
+    }
 }

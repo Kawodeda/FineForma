@@ -1,8 +1,9 @@
+import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design } from './Design';
 import { IRenderer, IDesignContext, IViewportContext, IRendererFactory } from './Rendering';
 import { Viewport } from './Viewport';
 
-export class Viewer implements IDesignContext, IViewportContext {
+export class Viewer implements IDesignContext, IViewportContext, IExecutionContext {
     
     private readonly _renderer: IRenderer;
 
@@ -33,5 +34,9 @@ export class Viewer implements IDesignContext, IViewportContext {
 
     set viewport(viewport: Viewport) {
         this._viewport = viewport;
+    }
+
+    async execute(command: ICommand): Promise<void> {
+        await command.execute(this);
     }
 }

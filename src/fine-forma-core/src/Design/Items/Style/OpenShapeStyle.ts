@@ -19,4 +19,8 @@ export class OpenShapeStyle implements IItemStyle {
         context.setStrokeStyle(this.stroke);
         context.setFillStyle(Brushes.transparent());
     }
+
+    equals(other: OpenShapeStyle): boolean {
+        return this.stroke.equals(other.stroke);
+    }
 }
