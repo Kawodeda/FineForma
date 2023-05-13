@@ -29,3 +29,18 @@ export function angleToPositive(signedAngle: number): number {
         ? Math.PI * 2 + signedAngle
         : signedAngle;
 }
+
+export function quadraticEquation(a: number, b: number, c: number): number[] {
+    const discriminant = Math.sqrt(b ** 2 - 4 * a * c);
+    if (discriminant < 0) {
+        return [];
+    }
+    if (nearlyEquals(discriminant, 0)) {
+        return [-b / (2 * a)];
+    }
+    
+    return [
+        (-b - discriminant) / (2 * a),
+        (-b + discriminant) / (2 * a)
+    ];
+}
