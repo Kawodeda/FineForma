@@ -2,6 +2,7 @@ import { suite, test } from 'mocha';
 import { expect } from 'chai';
 
 import { ArcSegment, Bounds, CubicBezierSegment, LineSegment, QuadraticBezierSegment, Rectangle, Vector2 } from 'fine-forma-core';
+import { pathApple } from './TestPaths';
 
 const assertBounds = (actual: Bounds, expected: Bounds): void => {
     expect(actual.corner1.x).to.be.approximately(expected.corner1.x, 0.001);
@@ -236,7 +237,7 @@ suite('Quadratic bezier segment bounds', () => {
         }
     ];
 
-    testCases.forEach(({curve, expected}, index) => {
+    testCases.forEach(({ curve, expected }, index) => {
         test(`quadratic bezier #${index + 1}`, () => {
             assertBounds(curve().bounds, expected);
         });
@@ -287,9 +288,24 @@ suite('Cubic bezier segment bounds', () => {
         }
     ];
 
-    testCases.forEach(({curve, expected}, index) => {
+    testCases.forEach(({ curve, expected }, index) => {
         test(`cubic bezier #${index + 1}`, () => {
             assertBounds(curve().bounds, expected);
+        });
+    });
+});
+
+suite('Path bounds', () => {
+    const testCases = [
+        {
+            path: pathApple(),
+            expected: new Bounds(new Vector2(-110.005, -147.8), new Vector2(110, 108.102))
+        }
+    ];
+
+    testCases.forEach(({ path, expected }, index) => {
+        test(`path #${index + 1}`, () => {
+            assertBounds(path.bounds, expected);
         });
     });
 });

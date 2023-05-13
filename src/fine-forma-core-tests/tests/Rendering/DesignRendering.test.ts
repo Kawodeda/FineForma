@@ -45,6 +45,7 @@ import { RenderingContextFake } from './RenderingContextFake';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from './ImageContentStorageStub';
 import { loadImage, setupImageContentProvider } from './Utils';
+import { pathHeart } from '../TestPaths';
 
 suite('Render design', async () => {
     const images = new Map<string, string>([
@@ -66,29 +67,6 @@ suite('Render design', async () => {
     const radians = (degree: number): number => degreeToRadians(degree);
 
     suite('Shapes', () => {
-        const pathHeart = (): Path => new OpenPath([
-            new LineSegment(new Vector2(0, 0), new Vector2(-4, -2)),
-            new CubicBezierSegment(new Vector2(-4, -2), new Vector2(-4, -3), new Vector2(-46, -27), new Vector2(-97, -69)),
-            new CubicBezierSegment(new Vector2(-97, -69), new Vector2(-145, -108), new Vector2(-210, -170), new Vector2(-254, -244)),
-            new CubicBezierSegment(new Vector2(-254, -244), new Vector2(-285, -298), new Vector2(-300, -352), new Vector2(-300, -404)),
-            new CubicBezierSegment(new Vector2(-300, -404), new Vector2(-300, -427), new Vector2(-296, -448), new Vector2(-288, -467)),
-            new CubicBezierSegment(new Vector2(-288, -467), new Vector2(-281, -486), new Vector2(-269, -502), new Vector2(-255, -516)),
-            new CubicBezierSegment(new Vector2(-255, -516), new Vector2(-227, -543), new Vector2(-188, -558), new Vector2(-146, -558)),
-            new CubicBezierSegment(new Vector2(-146, -558), new Vector2(-121, -558), new Vector2(-98, -554), new Vector2(-78, -546)),
-            new CubicBezierSegment(new Vector2(-78, -546), new Vector2(-59, -538), new Vector2(-43, -527), new Vector2(-30, -512)),
-            new CubicBezierSegment(new Vector2(-30, -512), new Vector2(-16, -498), new Vector2(-6, -479), new Vector2(0, -459)),
-            new CubicBezierSegment(new Vector2(0, -459), new Vector2(6, -479), new Vector2(16, -498), new Vector2(30, -512)),
-            new CubicBezierSegment(new Vector2(30, -512), new Vector2(43, -527), new Vector2(59, -538), new Vector2(78, -546)),
-            new CubicBezierSegment(new Vector2(78, -546), new Vector2(98, -554), new Vector2(121, -558), new Vector2(146, -558)),
-            new CubicBezierSegment(new Vector2(146, -558), new Vector2(188, -558), new Vector2(227, -543), new Vector2(255, -516)),
-            new CubicBezierSegment(new Vector2(255, -516), new Vector2(269, -502), new Vector2(281, -486), new Vector2(288, -467)),
-            new CubicBezierSegment(new Vector2(288, -467), new Vector2(296, -448), new Vector2(300, -427), new Vector2(300, -404)),
-            new CubicBezierSegment(new Vector2(300, -404), new Vector2(300, -352), new Vector2(285, -298), new Vector2(254, -244)),
-            new CubicBezierSegment(new Vector2(254, -244), new Vector2(235, -211), new Vector2(210, -178), new Vector2(179, -146)),
-            new CubicBezierSegment(new Vector2(179, -146), new Vector2(155, -120), new Vector2(128, -94), new Vector2(97, -69)),
-            new CubicBezierSegment(new Vector2(97, -69), new Vector2(46, -27), new Vector2(4, -3), new Vector2(4, -2)),
-            new LineSegment(new Vector2(4, -2), new Vector2(0, 0))
-        ]);
         const testCases = [
             {
                 title: 'blank design',
