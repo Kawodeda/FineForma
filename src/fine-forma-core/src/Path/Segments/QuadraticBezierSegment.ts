@@ -5,11 +5,13 @@ import { IPathBuilder } from './../IPathBuilder';
 export class QuadraticBezierSegment extends Segment {
 
     private readonly _control: Vector2;
+    private readonly _bounds: Bounds;
 
     constructor(start: Vector2, control: Vector2, end: Vector2) {
         super(start, end);
 
         this._control = control;
+        this._bounds = Bounds.from([this.start, this.end]);
     }
 
     get control(): Vector2 {
@@ -17,7 +19,7 @@ export class QuadraticBezierSegment extends Segment {
     }
 
     override get bounds(): Bounds {
-        throw new Error();
+        return this._bounds;
     }
 
     override addToPath(pathBuilder: IPathBuilder): void {
