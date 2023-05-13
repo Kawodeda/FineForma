@@ -1,7 +1,7 @@
 import { suite, test } from 'mocha';
 import { expect } from 'chai';
 
-import { ArcSegment, Bounds, LineSegment, QuadraticBezierSegment, Rectangle, Vector2 } from 'fine-forma-core';
+import { ArcSegment, Bounds, CubicBezierSegment, LineSegment, QuadraticBezierSegment, Rectangle, Vector2 } from 'fine-forma-core';
 
 const assertBounds = (actual: Bounds, expected: Bounds): void => {
     expect(actual.corner1.x).to.be.approximately(expected.corner1.x, 0.001);
@@ -238,6 +238,57 @@ suite('Quadratic bezier segment bounds', () => {
 
     testCases.forEach(({curve, expected}, index) => {
         test(`quadratic bezier #${index + 1}`, () => {
+            assertBounds(curve().bounds, expected);
+        });
+    });
+});
+
+suite('Cubic bezier segment bounds', () => {
+    const testCases = [
+        {
+            curve: () => new CubicBezierSegment(new Vector2(10, -10), new Vector2(10, -10), new Vector2(10, -10), new Vector2(10, -10)),
+            expected: new Bounds(new Vector2(10, -10), new Vector2(10, -10))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(0, 0), new Vector2(30, 0), new Vector2(60, 0), new Vector2(90, 0)),
+            expected: new Bounds(new Vector2(0, 0), new Vector2(90, 0))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(0, 0), new Vector2(0, -57), new Vector2(90, 67), new Vector2(90, 0)),
+            expected: new Bounds(new Vector2(0, -15.4579), new Vector2(90, 20.4521))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-33, -12), new Vector2(-69, 77), new Vector2(193, 10), new Vector2(88, -18)),
+            expected: new Bounds(new Vector2(-36.4255, -18), new Vector2(112.9745, 32.6))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-33, -12), new Vector2(-125, 99), new Vector2(194, -56), new Vector2(74, -19)),
+            expected: new Bounds(new Vector2(-49.9104, -24.8505), new Vector2(101.3896, 28.7495))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-26, -29), new Vector2(198, 51), new Vector2(-89, 112), new Vector2(74, -19)),
+            expected: new Bounds(new Vector2(-26, -29), new Vector2(74, 57.27))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-13, -14), new Vector2(198, 51), new Vector2(-89, 112), new Vector2(152, 45)),
+            expected: new Bounds(new Vector2(-13, -14), new Vector2(152, 74.1))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-13, -14), new Vector2(147, 12), new Vector2(147, 12), new Vector2(-17, 55)),
+            expected: new Bounds(new Vector2(-17, -14), new Vector2(106.5, 55))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-23, -10), new Vector2(38, -9), new Vector2(41, 45), new Vector2(-23, 46)),
+            expected: new Bounds(new Vector2(-23, -10), new Vector2(23.88, 46))
+        },
+        {
+            curve: () => new CubicBezierSegment(new Vector2(-23, -10), new Vector2(14, 175), new Vector2(-126, 25), new Vector2(-23, 46)),
+            expected: new Bounds(new Vector2(-61.5864, -10), new Vector2(-16.5964, 83.61))
+        }
+    ];
+
+    testCases.forEach(({curve, expected}, index) => {
+        test(`cubic bezier #${index + 1}`, () => {
             assertBounds(curve().bounds, expected);
         });
     });
