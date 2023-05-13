@@ -14,5 +14,5 @@ export interface IRenderingPathBuilder {
 
     cubicCurveTo(control1: Vector2, control2: Vector2, end: Vector2): void;
 
-    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number): void;
+    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number, anticlockwise: boolean): void;
 }

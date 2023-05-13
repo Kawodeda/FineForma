@@ -1,6 +1,7 @@
 import { Segment } from './Segments/Segment';
 import { IPathBuilder } from './IPathBuilder';
 import { arrayEquals } from '../ArrayUtils';
+import { Bounds } from '../Math';
 
 export abstract class Path {
 
@@ -12,6 +13,12 @@ export abstract class Path {
 
     get segments(): readonly Segment[] {
         return this._segments;
+    }
+
+    get bounds(): Bounds {
+        return Bounds.from(this.segments.flatMap(
+            segment => [segment.bounds.corner1, segment.bounds.corner2])
+        );
     }
 
     equals(other: Path): boolean {

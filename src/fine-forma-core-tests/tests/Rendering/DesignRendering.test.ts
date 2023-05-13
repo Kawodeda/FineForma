@@ -35,13 +35,17 @@ import {
     createCircle,
     Brushes,
     createImage,
-    QuadraticBezierSegment
+    QuadraticBezierSegment,
+    Rectangle,
+    ClosedPath,
+    ArcSegment
 } from 'fine-forma-core';
     
 import { RenderingContextFake } from './RenderingContextFake';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from './ImageContentStorageStub';
 import { loadImage, setupImageContentProvider } from './Utils';
+import { pathHeart } from '../TestPaths';
 
 suite('Render design', async () => {
     const images = new Map<string, string>([
@@ -63,29 +67,6 @@ suite('Render design', async () => {
     const radians = (degree: number): number => degreeToRadians(degree);
 
     suite('Shapes', () => {
-        const pathHeart = (): Path => new OpenPath([
-            new LineSegment(new Vector2(0, 0), new Vector2(-4, -2)),
-            new CubicBezierSegment(new Vector2(-4, -2), new Vector2(-4, -3), new Vector2(-46, -27), new Vector2(-97, -69)),
-            new CubicBezierSegment(new Vector2(-97, -69), new Vector2(-145, -108), new Vector2(-210, -170), new Vector2(-254, -244)),
-            new CubicBezierSegment(new Vector2(-254, -244), new Vector2(-285, -298), new Vector2(-300, -352), new Vector2(-300, -404)),
-            new CubicBezierSegment(new Vector2(-300, -404), new Vector2(-300, -427), new Vector2(-296, -448), new Vector2(-288, -467)),
-            new CubicBezierSegment(new Vector2(-288, -467), new Vector2(-281, -486), new Vector2(-269, -502), new Vector2(-255, -516)),
-            new CubicBezierSegment(new Vector2(-255, -516), new Vector2(-227, -543), new Vector2(-188, -558), new Vector2(-146, -558)),
-            new CubicBezierSegment(new Vector2(-146, -558), new Vector2(-121, -558), new Vector2(-98, -554), new Vector2(-78, -546)),
-            new CubicBezierSegment(new Vector2(-78, -546), new Vector2(-59, -538), new Vector2(-43, -527), new Vector2(-30, -512)),
-            new CubicBezierSegment(new Vector2(-30, -512), new Vector2(-16, -498), new Vector2(-6, -479), new Vector2(0, -459)),
-            new CubicBezierSegment(new Vector2(0, -459), new Vector2(6, -479), new Vector2(16, -498), new Vector2(30, -512)),
-            new CubicBezierSegment(new Vector2(30, -512), new Vector2(43, -527), new Vector2(59, -538), new Vector2(78, -546)),
-            new CubicBezierSegment(new Vector2(78, -546), new Vector2(98, -554), new Vector2(121, -558), new Vector2(146, -558)),
-            new CubicBezierSegment(new Vector2(146, -558), new Vector2(188, -558), new Vector2(227, -543), new Vector2(255, -516)),
-            new CubicBezierSegment(new Vector2(255, -516), new Vector2(269, -502), new Vector2(281, -486), new Vector2(288, -467)),
-            new CubicBezierSegment(new Vector2(288, -467), new Vector2(296, -448), new Vector2(300, -427), new Vector2(300, -404)),
-            new CubicBezierSegment(new Vector2(300, -404), new Vector2(300, -352), new Vector2(285, -298), new Vector2(254, -244)),
-            new CubicBezierSegment(new Vector2(254, -244), new Vector2(235, -211), new Vector2(210, -178), new Vector2(179, -146)),
-            new CubicBezierSegment(new Vector2(179, -146), new Vector2(155, -120), new Vector2(128, -94), new Vector2(97, -69)),
-            new CubicBezierSegment(new Vector2(97, -69), new Vector2(46, -27), new Vector2(4, -3), new Vector2(4, -2)),
-            new LineSegment(new Vector2(4, -2), new Vector2(0, 0))
-        ]);
         const testCases = [
             {
                 title: 'blank design',
@@ -143,6 +124,67 @@ suite('Render design', async () => {
                     const ctx = canvas.getContext('2d');
                     ctx.fillStyle = 'rgb(255,0,255)';
                     ctx.fillRect(100, 100, 100, 100);
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'arc #1',
+                design: () => new Design([
+                    new Layer([
+                        new ClosedShapeItem(
+                            new Vector2(100, 100),
+                            Transform.createIdentity(),
+                            new PathControls(new ClosedPath([new ArcSegment(new Vector2(0, 200), new Vector2(0, 0), new Vector2(400, 100), 0)])),
+                            new ClosedShapeStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0),
+                                new SolidBrush(new RgbColor(0, 255, 0, 255))
+                            )
+                        )
+                    ],
+                    0)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = 'rgb(0,255,0)';
+                    ctx.translate(100, 100);
+                    ctx.beginPath();
+                    ctx.moveTo(0, 200);
+                    ctx.ellipse(0, 100, 400, 100, 0, Math.PI / 2, -Math.PI / 2, true);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'arc #2',
+                design: () => new Design([
+                    new Layer([
+                        new ClosedShapeItem(
+                            new Vector2(100, 100),
+                            Transform.createIdentity(),
+                            new PathControls(new ClosedPath([new ArcSegment(new Vector2(400, 0), new Vector2(400, 200), new Vector2(400, 100), 41)])),
+                            new ClosedShapeStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0),
+                                new SolidBrush(new RgbColor(0, 255, 0, 255))
+                            )
+                        )
+                    ],
+                    0)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(100, 100);
+                    ctx.fillStyle = 'rgb(0,255,0)';
+                    ctx.beginPath();
+                    ctx.moveTo(400, 0);
+
+                    ctx.ellipse(596.24074331, 252.7150957, 400, 100, 0.7155849933, -2.473092186, -4.238081529, true);
+                    ctx.closePath();
+                    ctx.fill();
 
                     return canvas;
                 }
@@ -408,7 +450,7 @@ suite('Render design', async () => {
                             new Vector2(400, 400),
                             Transform.createIdentity().scale(new Vector2(1.6, 1.3)).rotate(56),
                             new EllipseControls(
-                                new RectangleControls(new Vector2(-40, -75), new Vector2(40, 75))
+                                new Rectangle(new Vector2(-40, -75), new Vector2(40, 75))
                             ),
                             new ClosedShapeStyle(
                                 new Pen(new SolidBrush(new RgbColor(0, 255, 255, 255)), 4),
@@ -428,7 +470,11 @@ suite('Render design', async () => {
                     ctx.rotate(radians(56));
                     ctx.scale(1.6, 1.3);
                     
-                    ctx.ellipse(0, 0, 40, 75, 0, 0, radians(360));
+                    ctx.beginPath();
+                    ctx.moveTo(-40, 0);
+                    ctx.ellipse(0, 0, 40, 75, 0, Math.PI, 0, true);
+                    ctx.ellipse(0, 0, 40, 75, 0, 0, -Math.PI, true);
+                    ctx.closePath();
                     ctx.fill();
                     ctx.stroke();
 

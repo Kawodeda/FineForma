@@ -62,7 +62,7 @@ export class RenderingPathBuilder implements IPathBuilder {
     arcTo(xRadius: number, yRadius: number, xAxisRotation: number, end: Vector2): void {
         const arc = CenterParametrizedArc.fromEndpointArc(this.currentPoint, end, new Vector2(xRadius, yRadius), xAxisRotation);
         
-        this._renderingContext.ellipse(arc.center, arc.radius, arc.startAngle, arc.endAngle, arc.xAxisRotation);
+        this._renderingContext.ellipse(arc.center, arc.radius, arc.startAngle, arc.endAngle, arc.xAxisRotation, arc.anticlockwise);
         this._setStartedState(end);
     }
 

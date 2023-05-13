@@ -1,4 +1,4 @@
-import { isRealNumber, nearlyEquals } from './Utils';
+import { clamp, isRealNumber, nearlyEquals } from './Utils';
 
 export class Vector2 {
 
@@ -34,7 +34,9 @@ export class Vector2 {
     static angle(a: Vector2, b: Vector2): number {
         const sign = a.x * b.y - a.y * b.x >= 0 ? 1 : -1;
 
-        return sign * Math.acos(a.dot(b) / (a.magnitude * b.magnitude));
+        return sign * Math.acos(
+            clamp(a.dot(b) / (a.magnitude * b.magnitude), -1, 1)
+        );
     }
 
     add(other: Vector2): Vector2 {
@@ -50,7 +52,7 @@ export class Vector2 {
     }
 
     dot(other: Vector2): number {
-        return this.x * other.x + this.y + other.y;
+        return this.x * other.x + this.y * other.y;
     }
 
     equals(other: Vector2): boolean {

@@ -40,7 +40,7 @@ export class PathBuilderFake implements IRenderingPathBuilder {
             end.y);
     }
 
-    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number): void {
-        this._context.ellipse(center.x, center.y, radius.x, radius.y, xAxisRotation, startAngle, endAngle);
+    ellipse(center: Vector2, radius: Vector2, startAngle: number, endAngle: number, xAxisRotation: number, anticlockwise: boolean): void {
+        this._context.ellipse(center.x, center.y, radius.x, radius.y, xAxisRotation, startAngle, endAngle, anticlockwise);
     }
 }
