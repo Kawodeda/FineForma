@@ -1,4 +1,4 @@
-import { Bounds, Vector2, angleToPositive, nearlyEquals } from './../../Math';
+import { Bounds, Vector2, angleToPositive, nearlyEquals, nearlyInRange } from './../../Math';
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
 import { CenterParametrizedArc } from '../ArcParametrization';
@@ -8,6 +8,7 @@ export class ArcSegment extends Segment {
     private readonly _radius: Vector2;
     private readonly _xAxisRotation: number;
     private readonly _centerParametrized: CenterParametrizedArc;
+    private readonly _bounds: Bounds;
 
     constructor(start: Vector2, end: Vector2, radius: Vector2, xAxisRotation = 0) {
         super(start, end);
@@ -15,6 +16,7 @@ export class ArcSegment extends Segment {
         this._radius = radius;
         this._xAxisRotation = xAxisRotation;
         this._centerParametrized = CenterParametrizedArc.fromEndpointArc(this.start, this.end, this.radius, this.xAxisRotation);
+        this._bounds = Bounds.from(this._extremes);
     }
 
     get radius(): Vector2 {
@@ -26,19 +28,26 @@ export class ArcSegment extends Segment {
     }
 
     override get bounds(): Bounds {
-        const radius = this._centerParametrized.radius;
-        const phi = this._centerParametrized.xAxisRotation;
+        return this._bounds;
+    }
 
+    private get _extremes(): Vector2[] {
+        const radius = this._centerParametrized.radius;
+        if (nearlyEquals(radius.x, 0) || nearlyEquals(radius.y, 0)) {
+            return [this.start, this.end];
+        }
+
+        const phi = this._centerParametrized.xAxisRotation;
         const thetaX1 = -Math.atan(radius.y * Math.tan(phi) / radius.x);
         const thetaY1 = Math.atan(radius.y / (Math.tan(phi) * radius.x));
-        const thetaX2 = Math.PI - thetaX1;
+        const thetaX2 = Math.PI + thetaX1;
         const thetaY2 = Math.PI + thetaY1;
 
-        return Bounds.from([
+        return [
             ...this._pointsOfArc([thetaX1, thetaX2, thetaY1, thetaY2]),
             this.start,
             this.end
-        ]);
+        ];
     }
 
     override addToPath(pathBuilder: IPathBuilder): void {
@@ -52,6 +61,12 @@ export class ArcSegment extends Segment {
             && nearlyEquals(this.xAxisRotation, other.xAxisRotation);
     }
 
+    private _pointsOfArc(thetas: number[]): Vector2[] {
+        return thetas
+            .filter(theta => this._containsAngle(theta))
+            .map(theta => this._ellipseAt(theta));
+    }
+
     private _ellipseAt(theta: number): Vector2 {
         const center = this._centerParametrized.center;
         const radius = this._centerParametrized.radius;
@@ -63,17 +78,21 @@ export class ArcSegment extends Segment {
         );
     }
 
-    private _pointsOfArc(thetas: number[]): Vector2[] {
-        const startAngle = this._centerParametrized.endAngle < 0 
-            ? Math.PI * 2 + this._centerParametrized.endAngle
-            : this._centerParametrized.endAngle;
-        const endAngle = this._centerParametrized.endAngle < 0 
-            ? Math.PI * 2 + this._centerParametrized.startAngle
-            : this._centerParametrized.startAngle;
+    private _containsAngle(theta: number): boolean {
+        theta = angleToPositive(theta);
+        const startAngle = angleToPositive(this._centerParametrized.startAngle);
+        const endAngle = angleToPositive(this._centerParametrized.endAngle);
 
-        return thetas
-            .filter(theta => (theta > startAngle || nearlyEquals(theta, startAngle))
-                && (theta < endAngle || nearlyEquals(theta, endAngle)))
-            .map(theta => this._ellipseAt(theta));
+        if (this._centerParametrized.anticlockwise) {
+            if (endAngle < startAngle) {
+                return nearlyInRange(theta, endAngle, startAngle);
+            }
+
+            return nearlyInRange(theta, 0, startAngle) 
+                || nearlyInRange(theta, endAngle, Math.PI * 2);
+        }
+        else {
+            return nearlyInRange(theta, startAngle, endAngle);
+        }
     }
 }

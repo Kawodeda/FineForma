@@ -3,6 +3,13 @@ import { expect } from 'chai';
 
 import { ArcSegment, Bounds, LineSegment, Rectangle, Vector2 } from 'fine-forma-core';
 
+const assertBounds = (actual: Bounds, expected: Bounds): void => {
+    expect(actual.corner1.x).to.be.approximately(expected.corner1.x, 0.001);
+    expect(actual.corner1.y).to.be.approximately(expected.corner1.y, 0.001);
+    expect(actual.corner2.x).to.be.approximately(expected.corner2.x, 0.001);
+    expect(actual.corner2.y).to.be.approximately(expected.corner2.y, 0.001);
+};
+
 suite('Line segment bounds', () => {
     const testCases = [
         {
@@ -49,7 +56,7 @@ suite('Line segment bounds', () => {
 
     testCases.forEach(({ line, expected }, index) => {
         test(`line #${index + 1}`, () => {
-            expect(line.bounds.equals(expected)).to.be.true;
+            assertBounds(line.bounds, expected);
         });
     });
 });
@@ -61,7 +68,19 @@ suite('Arc segment bounds', () => {
             expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
         },
         {
+            arc: new ArcSegment(new Vector2(0, 0), new Vector2(40, 0), new Vector2(20, 20), 41),
+            expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
+        },
+        {
+            arc: new ArcSegment(new Vector2(0, 0), new Vector2(40, 0), new Vector2(20, 20), -56),
+            expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, 20), new Vector2(0, 20), new Vector2(20, 20), 0),
+            expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 20), new Vector2(0, 20), new Vector2(20, 20), 41),
             expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
         },
         {
@@ -69,23 +88,55 @@ suite('Arc segment bounds', () => {
             expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
         },
         {
+            arc: new ArcSegment(new Vector2(0, 20), new Vector2(0, 0), new Vector2(40, 10), 41),
+            expected: new Bounds(new Vector2(0, 0), new Vector2(11.268, 22.034))
+        },
+        {
+            arc: new ArcSegment(new Vector2(0, 20), new Vector2(0, 0), new Vector2(40, 10), -56),
+            expected: new Bounds(new Vector2(0, -0.2298), new Vector2(4.706, 20))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(40, 20), new Vector2(40, 10), 0),
             expected: new Bounds(new Vector2(0, 0), new Vector2(40, 20))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(40, 20), new Vector2(40, 10), 41),
+            expected: new Bounds(new Vector2(28.731, -2.034), new Vector2(40, 20))
         },
         {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(0, 0), new Vector2(20, 20), 0),
             expected: new Bounds(new Vector2(0, -20), new Vector2(40, 0))
         },
         {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(0, 0), new Vector2(20, 20), 41),
+            expected: new Bounds(new Vector2(0, -20), new Vector2(40, 0))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(-18, 38), new Vector2(30, 40), 0),
-            expected: new Bounds(new Vector2(-21.305, -24.0637), new Vector2(40, 38))
+            expected: new Bounds(new Vector2(-21.311, -24.082), new Vector2(40, 38))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(-18, 38), new Vector2(30, 40), 41),
+            expected: new Bounds(new Vector2(-18, -3.862), new Vector2(40, 38))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(-18, 38), new Vector2(30, 40), -56),
+            expected: new Bounds(new Vector2(-30.5173, -18.3687), new Vector2(40, 38))
         },
         {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(51, -29), new Vector2(30, 40), 0),
             expected: new Bounds(new Vector2(40, -29), new Vector2(51, 0))
         },
         {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(51, -29), new Vector2(30, 40), 41),
+            expected: new Bounds(new Vector2(40, -29), new Vector2(51.003, 0))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(15, 0), new Vector2(30, 0), 0),
+            expected: new Bounds(new Vector2(15, 0), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(15, 0), new Vector2(30, 0), 41),
             expected: new Bounds(new Vector2(15, 0), new Vector2(40, 0))
         },
         {
@@ -93,18 +144,54 @@ suite('Arc segment bounds', () => {
             expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
         },
         {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(30, 0), 41),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(0, 30), 0),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(0, 30), 41),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(0, 30), -56),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(0, 0), 0),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(20, -13), new Vector2(0, 0), 41),
+            expected: new Bounds(new Vector2(20, -13), new Vector2(40, 0))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, 0), new Vector2(40, -139), new Vector2(30, 50), 0),
             expected: new Bounds(new Vector2(40, -139), new Vector2(81.7, 0))
         },
         {
+            arc: new ArcSegment(new Vector2(40, 0), new Vector2(40, -139), new Vector2(30, 50), 41),
+            expected: new Bounds(new Vector2(40, -148.098), new Vector2(113.607, 0))
+        },
+        {
             arc: new ArcSegment(new Vector2(40, -139), new Vector2(40, 0), new Vector2(30, 50), 0),
             expected: new Bounds(new Vector2(-1.7, -139), new Vector2(40, 0))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, -139), new Vector2(40, 0), new Vector2(30, 50), 41),
+            expected: new Bounds(new Vector2(-33.608, -139), new Vector2(40, 9.097))
+        },
+        {
+            arc: new ArcSegment(new Vector2(40, -139), new Vector2(40, 0), new Vector2(30, 50), -56),
+            expected: new Bounds(new Vector2(-52.652, -147.033), new Vector2(40, 0))
         }
     ];
 
     testCases.forEach(({ arc, expected }, index) => {
         test(`arc #${index + 1}`, () => {
-            expect(arc.bounds.equals(expected)).to.be.true;
+            assertBounds(arc.bounds, expected);
         });
     });
 });

@@ -151,7 +151,7 @@ suite('Render design', async () => {
                 }
             },
             {
-                title: 'arc',
+                title: 'arc #1',
                 design: () => new Design([
                     new Layer([
                         new ClosedShapeItem(
@@ -174,6 +174,37 @@ suite('Render design', async () => {
                     ctx.beginPath();
                     ctx.moveTo(0, 200);
                     ctx.ellipse(0, 100, 400, 100, 0, Math.PI / 2, -Math.PI / 2, true);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    return canvas;
+                }
+            },
+            {
+                title: 'arc #2',
+                design: () => new Design([
+                    new Layer([
+                        new ClosedShapeItem(
+                            new Vector2(100, 100),
+                            Transform.createIdentity(),
+                            new PathControls(new ClosedPath([new ArcSegment(new Vector2(400, 0), new Vector2(400, 200), new Vector2(400, 100), 41)])),
+                            new ClosedShapeStyle(
+                                new Pen(new SolidBrush(new RgbColor(0, 0, 0, 0)), 0),
+                                new SolidBrush(new RgbColor(0, 255, 0, 255))
+                            )
+                        )
+                    ],
+                    0)
+                ]),
+                expected: () => {
+                    const canvas = createBlankCanvas();
+                    const ctx = canvas.getContext('2d');
+                    ctx.translate(100, 100);
+                    ctx.fillStyle = 'rgb(0,255,0)';
+                    ctx.beginPath();
+                    ctx.moveTo(400, 0);
+
+                    ctx.ellipse(596.24074331, 252.7150957, 400, 100, 0.7155849933, -2.473092186, -4.238081529, true);
                     ctx.closePath();
                     ctx.fill();
 

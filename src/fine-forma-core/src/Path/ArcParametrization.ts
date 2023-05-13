@@ -121,7 +121,7 @@ export class CenterParametrizedArc {
         }
         
         const a = new Vector2((x1p - centerP.x) / radius.x, (y1p - centerP.y) / radius.y);
-        const b = new Vector2((-x1p - centerP.x) * radius.x, (-y1p - centerP.y) / radius.y);
+        const b = new Vector2((-x1p - centerP.x) / radius.x, (-y1p - centerP.y) / radius.y);
         const deltaAngle0 = Vector2.angle(a, b) % (2 * Math.PI);
 
         return this._correctDeltaAngle(deltaAngle0, sweep);

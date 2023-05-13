@@ -7,6 +7,11 @@ export function nearlyEquals(a: number, b: number, epsilon = EPSILON): boolean {
     return difference < epsilon;
 }
 
+export function nearlyInRange(value: number, min: number, max: number): boolean {
+    return (value > min || nearlyEquals(value, min)) 
+        && (value < max || nearlyEquals(value, max));
+}
+
 export function isRealNumber(number: number): boolean {
     return Number.isFinite(number);
 }
@@ -17,4 +22,10 @@ export function degreeToRadians(angle: number): number {
 
 export function clamp(value: number, min: number, max: number): number {
     return Math.min(max, Math.max(value, min));
+}
+
+export function angleToPositive(signedAngle: number): number {
+    return signedAngle < 0
+        ? Math.PI * 2 + signedAngle
+        : signedAngle;
 }
