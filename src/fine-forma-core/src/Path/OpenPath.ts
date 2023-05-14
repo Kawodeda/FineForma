@@ -1,3 +1,4 @@
+import { Transform } from '../Transform';
 import { IPathBuilder } from './IPathBuilder';
 import { Path } from './Path';
 
@@ -8,5 +9,9 @@ export class OpenPath extends Path {
         for (const segment of this.segments) {
             segment.addToPath(pathBuilder);
         }
+    }
+
+    override transform(transform: Transform): OpenPath {
+        return new OpenPath(this._transform(transform));
     }
 }

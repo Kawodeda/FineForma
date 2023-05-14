@@ -1,5 +1,6 @@
 import { Bounds, Vector2 } from './../../Math';
 import { IPathBuilder } from '../IPathBuilder';
+import { Transform } from '../../Transform';
 
 export abstract class Segment {
 
@@ -27,4 +28,6 @@ export abstract class Segment {
     }
 
     abstract addToPath(pathBuilder: IPathBuilder): void;
+
+    abstract transform(transform: Transform): Segment;
 }

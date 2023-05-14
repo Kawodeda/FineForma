@@ -1,14 +1,20 @@
 import { Design, Item } from '../../../Design';
-import { Vector2 } from '../../../Math';
+import { Rectangle } from '../../../Math';
 import { ItemCommand } from './ItemCommand';
 
 export class ResizeItemCommand extends ItemCommand {
     
-    constructor(item: Item, size: Vector2) {
+    private readonly _rectangle: Rectangle;
+
+    constructor(item: Item, rectangle: Rectangle) {
         super(item);
+
+        this._rectangle = rectangle;
     }
 
     override execute(design: Design): Promise<Design> {
-        throw new Error('Method not implemented.');
+        return Promise.resolve(
+            design
+        );
     }
 }

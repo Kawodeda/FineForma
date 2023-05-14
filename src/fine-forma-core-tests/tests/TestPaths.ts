@@ -41,7 +41,7 @@ export function pathApple(): Path {
         new CubicBezierSegment(new Vector2(53.4, -87.9), new Vector2(70.9, -87.9), new Vector2(89.4, -78.4), new Vector2(102.6, -61.9)),
         new CubicBezierSegment(new Vector2(102.6, -61.9), new Vector2(59.3, -38.2), new Vector2(66.3, 23.5), new Vector2(110, 40)),
         new LineSegment(new Vector2(110, 40), new Vector2(110, 40)),
-        new CubicBezierSegment(new Vector2(110, 40), new Vector2(44.2, -117), new Vector2(50.6, -132.2), new Vector2(48.3, -147.8)),
+        new CubicBezierSegment(new Vector2(35.8, -106.2), new Vector2(44.2, -117), new Vector2(50.6, -132.2), new Vector2(48.3, -147.8)),
         new CubicBezierSegment(new Vector2(48.3, -147.8), new Vector2(34.6, -146.9), new Vector2(18.5, -138.1), new Vector2(9.2, -126.7)),
         new CubicBezierSegment(new Vector2(9.2, -126.7), new Vector2(0.7, -116.4), new Vector2(-6.3, -101.1), new Vector2(-3.6, -86.2)),
         new CubicBezierSegment(new Vector2(-3.6, -86.2), new Vector2(11.3, -85.7), new Vector2(26.8, -94.7), new Vector2(35.8, -106.2)),

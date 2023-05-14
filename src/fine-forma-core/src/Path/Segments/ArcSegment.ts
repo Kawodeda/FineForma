@@ -2,6 +2,7 @@ import { Bounds, Vector2, angleToPositive, nearlyEquals, nearlyInRange } from '.
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
 import { CenterParametrizedArc } from '../ArcParametrization';
+import { Transform } from '../../Transform';
 
 export class ArcSegment extends Segment {
 
@@ -53,6 +54,15 @@ export class ArcSegment extends Segment {
     override addToPath(pathBuilder: IPathBuilder): void {
         pathBuilder.moveTo(this.start);
         pathBuilder.arcTo(this._radius.x, this._radius.y, this._xAxisRotation, this.end);
+    }
+
+    override transform(transform: Transform): ArcSegment {
+        return new ArcSegment(
+            transform.applyTo(this.start),
+            transform.applyTo(this.end),
+            this.radius,
+            this.xAxisRotation
+        );
     }
 
     override equals(other: ArcSegment): boolean {

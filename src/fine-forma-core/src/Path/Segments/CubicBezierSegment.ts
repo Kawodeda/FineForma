@@ -1,6 +1,7 @@
 import { Bounds, Vector2, nearlyInRange, quadraticEquation } from './../../Math';
 import { Segment } from './Segment';
 import { IPathBuilder } from './../IPathBuilder';
+import { Transform } from '../../Transform';
 
 export class CubicBezierSegment extends Segment {
 
@@ -69,6 +70,15 @@ export class CubicBezierSegment extends Segment {
     override addToPath(pathBuilder: IPathBuilder): void {
         pathBuilder.moveTo(this.start);
         pathBuilder.cubicCurveTo(this._control1, this._control2, this.end);
+    }
+
+    override transform(transform: Transform): CubicBezierSegment {
+        return new CubicBezierSegment(
+            transform.applyTo(this.start),
+            transform.applyTo(this.control1),
+            transform.applyTo(this.control2),
+            transform.applyTo(this.end)
+        );
     }
 
     override equals(other: CubicBezierSegment): boolean {
