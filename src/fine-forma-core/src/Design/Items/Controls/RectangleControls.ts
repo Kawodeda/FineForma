@@ -1,6 +1,7 @@
 import { Rectangle, Vector2 } from '../../../Math';
 import { ClosedPath } from '../../../Path/ClosedPath';
 import { LineSegment } from '../../../Path/Segments/LineSegment';
+import { Transform } from '../../../Transform';
 import { IClosedShapeControls } from '../Interfaces/IClosedShapeControls';
 
 export class RectangleControls implements IClosedShapeControls {
@@ -32,6 +33,13 @@ export class RectangleControls implements IClosedShapeControls {
         const leftBottom = this.corner1.add(new Vector2(0, this.height));
 
         return this._createRectanglePath(this.corner1, rightTop, this.corner2, leftBottom);
+    }
+
+    transform(transform: Transform): RectangleControls {
+        return new RectangleControls(
+            transform.applyTo(this.corner1),
+            transform.applyTo(this.corner2)
+        );
     }
 
     private _createRectanglePath(leftTop: Vector2, rightTop: Vector2, rightBottom: Vector2, leftBottom: Vector2): ClosedPath {

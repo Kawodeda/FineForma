@@ -67,4 +67,14 @@ export class ImageItem extends Item {
             this.storageId
         );
     }
+
+    override transformControls(transform: Transform): ImageItem {
+        return new ImageItem(
+            this.position,
+            transform,
+            this._controls.transform(transform),
+            this._style,
+            this.storageId
+        );
+    }
 }

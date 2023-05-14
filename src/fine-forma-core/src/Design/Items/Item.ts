@@ -35,4 +35,6 @@ export abstract class Item {
     abstract setPosition(position: Vector2): Item;
 
     abstract setTransform(transform: Transform): Item;
+
+    abstract transformControls(transform: Transform): Item;
 }

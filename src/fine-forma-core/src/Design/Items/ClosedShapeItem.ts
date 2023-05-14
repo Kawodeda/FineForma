@@ -45,4 +45,13 @@ export class ClosedShapeItem extends Item {
             this._style
         );
     }
+
+    override transformControls(transform: Transform): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            this.transform,
+            this._controls.transform(transform),
+            this._style
+        );
+    }
 }
