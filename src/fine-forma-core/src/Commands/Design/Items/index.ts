@@ -4,3 +4,5 @@ export * from './AddItemToLayerAtCommand';
 export * from './RemoveItemCommand';
 export * from './MoveItemCommand';
 export * from './RotateItemCommand';
+export * from './ResizeItemCommand';
+export * from './SetStrokeStyleCommand';

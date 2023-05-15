@@ -22,6 +22,14 @@ export class ImageStyle implements IItemStyle {
         this._closedShapeStyle.applyTo(context);
     }
 
+    setBorder(border: Pen): ImageStyle {
+        return new ImageStyle(border, this.fill);
+    }
+
+    setFill(fill: Brush): ImageStyle {
+        return new ImageStyle(this.border, fill);
+    }
+
     equals(other: ImageStyle): boolean {
         return this.border.equals(other.border)
             && this.fill.equals(other.fill);

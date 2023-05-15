@@ -5,6 +5,7 @@ import { ImageStyle } from './Style/ImageStyle';
 import { Transform } from '../../Transform';
 import { IShapeControls } from './Interfaces/IShapeControls';
 import { IItemStyle } from './Interfaces/IItemStyle';
+import { Pen } from '../../Style';
 
 export class ImageItem extends Item {
 
@@ -74,6 +75,16 @@ export class ImageItem extends Item {
             this.transform,
             this._controls.transform(transform),
             this._style,
+            this.storageId
+        );
+    }
+
+    setStrokeStyle(stroke: Pen): ImageItem {
+        return new ImageItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setBorder(stroke),
             this.storageId
         );
     }

@@ -18,7 +18,8 @@ import {
     Viewport, 
     ViewportConstraints,
     createImage,
-    degreeToRadians
+    degreeToRadians,
+    ResizeItemCommand
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
@@ -27,7 +28,6 @@ import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
 import { clearCanvas, delay, loadImage } from '../Utils';
 import { pathApple } from '../TestPaths';
-import { ResizeItemCommand } from '../../../fine-forma-core/src/Commands/Design/Items/ResizeItemCommand';
 
 const expect = chai.expect;
 

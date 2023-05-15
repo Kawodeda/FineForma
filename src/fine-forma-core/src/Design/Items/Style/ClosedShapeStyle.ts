@@ -26,6 +26,14 @@ export class ClosedShapeStyle implements IItemStyle {
         context.setFillStyle(this.fill);
     }
 
+    setStroke(stroke: Pen): ClosedShapeStyle {
+        return new ClosedShapeStyle(stroke, this.fill);
+    }
+
+    setFill(fill: Brush): ClosedShapeStyle {
+        return new ClosedShapeStyle(this.stroke, fill);
+    }
+
     equals(other: ClosedShapeStyle): boolean {
         return this.stroke.equals(other.stroke)
             && this.fill.equals(other.fill);

@@ -1,4 +1,5 @@
 import { Vector2 } from '../../Math';
+import { Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { IItemStyle } from './Interfaces/IItemStyle';
 import { IOpenShapeControls } from './Interfaces/IOpenShapeControls';
@@ -52,6 +53,15 @@ export class OpenShapeItem extends Item {
             this.transform,
             this._controls.transform(transform),
             this._style
+        );
+    }
+
+    setStrokeStyle(stroke: Pen): OpenShapeItem {
+        return new OpenShapeItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setStroke(stroke)
         );
     }
 }
