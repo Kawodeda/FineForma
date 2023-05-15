@@ -8,3 +8,4 @@ export * from './src/Storage';
 export * from './src/Viewport';
 export * from './src/Viewer';
 export * from './src/Commands';
+export * from './src/Selection';
