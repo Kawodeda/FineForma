@@ -3,8 +3,8 @@ import { Buffer } from 'node:buffer';
 
 import { IColorPreview, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
 
-import { PathBuilderFake } from '../PathBuilderFake';
-import { colorPreviewToHtml } from './Utils';
+import { PathBuilderFake } from './PathBuilderFake';
+import { colorPreviewToHtml } from './Rendering/Utils';
 
 export class RenderingContextFake implements IRenderingContext {
 

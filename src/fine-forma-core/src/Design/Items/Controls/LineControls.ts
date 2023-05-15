@@ -1,6 +1,7 @@
 import { Vector2 } from '../../../Math';
 import { OpenPath } from '../../../Path/OpenPath';
 import { LineSegment } from '../../../Path/Segments/LineSegment';
+import { Transform } from '../../../Transform';
 import { IOpenShapeControls } from '../Interfaces/IOpenShapeControls';
 
 export class LineControls implements IOpenShapeControls {
@@ -25,5 +26,12 @@ export class LineControls implements IOpenShapeControls {
         return new OpenPath([ 
             new LineSegment(this._start, this._end)
         ]);
+    }
+
+    transform(transform: Transform): LineControls {
+        return new LineControls(
+            transform.applyTo(this.start),
+            transform.applyTo(this.end)
+        );
     }
 }

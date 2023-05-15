@@ -1,7 +1,7 @@
 import { Vector2 } from '../../Math';
+import { Brush, Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { IClosedShapeControls } from './Interfaces/IClosedShapeControls';
-import { IItemStyle } from './Interfaces/IItemStyle';
 import { IShapeControls } from './Interfaces/IShapeControls';
 import { Item } from './Item';
 import { ClosedShapeStyle } from './Style/ClosedShapeStyle';
@@ -24,7 +24,52 @@ export class ClosedShapeItem extends Item {
         };
     }
 
-    override get style(): IItemStyle {
+    override get style(): ClosedShapeStyle {
         return this._style;
+    }
+
+    override setPosition(position: Vector2): ClosedShapeItem {
+        return new ClosedShapeItem(
+            position,
+            this.transform,
+            this._controls,
+            this._style
+        );
+    }
+
+    override setTransform(transform: Transform): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            transform,
+            this._controls,
+            this._style
+        );
+    }
+
+    override transformControls(transform: Transform): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            this.transform,
+            this._controls.transform(transform),
+            this._style
+        );
+    }
+
+    setStrokeStyle(stroke: Pen): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setStroke(stroke)
+        );
+    }
+
+    setFillStyle(fill: Brush): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setFill(fill)
+        );
     }
 }

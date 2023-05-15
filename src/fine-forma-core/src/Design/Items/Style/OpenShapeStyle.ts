@@ -20,6 +20,10 @@ export class OpenShapeStyle implements IItemStyle {
         context.setFillStyle(Brushes.transparent());
     }
 
+    setStroke(stroke: Pen): OpenShapeStyle {
+        return new OpenShapeStyle(stroke);
+    }
+
     equals(other: OpenShapeStyle): boolean {
         return this.stroke.equals(other.stroke);
     }

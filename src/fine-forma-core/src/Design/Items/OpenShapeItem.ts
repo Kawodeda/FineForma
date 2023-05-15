@@ -1,4 +1,5 @@
 import { Vector2 } from '../../Math';
+import { Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { IItemStyle } from './Interfaces/IItemStyle';
 import { IOpenShapeControls } from './Interfaces/IOpenShapeControls';
@@ -26,5 +27,41 @@ export class OpenShapeItem extends Item {
 
     override get style(): IItemStyle {
         return this._style;
+    }
+
+    override setPosition(position: Vector2): Item {
+        return new OpenShapeItem(
+            position,
+            this.transform,
+            this._controls,
+            this._style
+        );
+    }
+
+    override setTransform(transform: Transform): Item {
+        return new OpenShapeItem(
+            this.position,
+            transform,
+            this._controls,
+            this._style
+        );
+    }
+
+    override transformControls(transform: Transform): OpenShapeItem {
+        return new OpenShapeItem(
+            this.position,
+            this.transform,
+            this._controls.transform(transform),
+            this._style
+        );
+    }
+
+    setStrokeStyle(stroke: Pen): OpenShapeItem {
+        return new OpenShapeItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setStroke(stroke)
+        );
     }
 }

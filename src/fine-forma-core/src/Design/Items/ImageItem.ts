@@ -5,6 +5,7 @@ import { ImageStyle } from './Style/ImageStyle';
 import { Transform } from '../../Transform';
 import { IShapeControls } from './Interfaces/IShapeControls';
 import { IItemStyle } from './Interfaces/IItemStyle';
+import { Brush, Pen } from '../../Style';
 
 export class ImageItem extends Item {
 
@@ -46,5 +47,55 @@ export class ImageItem extends Item {
     override equals(other: ImageItem): boolean {
         return super.equals(other)
             && this.storageId === other.storageId;
+    }
+
+    override setPosition(position: Vector2): Item {
+        return new ImageItem(
+            position,
+            this.transform,
+            this._controls,
+            this._style,
+            this.storageId
+        );
+    }
+
+    override setTransform(transform: Transform): Item {
+        return new ImageItem(
+            this.position,
+            transform,
+            this._controls,
+            this._style,
+            this.storageId
+        );
+    }
+
+    override transformControls(transform: Transform): ImageItem {
+        return new ImageItem(
+            this.position,
+            this.transform,
+            this._controls.transform(transform),
+            this._style,
+            this.storageId
+        );
+    }
+
+    setStrokeStyle(stroke: Pen): ImageItem {
+        return new ImageItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setBorder(stroke),
+            this.storageId
+        );
+    }
+
+    setFillStyle(fill: Brush): ImageItem {
+        return new ImageItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setFill(fill),
+            this.storageId
+        );
     }
 }

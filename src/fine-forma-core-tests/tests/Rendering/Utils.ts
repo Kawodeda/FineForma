@@ -13,17 +13,6 @@ export function colorPreviewToHtml(preview: IColorPreview): string {
     }
 }
 
-export function loadImage(name: string): Promise<Image> {
-    return new Promise<Image>((resolve, reject) => {
-        const image = new Image();
-        image.onload = () => {
-            resolve(image);
-        };
-        image.onerror = () => reject();
-        image.src = `${TEST_RESOURCES_PATH}\\${name}`;
-    });
-}
-
 export function setupImageContentProvider(imageStorage: IImageContentStorage, images: Map<string, string>): Promise<IImageContentProvider> {
     return new Promise<IImageContentProvider>(resolve => {
         const imageContentProvider = new ImageContentProvider(imageStorage);

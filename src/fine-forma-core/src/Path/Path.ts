@@ -2,6 +2,7 @@ import { Segment } from './Segments/Segment';
 import { IPathBuilder } from './IPathBuilder';
 import { arrayEquals } from '../ArrayUtils';
 import { Bounds } from '../Math';
+import { Transform } from '../Transform';
 
 export abstract class Path {
 
@@ -25,5 +26,11 @@ export abstract class Path {
         return arrayEquals(this.segments, other.segments, (a, b) => a.equals(b));
     }
 
+    protected _transform(transform: Transform): Segment[] {
+        return this._segments.map(segment => segment.transform(transform));
+    }
+
     abstract build(pathBuilder: IPathBuilder): void;
+
+    abstract transform(transform: Transform): Path;
 }

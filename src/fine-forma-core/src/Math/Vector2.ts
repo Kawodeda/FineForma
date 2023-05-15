@@ -43,6 +43,12 @@ export class Vector2 {
         return new Vector2(this.x + other.x, this.y + other.y);
     }
 
+    subtract(other: Vector2): Vector2 {
+        return other
+            .negate()
+            .add(this);
+    }
+
     scale(factor: number): Vector2 {
         return new Vector2(this.x * factor, this.y * factor);
     }
