@@ -1,5 +1,4 @@
-import { ICommand, IDesignCommand, IExecutionContext, IViewportCommand } from './Interfaces';
-import { ISelectionCommand } from './Interfaces/ISelectionCommand';
+import { ICommand, IDesignCommand, IExecutionContext, IViewportCommand, ISelectionCommand } from './Interfaces';
 
 export class Command implements ICommand {
     
