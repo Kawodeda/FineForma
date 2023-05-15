@@ -1,10 +1,10 @@
 import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design } from './Design';
-import { IRenderer, IDesignContext, IViewportContext, IRendererFactory } from './Rendering';
+import { IRenderer, IDesignContext, IViewportContext, IRendererFactory, ISelectionContext } from './Rendering';
 import { Selection } from './Selection';
 import { Viewport } from './Viewport';
 
-export class Viewer implements IDesignContext, IViewportContext, IExecutionContext {
+export class Viewer implements IDesignContext, IViewportContext, ISelectionContext, IExecutionContext {
     
     private readonly _renderer: IRenderer;
 
@@ -15,7 +15,7 @@ export class Viewer implements IDesignContext, IViewportContext, IExecutionConte
     constructor(design: Design, viewport: Viewport, rendererFactory: IRendererFactory) {
         this._design = design;
         this._viewport = viewport;
-        this._renderer = rendererFactory.create(this, this);
+        this._renderer = rendererFactory.create(this, this, this);
         this._selection = Selection.empty;
     }
 
