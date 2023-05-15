@@ -21,6 +21,14 @@ export class Bounds {
         return this._rectangle.corner2;
     }
 
+    get width(): number {
+        return this._rectangle.width;
+    }
+
+    get height(): number {
+        return this._rectangle.height;
+    }
+
     static from(points: readonly Vector2[]): Bounds {
         if (points.length === 0) {
             throw new Error('Could not create Bounds for empty point list');

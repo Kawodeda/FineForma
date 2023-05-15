@@ -71,7 +71,7 @@ export class ImageItem extends Item {
     override transformControls(transform: Transform): ImageItem {
         return new ImageItem(
             this.position,
-            transform,
+            this.transform,
             this._controls.transform(transform),
             this._style,
             this.storageId

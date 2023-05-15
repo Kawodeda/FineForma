@@ -18,6 +18,12 @@ export class Rectangle {
         return this._corner2;
     }
 
+    get center(): Vector2 {
+        return this.corner1
+            .add(this.corner2)
+            .scale(1 / 2);
+    }
+
     get width(): number {
         return this.corner2.x - this.corner1.x;
     }

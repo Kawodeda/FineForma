@@ -124,6 +124,18 @@ suite('UseCase: resize item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot6(canvas);
+
+        await viewer.execute(
+            new Command([
+                new ResizeItemCommand(
+                    viewer.design.layers.get(1).items.get(0), 
+                    new Rectangle(new Vector2(-80, -80), new Vector2(-160, 80)))
+            ])
+        );
+
+        clearCanvas(canvas);
+        viewer.renderer.render(context);
+        await assertSnapshot7(canvas);
     }).timeout(1000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
@@ -281,25 +293,25 @@ suite('UseCase: resize item', () => {
         ctx.lineWidth = 2;
         ctx.fillStyle = 'red';
         ctx.beginPath();
-        ctx.moveTo(220, 80);
-        ctx.bezierCurveTo(208, 106.6, 202.2, 118.6, 186.8, 142);
-        ctx.bezierCurveTo(165.2, 174.8, 134.8, 215.8, 97, 216.2);
-        ctx.bezierCurveTo(63.4, 216.6, 54.8, 194.4, 9.4, 194.6);
-        ctx.bezierCurveTo(-36, 194.8, -45.6, 216.6, -79.2, 216.2);
-        ctx.bezierCurveTo(-117, 215.8, -145.8, 178.8, -167.4, 146);
-        ctx.bezierCurveTo(-227.8, 54, -234.2, -53.8, -196.8, -111.2);
-        ctx.bezierCurveTo(-170.4, -152, -128.6, -175.8, -89.2, -175.8);
-        ctx.bezierCurveTo(-49.2, -175.8, -24.2, -153.8, 9, -153.8);
-        ctx.bezierCurveTo(41, -153.8, 60.6, -175.8, 106.8, -175.8);
-        ctx.bezierCurveTo(141.8, -175.8, 178.8, -156.8, 205.2, -123.8);
-        ctx.bezierCurveTo(118.6, -76.4, 132.6, 47, 220, 80);
-        ctx.lineTo(220, 80);
-        ctx.moveTo(71.6, -212.4);
-        ctx.bezierCurveTo(88.4, -234, 101.2, -264.4, 96.6, -295.6);
-        ctx.bezierCurveTo(69.2, -293.8, 37, -276.2, 18.4, -253.4);
-        ctx.bezierCurveTo(1.4, -232.8, -12.6, -202.2, -7.2, -172.4);
-        ctx.bezierCurveTo(22.6, -171.4, 53.6, -189.4, 71.6, -212.4);
-        ctx.lineTo(71.6, -212.4);
+        ctx.moveTo(220, 79.998944);
+        ctx.bezierCurveTo(208.000041, 106.598870, 202.200061, 118.598836, 186.800113, 141.998771);
+        ctx.bezierCurveTo(165.200186, 174.798678, 134.800290, 215.798563, 97.000419, 216.198562);
+        ctx.bezierCurveTo(63.400533, 216.598561, 54.800562, 194.398623, 9.400717, 194.598623);
+        ctx.bezierCurveTo(-35.999129, 194.798622, -45.599096, 216.598561, -79.198982, 216.198562);
+        ctx.bezierCurveTo(-116.998853, 215.798563, -145.798755, 178.798667, -167.398682, 145.998759);
+        ctx.bezierCurveTo(-227.798476, 53.999018, -234.198454, -53.800679, -196.798582, -111.200518);
+        ctx.bezierCurveTo(-170.398672, -152.000403, -128.598814, -175.800337, -89.198948, -175.800337);
+        ctx.bezierCurveTo(-49.199084, -175.800337, -24.199169, -153.800398, 9.000718, -153.800398);
+        ctx.bezierCurveTo(41.000609, -153.800398, 60.600542, -175.800337, 106.800385, -175.800337);
+        ctx.bezierCurveTo(141.800266, -175.800337, 178.800140, -156.800390, 205.200050, -123.800483);
+        ctx.bezierCurveTo(118.600345, -76.400616, 132.600297, 46.999037, 220.000000, 79.998945);
+        ctx.lineTo(220.000000, 79.998945);
+        ctx.moveTo(71.600504, -212.400233);
+        ctx.bezierCurveTo(88.400448, -234.000173, 101.200404, -264.400088, 96.600420, -295.600000);
+        ctx.bezierCurveTo(69.200513, -293.800005, 37.000623, -276.200055, 18.400686, -253.400119);
+        ctx.bezierCurveTo(1.400744, -232.800176, -12.599209, -202.200262, -7.199227, -172.400346);
+        ctx.bezierCurveTo(22.600672, -171.400349, 53.600566, -189.400298, 71.600505, -212.400234);
+        ctx.lineTo(71.600505, -212.400234);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -332,25 +344,25 @@ suite('UseCase: resize item', () => {
         ctx.lineWidth = 2;
         ctx.fillStyle = 'red';
         ctx.beginPath();
-        ctx.moveTo(220, 80);
-        ctx.bezierCurveTo(208, 106.6, 202.2, 118.6, 186.8, 142);
-        ctx.bezierCurveTo(165.2, 174.8, 134.8, 215.8, 97, 216.2);
-        ctx.bezierCurveTo(63.4, 216.6, 54.8, 194.4, 9.4, 194.6);
-        ctx.bezierCurveTo(-36, 194.8, -45.6, 216.6, -79.2, 216.2);
-        ctx.bezierCurveTo(-117, 215.8, -145.8, 178.8, -167.4, 146);
-        ctx.bezierCurveTo(-227.8, 54, -234.2, -53.8, -196.8, -111.2);
-        ctx.bezierCurveTo(-170.4, -152, -128.6, -175.8, -89.2, -175.8);
-        ctx.bezierCurveTo(-49.2, -175.8, -24.2, -153.8, 9, -153.8);
-        ctx.bezierCurveTo(41, -153.8, 60.6, -175.8, 106.8, -175.8);
-        ctx.bezierCurveTo(141.8, -175.8, 178.8, -156.8, 205.2, -123.8);
-        ctx.bezierCurveTo(118.6, -76.4, 132.6, 47, 220, 80);
-        ctx.lineTo(220, 80);
-        ctx.moveTo(71.6, -212.4);
-        ctx.bezierCurveTo(88.4, -234, 101.2, -264.4, 96.6, -295.6);
-        ctx.bezierCurveTo(69.2, -293.8, 37, -276.2, 18.4, -253.4);
-        ctx.bezierCurveTo(1.4, -232.8, -12.6, -202.2, -7.2, -172.4);
-        ctx.bezierCurveTo(22.6, -171.4, 53.6, -189.4, 71.6, -212.4);
-        ctx.lineTo(71.6, -212.4);
+        ctx.moveTo(220, 79.998944);
+        ctx.bezierCurveTo(208.000041, 106.598870, 202.200061, 118.598836, 186.800113, 141.998771);
+        ctx.bezierCurveTo(165.200186, 174.798678, 134.800290, 215.798563, 97.000419, 216.198562);
+        ctx.bezierCurveTo(63.400533, 216.598561, 54.800562, 194.398623, 9.400717, 194.598623);
+        ctx.bezierCurveTo(-35.999129, 194.798622, -45.599096, 216.598561, -79.198982, 216.198562);
+        ctx.bezierCurveTo(-116.998853, 215.798563, -145.798755, 178.798667, -167.398682, 145.998759);
+        ctx.bezierCurveTo(-227.798476, 53.999018, -234.198454, -53.800679, -196.798582, -111.200518);
+        ctx.bezierCurveTo(-170.398672, -152.000403, -128.598814, -175.800337, -89.198948, -175.800337);
+        ctx.bezierCurveTo(-49.199084, -175.800337, -24.199169, -153.800398, 9.000718, -153.800398);
+        ctx.bezierCurveTo(41.000609, -153.800398, 60.600542, -175.800337, 106.800385, -175.800337);
+        ctx.bezierCurveTo(141.800266, -175.800337, 178.800140, -156.800390, 205.200050, -123.800483);
+        ctx.bezierCurveTo(118.600345, -76.400616, 132.600297, 46.999037, 220.000000, 79.998945);
+        ctx.lineTo(220.000000, 79.998945);
+        ctx.moveTo(71.600504, -212.400233);
+        ctx.bezierCurveTo(88.400448, -234.000173, 101.200404, -264.400088, 96.600420, -295.600000);
+        ctx.bezierCurveTo(69.200513, -293.800005, 37.000623, -276.200055, 18.400686, -253.400119);
+        ctx.bezierCurveTo(1.400744, -232.800176, -12.599209, -202.200262, -7.199227, -172.400346);
+        ctx.bezierCurveTo(22.600672, -171.400349, 53.600566, -189.400298, 71.600505, -212.400234);
+        ctx.lineTo(71.600505, -212.400234);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -383,25 +395,25 @@ suite('UseCase: resize item', () => {
         ctx.lineWidth = 2;
         ctx.fillStyle = 'red';
         ctx.beginPath();
-        ctx.moveTo(220, 80);
-        ctx.bezierCurveTo(208, 106.6, 202.2, 118.6, 186.8, 142);
-        ctx.bezierCurveTo(165.2, 174.8, 134.8, 215.8, 97, 216.2);
-        ctx.bezierCurveTo(63.4, 216.6, 54.8, 194.4, 9.4, 194.6);
-        ctx.bezierCurveTo(-36, 194.8, -45.6, 216.6, -79.2, 216.2);
-        ctx.bezierCurveTo(-117, 215.8, -145.8, 178.8, -167.4, 146);
-        ctx.bezierCurveTo(-227.8, 54, -234.2, -53.8, -196.8, -111.2);
-        ctx.bezierCurveTo(-170.4, -152, -128.6, -175.8, -89.2, -175.8);
-        ctx.bezierCurveTo(-49.2, -175.8, -24.2, -153.8, 9, -153.8);
-        ctx.bezierCurveTo(41, -153.8, 60.6, -175.8, 106.8, -175.8);
-        ctx.bezierCurveTo(141.8, -175.8, 178.8, -156.8, 205.2, -123.8);
-        ctx.bezierCurveTo(118.6, -76.4, 132.6, 47, 220, 80);
-        ctx.lineTo(220, 80);
-        ctx.moveTo(71.6, -212.4);
-        ctx.bezierCurveTo(88.4, -234, 101.2, -264.4, 96.6, -295.6);
-        ctx.bezierCurveTo(69.2, -293.8, 37, -276.2, 18.4, -253.4);
-        ctx.bezierCurveTo(1.4, -232.8, -12.6, -202.2, -7.2, -172.4);
-        ctx.bezierCurveTo(22.6, -171.4, 53.6, -189.4, 71.6, -212.4);
-        ctx.lineTo(71.6, -212.4);
+        ctx.moveTo(220, 79.998944);
+        ctx.bezierCurveTo(208.000041, 106.598870, 202.200061, 118.598836, 186.800113, 141.998771);
+        ctx.bezierCurveTo(165.200186, 174.798678, 134.800290, 215.798563, 97.000419, 216.198562);
+        ctx.bezierCurveTo(63.400533, 216.598561, 54.800562, 194.398623, 9.400717, 194.598623);
+        ctx.bezierCurveTo(-35.999129, 194.798622, -45.599096, 216.598561, -79.198982, 216.198562);
+        ctx.bezierCurveTo(-116.998853, 215.798563, -145.798755, 178.798667, -167.398682, 145.998759);
+        ctx.bezierCurveTo(-227.798476, 53.999018, -234.198454, -53.800679, -196.798582, -111.200518);
+        ctx.bezierCurveTo(-170.398672, -152.000403, -128.598814, -175.800337, -89.198948, -175.800337);
+        ctx.bezierCurveTo(-49.199084, -175.800337, -24.199169, -153.800398, 9.000718, -153.800398);
+        ctx.bezierCurveTo(41.000609, -153.800398, 60.600542, -175.800337, 106.800385, -175.800337);
+        ctx.bezierCurveTo(141.800266, -175.800337, 178.800140, -156.800390, 205.200050, -123.800483);
+        ctx.bezierCurveTo(118.600345, -76.400616, 132.600297, 46.999037, 220.000000, 79.998945);
+        ctx.lineTo(220.000000, 79.998945);
+        ctx.moveTo(71.600504, -212.400233);
+        ctx.bezierCurveTo(88.400448, -234.000173, 101.200404, -264.400088, 96.600420, -295.600000);
+        ctx.bezierCurveTo(69.200513, -293.800005, 37.000623, -276.200055, 18.400686, -253.400119);
+        ctx.bezierCurveTo(1.400744, -232.800176, -12.599209, -202.200262, -7.199227, -172.400346);
+        ctx.bezierCurveTo(22.600672, -171.400349, 53.600566, -189.400298, 71.600505, -212.400234);
+        ctx.lineTo(71.600505, -212.400234);
         ctx.closePath();
         ctx.fill();
         ctx.stroke();
@@ -410,12 +422,63 @@ suite('UseCase: resize item', () => {
         ctx.save();
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
-        ctx.drawImage(await loadImage('sima.png'), -120, -40, 120, 40);
+        ctx.drawImage(await loadImage('sima.png'), -120, -40, 240, 80);
         ctx.restore();
 
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 240, 160);
+        ctx.restore();
+
+        expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
+    }
+
+    const assertSnapshot7 = async (actual: Canvas) => {
+        const expected = createBlankCanvas();
+        const ctx = expected.getContext('2d');
+
+        ctx.translate(100, 100);
+        ctx.scale(0.9, 0.9);
+
+        ctx.save();
+        ctx.translate(250, 250);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.fillStyle = 'red';
+        ctx.beginPath();
+        ctx.moveTo(220, 79.998944);
+        ctx.bezierCurveTo(208.000041, 106.598870, 202.200061, 118.598836, 186.800113, 141.998771);
+        ctx.bezierCurveTo(165.200186, 174.798678, 134.800290, 215.798563, 97.000419, 216.198562);
+        ctx.bezierCurveTo(63.400533, 216.598561, 54.800562, 194.398623, 9.400717, 194.598623);
+        ctx.bezierCurveTo(-35.999129, 194.798622, -45.599096, 216.598561, -79.198982, 216.198562);
+        ctx.bezierCurveTo(-116.998853, 215.798563, -145.798755, 178.798667, -167.398682, 145.998759);
+        ctx.bezierCurveTo(-227.798476, 53.999018, -234.198454, -53.800679, -196.798582, -111.200518);
+        ctx.bezierCurveTo(-170.398672, -152.000403, -128.598814, -175.800337, -89.198948, -175.800337);
+        ctx.bezierCurveTo(-49.199084, -175.800337, -24.199169, -153.800398, 9.000718, -153.800398);
+        ctx.bezierCurveTo(41.000609, -153.800398, 60.600542, -175.800337, 106.800385, -175.800337);
+        ctx.bezierCurveTo(141.800266, -175.800337, 178.800140, -156.800390, 205.200050, -123.800483);
+        ctx.bezierCurveTo(118.600345, -76.400616, 132.600297, 46.999037, 220.000000, 79.998945);
+        ctx.lineTo(220.000000, 79.998945);
+        ctx.moveTo(71.600504, -212.400233);
+        ctx.bezierCurveTo(88.400448, -234.000173, 101.200404, -264.400088, 96.600420, -295.600000);
+        ctx.bezierCurveTo(69.200513, -293.800005, 37.000623, -276.200055, 18.400686, -253.400119);
+        ctx.bezierCurveTo(1.400744, -232.800176, -12.599209, -202.200262, -7.199227, -172.400346);
+        ctx.bezierCurveTo(22.600672, -171.400349, 53.600566, -189.400298, 71.600505, -212.400234);
+        ctx.lineTo(71.600505, -212.400234);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(500, 400);
+        ctx.rotate(degreeToRadians(-32));
+        ctx.drawImage(await loadImage('sima.png'), -120, -40, 240, 80);
+        ctx.restore();
+
+        ctx.translate(100, 300);
+        ctx.rotate(degreeToRadians(32));
+        ctx.drawImage(await loadImage('masyunya2.png'), -160, -80, 80, 160);
         ctx.restore();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
