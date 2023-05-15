@@ -1,5 +1,5 @@
 import { Vector2 } from '../../Math';
-import { Pen } from '../../Style';
+import { Brush, Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { IClosedShapeControls } from './Interfaces/IClosedShapeControls';
 import { IShapeControls } from './Interfaces/IShapeControls';
@@ -61,6 +61,15 @@ export class ClosedShapeItem extends Item {
             this.transform,
             this._controls,
             this._style.setStroke(stroke)
+        );
+    }
+
+    setFillStyle(fill: Brush): ClosedShapeItem {
+        return new ClosedShapeItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setFill(fill)
         );
     }
 }

@@ -5,7 +5,7 @@ import { ImageStyle } from './Style/ImageStyle';
 import { Transform } from '../../Transform';
 import { IShapeControls } from './Interfaces/IShapeControls';
 import { IItemStyle } from './Interfaces/IItemStyle';
-import { Pen } from '../../Style';
+import { Brush, Pen } from '../../Style';
 
 export class ImageItem extends Item {
 
@@ -85,6 +85,16 @@ export class ImageItem extends Item {
             this.transform,
             this._controls,
             this._style.setBorder(stroke),
+            this.storageId
+        );
+    }
+
+    setFillStyle(fill: Brush): ImageItem {
+        return new ImageItem(
+            this.position,
+            this.transform,
+            this._controls,
+            this._style.setFill(fill),
             this.storageId
         );
     }
