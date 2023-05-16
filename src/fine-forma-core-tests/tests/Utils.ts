@@ -1,7 +1,18 @@
 import { expect } from 'chai';
 import { Canvas, Image } from 'canvas';
 
-import { DesignRenderer, IImageContentStorage, IRendererFactory, ImageContentProvider, ItemRendererFactory, LayerRenderer, RendererFactory, Viewer } from 'fine-forma-core';
+import { 
+    DesignRenderer, 
+    IImageContentStorage, 
+    IRendererFactory, 
+    ImageContentProvider, 
+    ItemRendererFactory, 
+    LayerRenderer, 
+    Pen, 
+    RendererFactory, 
+    UiRenderer, 
+    Viewer
+} from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from './Settings';
 
@@ -18,7 +29,8 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
         new DesignRenderer(
             new LayerRenderer(
                 new ItemRendererFactory(
-                    new ImageContentProvider(imageStorageDummy())))));
+                    new ImageContentProvider(imageStorageDummy())))),
+        new UiRenderer({ stroke: Pen.empty }));
 }
 
 export function assertViewer(actual: Viewer, expected: Viewer): void {

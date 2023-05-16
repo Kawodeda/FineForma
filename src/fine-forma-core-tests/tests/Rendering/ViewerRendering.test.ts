@@ -27,7 +27,8 @@ import {
     CubicBezierSegment,
     OpenPath,
     QuadraticBezierSegment,
-    degreeToRadians
+    degreeToRadians,
+    UiRenderer
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from '../Settings';
@@ -39,6 +40,7 @@ import { RenderingContextFake } from '../RenderingContextFake';
 suite('Viewer rendering', () => {
     const createBlankCanvas = () => createCanvas(800, 800);
     const createDesignRenderer = () => new DesignRenderer(new LayerRenderer(new ItemRendererFactory(imageContentProvider)));
+    const createUiRenderer = () => new UiRenderer({ stroke: Pen.empty });
     const images = new Map<string, string>([
         ['masyunya', `${TEST_RESOURCES_PATH}\\masyunya.png`],
         ['ruka', `${TEST_RESOURCES_PATH}\\ruka.png`],
@@ -100,7 +102,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -115,7 +117,7 @@ suite('Viewer rendering', () => {
                     new Vector2(500, 780),
                     2.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -130,7 +132,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -211,7 +213,7 @@ suite('Viewer rendering', () => {
                     new Vector2(200, 150),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -292,7 +294,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -373,7 +375,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -454,7 +456,7 @@ suite('Viewer rendering', () => {
                     new Vector2(100, 200),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -535,7 +537,7 @@ suite('Viewer rendering', () => {
                     new Vector2(-200, 100),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -616,7 +618,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -697,7 +699,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1.63,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -780,7 +782,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     0.7,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();

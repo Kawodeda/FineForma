@@ -1,4 +1,5 @@
 import { Item } from './Design';
+import { Bounds } from './Math';
 import { ReadonlyCollection } from './ReadonlyCollection';
 
 export class Selection {
@@ -39,6 +40,12 @@ export class Selection {
         }
 
         return this._items.get(0);
+    }
+
+    get bounds(): Bounds {
+        return Bounds.from(this.items.flatMap(
+            item => [item.controls.path.bounds.corner1, item.controls.path.bounds.corner2]
+        ));
     }
 
     add(selection: Item | readonly Item[]): Selection {

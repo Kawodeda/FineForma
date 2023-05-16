@@ -12,3 +12,4 @@ export * from './Item/Image/ImageContent';
 export * from './Item/Image/ImageContentProvider';
 export * from './Item/ItemRendererFactory';
 export * from './Item/Image/IImageContentProvider';
+export * from './UI';
