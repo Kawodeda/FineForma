@@ -7,7 +7,10 @@ import {
     Command,
     Design,
     Layer,
+    Pen,
     RotateItemCommand,
+    SelectItemAtCommand,
+    SelectItemCommand,
     Transform,
     Vector2,
     Viewer, 
@@ -54,7 +57,7 @@ suite('UseCase: rotate item', () => {
                 new Vector2(-100, -100),
                 1.2,
                 0),
-            rendererFactory(await imageStorage)
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.blue(), 3) })
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -64,29 +67,44 @@ suite('UseCase: rotate item', () => {
         assertSnapshot1(canvas);
 
         await delay(50);
+        await viewer.execute(new Command([], [], [
+            new SelectItemAtCommand(0, 1)
+        ]));
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot2(canvas);
 
         await viewer.execute(new Command([
-            new RotateItemCommand(viewer.design.layers.get(0).items.get(1), 60)
+            new RotateItemCommand(viewer.selection.single, 60)
+        ], [], [
+            new SelectItemAtCommand(0, 1)
         ]));
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot3(canvas);
 
+        await viewer.execute(new Command([], [], [
+            new SelectItemCommand(viewer.design.layers.get(1).items.get(0))
+        ]));
         await viewer.execute(new Command([
-            new RotateItemCommand(viewer.design.layers.get(1).items.get(0), 55)
+            new RotateItemCommand(viewer.selection.single, 55)
+        ], [], [
+            new SelectItemAtCommand(1, 0)
         ]));
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot4(canvas);
 
+        await viewer.execute(new Command([], [], [
+            new SelectItemCommand(viewer.design.layers.get(0).items.get(0))
+        ]));
         await viewer.execute(new Command([
-            new RotateItemCommand(viewer.design.layers.get(0).items.get(0), 111)
+            new RotateItemCommand(viewer.selection.single, 111)
+        ], [], [
+            new SelectItemAtCommand(0, 0)
         ]));
 
         clearCanvas(canvas);
@@ -95,6 +113,8 @@ suite('UseCase: rotate item', () => {
 
         await viewer.execute(new Command([
             new RotateItemCommand(viewer.design.layers.get(0).items.get(1), -66)
+        ], [], [
+            new SelectItemAtCommand(0, 1)
         ]));
 
         clearCanvas(canvas);
@@ -139,9 +159,23 @@ suite('UseCase: rotate item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.lineWidth = 3;
+        ctx.translate(500, 400);
+        ctx.rotate(degreeToRadians(-32));
+        ctx.beginPath();
+        ctx.moveTo(-80, -80);
+        ctx.lineTo(80, -80);
+        ctx.lineTo(80, 80);
+        ctx.lineTo(-80, 80);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -165,9 +199,23 @@ suite('UseCase: rotate item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.lineWidth = 3;
+        ctx.translate(500, 400);
+        ctx.rotate(degreeToRadians(28));
+        ctx.beginPath();
+        ctx.moveTo(-80, -80);
+        ctx.lineTo(80, -80);
+        ctx.lineTo(80, 80);
+        ctx.lineTo(-80, 80);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -191,9 +239,23 @@ suite('UseCase: rotate item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.lineWidth = 3;
+        ctx.translate(100, 300);
+        ctx.rotate(degreeToRadians(87));
+        ctx.beginPath();
+        ctx.moveTo(-80, -80);
+        ctx.lineTo(80, -80);
+        ctx.lineTo(80, 80);
+        ctx.lineTo(-80, 80);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -221,9 +283,23 @@ suite('UseCase: rotate item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.lineWidth = 3;
+        ctx.translate(9, 9);
+        ctx.rotate(degreeToRadians(111));
+        ctx.beginPath();
+        ctx.moveTo(-35, -50);
+        ctx.lineTo(35, -50);
+        ctx.lineTo(35, 50);
+        ctx.lineTo(-35, 50);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -251,9 +327,23 @@ suite('UseCase: rotate item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.lineWidth = 3;
+        ctx.translate(500, 400);
+        ctx.rotate(degreeToRadians(-38));
+        ctx.beginPath();
+        ctx.moveTo(-80, -80);
+        ctx.lineTo(80, -80);
+        ctx.lineTo(80, 80);
+        ctx.lineTo(-80, 80);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }

@@ -19,7 +19,8 @@ import {
     ViewportConstraints,
     createImage,
     degreeToRadians,
-    ResizeItemCommand
+    ResizeItemCommand,
+    SelectItemAtCommand
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
@@ -62,7 +63,7 @@ suite('UseCase: resize item', () => {
                 new Vector2(-100, -100),
                 0.9,
                 0),
-            rendererFactory(await imageStorage)
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.yellow(), 1) })
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -72,6 +73,11 @@ suite('UseCase: resize item', () => {
         assertSnapshot1(canvas);
 
         await delay(50);
+        await viewer.execute(
+            new Command([], [], [
+                new SelectItemAtCommand(0, 1)
+            ])
+        );
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
@@ -80,8 +86,10 @@ suite('UseCase: resize item', () => {
         await viewer.execute(
             new Command([
                 new ResizeItemCommand(
-                    viewer.design.layers.get(0).items.get(1), 
+                    viewer.selection.single, 
                     new Rectangle(new Vector2(-120, -120), new Vector2(120, 120)))
+            ], [], [
+                new SelectItemAtCommand(0, 0)
             ])
         );
 
@@ -92,8 +100,10 @@ suite('UseCase: resize item', () => {
         await viewer.execute(
             new Command([
                 new ResizeItemCommand(
-                    viewer.design.layers.get(0).items.get(0), 
+                    viewer.selection.single, 
                     new Rectangle(new Vector2(-220.01, -295.6), new Vector2(220, 216.204)))
+            ], [], [
+                new SelectItemAtCommand(0, 0)
             ])
         );
 
@@ -221,10 +231,23 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -80, -80, 160, 160);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
         ctx.restore();
+
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(500, 400);
+        ctx.rotate(degreeToRadians(-32));
+        ctx.beginPath();
+        ctx.moveTo(-80, -80);
+        ctx.lineTo(80, -80);
+        ctx.lineTo(80, 80);
+        ctx.lineTo(-80, 80);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -272,10 +295,22 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -120, -120, 240, 240);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
         ctx.restore();
+
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(250, 250);
+        ctx.beginPath();
+        ctx.moveTo(-110.005, -147.8);
+        ctx.lineTo(110, -147.8);
+        ctx.lineTo(110, 108.102);
+        ctx.lineTo(-110.005, 108.102);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -323,9 +358,23 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -120, -120, 240, 240);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 160, 160);
+        ctx.restore();
+        
+        ctx.save();
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(250, 250);
+        ctx.beginPath();
+        ctx.moveTo(-220.01, -295.6);
+        ctx.lineTo(220, -295.6);
+        ctx.lineTo(220, 216.204);
+        ctx.lineTo(-220.01, 216.204);
+        ctx.closePath();
+        ctx.stroke();
         ctx.restore();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -374,9 +423,23 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -120, -120, 240, 240);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 240, 160);
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(250, 250);
+        ctx.beginPath();
+        ctx.moveTo(-220.01, -295.6);
+        ctx.lineTo(220, -295.6);
+        ctx.lineTo(220, 216.204);
+        ctx.lineTo(-220.01, 216.204);
+        ctx.closePath();
+        ctx.stroke();
         ctx.restore();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -425,9 +488,23 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -120, -40, 240, 80);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -80, -80, 240, 160);
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(250, 250);
+        ctx.beginPath();
+        ctx.moveTo(-220.01, -295.6);
+        ctx.lineTo(220, -295.6);
+        ctx.lineTo(220, 216.204);
+        ctx.lineTo(-220.01, 216.204);
+        ctx.closePath();
+        ctx.stroke();
         ctx.restore();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -476,9 +553,23 @@ suite('UseCase: resize item', () => {
         ctx.drawImage(await loadImage('sima.png'), -120, -40, 240, 80);
         ctx.restore();
 
+        ctx.save();
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(32));
         ctx.drawImage(await loadImage('masyunya2.png'), -160, -80, 80, 160);
+        ctx.restore();
+
+        ctx.save();
+        ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.lineWidth = 1;
+        ctx.translate(250, 250);
+        ctx.beginPath();
+        ctx.moveTo(-220.01, -295.6);
+        ctx.lineTo(220, -295.6);
+        ctx.lineTo(220, 216.204);
+        ctx.lineTo(-220.01, 216.204);
+        ctx.closePath();
+        ctx.stroke();
         ctx.restore();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
