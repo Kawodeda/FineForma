@@ -1,5 +1,6 @@
 {
   "name": "fine-forma-core",
+  "author": "Kawodeda",
   "scripts": {
     "build": "tsc",
     "lint": "npx eslint ."
