@@ -1,5 +1,6 @@
 import { Design } from '../Design';
 import { Viewport } from '../Viewport';
+import { Selection } from '../Selection';
 import { IRenderingContext } from './IRenderingContext';
 
 export interface IRenderer {
@@ -15,4 +16,9 @@ export interface IViewportContext {
 export interface IDesignContext {
 
     get design(): Design;
+}
+
+export interface ISelectionContext {
+
+    get selection(): Selection;
 }

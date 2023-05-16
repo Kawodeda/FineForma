@@ -27,7 +27,9 @@ import {
     CubicBezierSegment,
     OpenPath,
     QuadraticBezierSegment,
-    degreeToRadians
+    degreeToRadians,
+    UiRenderer,
+    Selection
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from '../Settings';
@@ -39,6 +41,7 @@ import { RenderingContextFake } from '../RenderingContextFake';
 suite('Viewer rendering', () => {
     const createBlankCanvas = () => createCanvas(800, 800);
     const createDesignRenderer = () => new DesignRenderer(new LayerRenderer(new ItemRendererFactory(imageContentProvider)));
+    const createUiRenderer = () => new UiRenderer({ stroke: new Pen(Brushes.blue(), 2) });
     const images = new Map<string, string>([
         ['masyunya', `${TEST_RESOURCES_PATH}\\masyunya.png`],
         ['ruka', `${TEST_RESOURCES_PATH}\\ruka.png`],
@@ -100,7 +103,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -115,7 +118,7 @@ suite('Viewer rendering', () => {
                     new Vector2(500, 780),
                     2.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -130,7 +133,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -211,7 +214,7 @@ suite('Viewer rendering', () => {
                     new Vector2(200, 150),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -292,7 +295,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -373,7 +376,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -454,7 +457,7 @@ suite('Viewer rendering', () => {
                     new Vector2(100, 200),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -535,7 +538,7 @@ suite('Viewer rendering', () => {
                     new Vector2(-200, 100),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -616,7 +619,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -697,7 +700,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1.63,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -780,7 +783,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     0.7,
                     90),
-                new RendererFactory(createDesignRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer())
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -854,6 +857,133 @@ suite('Viewer rendering', () => {
                 return canvas;
             }
         },
+        {
+            title: 'multiselection, shapes and images, zoomed out, scrolled',
+            viewer: () => {
+                const result = new Viewer(
+                    designs[0]!(),
+                    new Viewport(
+                        new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                        new Vector2(-200, 100),
+                        0.5,
+                        0),
+                    new RendererFactory(createDesignRenderer(), createUiRenderer()));
+                
+                result.selection = new Selection([
+                    ...result.design.layers.get(1).items,
+                    ...result.design.layers.get(3).items
+                ]);
+
+                return result;
+            },
+            expected: async () => {
+                const canvas = createBlankCanvas();
+                const ctx = canvas.getContext('2d');
+
+                ctx.setTransform(new DOMMatrix([0.5, 0, 0, 0.5, 200, -100]));
+
+                ctx.save();
+                ctx.transform(1, 0, 0, 1, 400, 400);
+                ctx.drawImage(await loadImage('sima.png'), -300, -300, 600, 600);
+                ctx.restore();
+
+                ctx.save();
+                ctx.strokeStyle = 'rgb(0,0,255)';
+                ctx.lineWidth = 4;
+                ctx.translate(150, 600);
+                ctx.rotate(degreeToRadians(61.4));
+                ctx.beginPath();
+                ctx.moveTo(-100, -100);
+                ctx.lineTo(100, -100);
+                ctx.lineTo(100, 100);
+                ctx.lineTo(-100, 100);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.drawImage(await loadImage('masyunya.png'), -100, -100, 200, 200);
+                ctx.restore();
+
+                ctx.save();
+                ctx.strokeStyle = 'rgb(255,0,0)';
+                ctx.fillStyle = 'rgb(255,255,255)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5, 10]);
+                ctx.translate(600, 650);
+                ctx.rotate(degreeToRadians(-40));
+                ctx.beginPath();
+                ctx.moveTo(-50, -50);
+                ctx.lineTo(50, -50);
+                ctx.lineTo(50, 50);
+                ctx.lineTo(-50, 50);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.drawImage(await loadImage('masyunya2.png'), -50, -50, 100, 100);
+                ctx.restore();
+
+                ctx.save();
+                ctx.fillStyle = 'rgb(0,255,0)';
+                ctx.beginPath();
+                ctx.ellipse(650, 200, 100, 100, 0, degreeToRadians(180), 0);
+                ctx.ellipse(650, 200, 100, 100, 0, 0, -degreeToRadians(180));
+                ctx.fill();
+                ctx.restore();
+
+                ctx.save();
+                ctx.strokeStyle = 'rgb(255,0,255)';
+                ctx.setLineDash([]);
+                ctx.lineWidth = 5;
+                ctx.translate(400, 600);
+                ctx.rotate(degreeToRadians(18));
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(13, -36, 62, 43, 53, -11);
+                ctx.quadraticCurveTo(46, -54, 87, -2);
+                ctx.quadraticCurveTo(108, 24, 97, -45);
+                ctx.bezierCurveTo(88, -98, 143, -51, 148, -73);
+                ctx.stroke();
+                ctx.restore();
+
+                ctx.strokeStyle = 'rgb(0,0,255)';
+                ctx.lineWidth = 2;
+                ctx.save();
+                ctx.translate(150, 600);
+                ctx.rotate(degreeToRadians(61.4));
+                ctx.beginPath();
+                ctx.moveTo(-100, -100);
+                ctx.lineTo(100, -100);
+                ctx.lineTo(100, 100);
+                ctx.lineTo(-100, 100);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+
+                ctx.save();
+                ctx.translate(600, 650);
+                ctx.rotate(degreeToRadians(-40));
+                ctx.beginPath();
+                ctx.moveTo(-50, -50);
+                ctx.lineTo(50, -50);
+                ctx.lineTo(50, 50);
+                ctx.lineTo(-50, 50);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+
+                ctx.save();
+                ctx.translate(400, 600);
+                ctx.rotate(degreeToRadians(18));
+                ctx.beginPath();
+                ctx.moveTo(0, -73);
+                ctx.lineTo(148, -73);
+                ctx.lineTo(148, 8.5350488841);
+                ctx.lineTo(0, 8.5350488841);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+
+                return canvas;
+            }
+        }
     ];
 
     testCases.forEach(({ title, viewer, expected }) => {

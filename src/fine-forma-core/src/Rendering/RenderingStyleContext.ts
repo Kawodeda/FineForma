@@ -1,6 +1,6 @@
-import { IStyleContext } from '../../Design';
-import { Pen, Brush, IFillStyleContext, IColorPreview } from '../../Style';
-import { IRenderingContext } from '../IRenderingContext';
+import { IStyleContext } from '../Design';
+import { Pen, Brush, IFillStyleContext, IColorPreview } from '../Style';
+import { IRenderingContext } from './IRenderingContext';
 
 export class RenderingStyleContext implements IStyleContext {
     

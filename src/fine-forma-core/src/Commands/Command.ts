@@ -1,13 +1,18 @@
-import { ICommand, IDesignCommand, IExecutionContext, IViewportCommand } from './Interfaces';
+import { ICommand, IDesignCommand, IExecutionContext, IViewportCommand, ISelectionCommand } from './Interfaces';
 
 export class Command implements ICommand {
     
     private readonly _designCommands: readonly IDesignCommand[];
-    private readonly _viewportCommand: readonly IViewportCommand[];
+    private readonly _viewportCommands: readonly IViewportCommand[];
+    private readonly _selectionCommands: readonly ISelectionCommand[];
 
-    constructor(designCommands: readonly IDesignCommand[] = [], viewportCommands: readonly IViewportCommand[] = []) {
+    constructor(
+        designCommands: readonly IDesignCommand[] = [], 
+        viewportCommands: readonly IViewportCommand[] = [],
+        selectionCommands: readonly ISelectionCommand[] = []) {
         this._designCommands = [...designCommands];
-        this._viewportCommand = [...viewportCommands];
+        this._viewportCommands = [...viewportCommands];
+        this._selectionCommands = selectionCommands;
     }
 
     static get empty(): Command {
@@ -18,8 +23,11 @@ export class Command implements ICommand {
         for (const command of this._designCommands) {
             await this._executeDesignCommand(context, command);
         }
-        for (const command of this._viewportCommand) {
+        for (const command of this._viewportCommands) {
             await this._executeViewportCommand(context, command);
+        }
+        for (const command of this._selectionCommands) {
+            await this._executeSelectionCommand(context, command);
         }
     }
 
@@ -29,5 +37,9 @@ export class Command implements ICommand {
 
     private async  _executeViewportCommand(context: IExecutionContext, command: IViewportCommand): Promise<void> {
         context.viewport = await command.execute(context.viewport);
+    }
+
+    private async _executeSelectionCommand(context: IExecutionContext, command: ISelectionCommand): Promise<void> {
+        context.selection = await command.execute(context.selection, context.design);
     }
 }

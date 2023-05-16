@@ -15,7 +15,10 @@ import {
     createCircle,
     createImage,
     degreeToRadians,
-    MoveItemCommand
+    MoveItemCommand,
+    SelectItemCommand,
+    SelectItemAtCommand,
+    Pen
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
@@ -46,7 +49,7 @@ suite('UseCase: move item', () => {
                 new Vector2(0, -100),
                 1.5,
                 0),
-            rendererFactory(await imageStorage)
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.cyan(), 2) })
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -56,21 +59,29 @@ suite('UseCase: move item', () => {
         assertSnapshot1(canvas);
 
         await delay(50);
+        await viewer.execute(new Command([], [], [
+            new SelectItemCommand(viewer.design.layers.get(0).items.get(0))
+        ]));
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot2(canvas);
 
         await viewer.execute(new Command([
-            new MoveItemCommand(viewer.design.layers.get(0).items.get(0), new Vector2(250, 155))
+            new MoveItemCommand(viewer.selection.single, new Vector2(250, 155))
         ]));
 
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot3(canvas);
 
+        await viewer.execute(new Command([], [], [
+            new SelectItemCommand(viewer.design.layers.get(0).items.get(1))
+        ]));
         await viewer.execute(new Command([
-            new MoveItemCommand(viewer.design.layers.get(0).items.get(1), new Vector2(-280, 0))
+            new MoveItemCommand(viewer.selection.single, new Vector2(-280, 0))
+        ], [], [
+            new SelectItemAtCommand(0, 1)
         ]));
 
         clearCanvas(canvas);
@@ -109,9 +120,21 @@ suite('UseCase: move item', () => {
         ctx.ellipse(9, 9, 70, 70, 0, -Math.PI, 0);
         ctx.fill();
 
+        ctx.save();
         ctx.translate(300, 200);
         ctx.rotate(degreeToRadians(-32));
         ctx.drawImage(await loadImage('sima.png'), -75, -75, 150, 150);
+        ctx.restore();
+
+        ctx.strokeStyle = 'rgb(0,255,255)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-61, -61);
+        ctx.lineTo(79, -61);
+        ctx.lineTo(79, 79);
+        ctx.lineTo(-61, 79);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }
@@ -152,6 +175,16 @@ suite('UseCase: move item', () => {
         ctx.translate(20, 200);
         ctx.rotate(degreeToRadians(-32));
         ctx.drawImage(await loadImage('sima.png'), -75, -75, 150, 150);
+
+        ctx.strokeStyle = 'rgb(0,255,255)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-75, -75);
+        ctx.lineTo(75, -75);
+        ctx.lineTo(75, 75);
+        ctx.lineTo(-75, 75);
+        ctx.closePath();
+        ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
     }

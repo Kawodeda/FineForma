@@ -35,12 +35,24 @@ export class ReadonlyCollection<T> {
         return new ReadonlyCollection<T>([...this.elements, element]);
     }
 
+    addRange(elements: readonly T[]): ReadonlyCollection<T> {
+        return new ReadonlyCollection<T>(this.elements.concat(elements));
+    }
+
     remove(element: T): ReadonlyCollection<T> {
         if (!this.elements.includes(element)) {
             throw new Error('Specified element is missing in collection');
         }
 
-        return new ReadonlyCollection<T>([...this.elements.filter(item => item !== element)]);
+        return new ReadonlyCollection<T>(this.elements.filter(item => item !== element));
+    }
+
+    removeRange(elements: readonly T[]): ReadonlyCollection<T> {
+        if (elements.some(element => !this.elements.includes(element))) {
+            throw new Error('At least one of specified element is missing in collection');
+        }
+
+        return new ReadonlyCollection<T>(this.elements.filter(item => !elements.includes(item)));
     }
 
     update(existing: T, updated: T): ReadonlyCollection<T> {

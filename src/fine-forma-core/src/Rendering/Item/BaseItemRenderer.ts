@@ -2,7 +2,7 @@ import { Item } from '../../Design';
 import { Transform } from '../../Transform';
 import { IRenderingContext } from '../IRenderingContext';
 import { IItemRenderer } from './IItemRenderer';
-import { RenderingStyleContext } from './RenderingStyleContext';
+import { RenderingStyleContext } from '../RenderingStyleContext';
 
 export abstract class BaseItemRenderer implements IItemRenderer {
     
