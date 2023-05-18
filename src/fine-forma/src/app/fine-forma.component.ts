@@ -27,14 +27,14 @@ import {
     RgbColor
 } from 'fine-forma-core';
 
-import { RenderingContext } from './RenderingContext';
+import { RenderingContext } from './rendering-context';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss']
+    selector: 'fine-forma',
+    templateUrl: './fine-forma.component.html',
+    styleUrls: ['./fine-forma.component.scss']
 })
-export class AppComponent implements AfterViewInit {
+export class FineFormaComponent implements AfterViewInit {
 
     @ViewChild('mainCanvas')
     canvas!: ElementRef<HTMLCanvasElement>;
@@ -46,7 +46,6 @@ export class AppComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        console.log(this.canvas);
         const ctx = this.canvas.nativeElement.getContext('2d')!;
         const context = new RenderingContext(ctx);
 

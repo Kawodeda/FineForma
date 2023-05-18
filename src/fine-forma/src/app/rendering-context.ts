@@ -1,6 +1,6 @@
 import { ColorComponent, IColorPreview, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
 
-import { PathBuilder } from './PathBuilder';
+import { PathBuilder } from './path-builder';
 
 export class RenderingContext implements IRenderingContext {
 
