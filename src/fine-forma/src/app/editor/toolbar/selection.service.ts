@@ -14,6 +14,10 @@ export class SelectionService implements ISelectionService {
         this._viewerProvider = viewerProvider;
     }
     
+    get isSelectionEmpty(): boolean {
+        return this._viewerProvider.viewer.selection.isEmpty;
+    }
+
     selectItemAt(layerIndex: number, itemIndex: number): void {
         this._viewerProvider.viewer.execute(new Command([], [], [
             new SelectItemAtCommand(layerIndex, itemIndex)

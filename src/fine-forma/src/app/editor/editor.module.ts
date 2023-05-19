@@ -17,6 +17,8 @@ import { VIEWER_PROVIDER } from './shared/i-viewer-provider';
 import { ZOOM_SERVICE } from './toolbar/i-zoom-service';
 import { ZoomService } from './toolbar/zoom.service';
 import { SharedModule } from '../shared/shared.module';
+import { ITEM_SERVICE } from './toolbar/i-item-service';
+import { ItemService } from './toolbar/item.service';
 
 @NgModule({
     imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule],
@@ -26,7 +28,8 @@ import { SharedModule } from '../shared/shared.module';
         { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
         { provide: SELECTION_SERVICE, useClass: SelectionService },
-        { provide: ZOOM_SERVICE, useClass: ZoomService }
+        { provide: ZOOM_SERVICE, useClass: ZoomService },
+        { provide: ITEM_SERVICE, useClass: ItemService }
     ]
 })
 export class EditorModule { }
