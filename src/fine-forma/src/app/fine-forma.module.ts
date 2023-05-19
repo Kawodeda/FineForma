@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FineFormaRoutingModule } from './fine-forma-routing.module';
 import { FineFormaComponent } from './fine-forma.component';
 import { EditorModule } from './editor/editor.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
@@ -12,7 +13,8 @@ import { EditorModule } from './editor/editor.module';
     imports: [
         BrowserModule,
         FineFormaRoutingModule,
-        EditorModule
+        EditorModule,
+        BrowserAnimationsModule
     ],
     providers: [],
     bootstrap: [FineFormaComponent]
