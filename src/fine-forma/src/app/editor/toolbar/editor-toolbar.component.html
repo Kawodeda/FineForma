@@ -1,8 +1,19 @@
 <div>
-    <button mat-button (click)="onSelectClick()">Select first item</button>
-    <button mat-button (click)="onClearSelectionClick()">Clear selection</button>
-    <button mat-button>Zoom +</button>
-    <button mat-button>Zoom -</button>
-    <button mat-button>Add item</button>
-    <button mat-button>Delete item</button>
+    <mat-toolbar style="justify-content: space-between;">
+        <div style="display: flex; align-items: center;">
+            <button mat-button (click)="onSelectClick()">Select</button>
+            <button mat-button (click)="onClearSelectionClick()">Clear selection</button>
+            <button mat-button>Add item</button>
+            <button mat-button>Delete item</button>
+            <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
+            <span class="zoom-output">{{zoom | percent:'2.0-0' }}</span>
+            <button mat-icon-button style="margin-right: 0;" (click)="onIncreaseZoomClick()" [disabled]="!canZoomIn">
+                <mat-icon>zoom_in</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onDecreaseZoomClick()" [disabled]="!canZoomOut">
+                <mat-icon>zoom_out</mat-icon>
+            </button>
+        </div>
+        <span>Fine Forma</span>
+    </mat-toolbar>
 </div>

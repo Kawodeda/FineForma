@@ -1,19 +1,37 @@
 import { Component, Inject } from '@angular/core';
 
 import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
+import { IZoomService, ZOOM_SERVICE } from './i-zoom-service';
+
+const ZOOM_STEP = 0.2;
 
 @Component({
     selector: 'ff-editor-toolbar',
     templateUrl: 'editor-toolbar.component.html',
     styleUrls: ['editor-toolbar.component.scss']
 })
-
 export class ToolbarComponent {
 
     private readonly _selectionService: ISelectionService;
+    private readonly _zoomService: IZoomService;
 
-    constructor(@Inject(SELECTION_SERVICE) selectionService: ISelectionService) {
+    constructor(
+        @Inject(SELECTION_SERVICE) selectionService: ISelectionService,
+        @Inject(ZOOM_SERVICE) zoomService: IZoomService) {
         this._selectionService = selectionService;
+        this._zoomService = zoomService;
+    }
+
+    get zoom(): number {
+        return this._zoomService.zoom;
+    }
+
+    get canZoomIn(): boolean {
+        return this._zoomService.canIncreaseZoomBy(ZOOM_STEP);
+    }
+
+    get canZoomOut(): boolean {
+        return this._zoomService.canDecreaseZoomBy(ZOOM_STEP);
     }
 
     onSelectClick(): void {
@@ -22,5 +40,13 @@ export class ToolbarComponent {
 
     onClearSelectionClick(): void {
         this._selectionService.clearSelection();
+    }
+
+    async onIncreaseZoomClick(): Promise<void> {
+        await this._zoomService.increaseZoom(ZOOM_STEP);
+    }
+
+    async onDecreaseZoomClick():  Promise<void> {
+        await this._zoomService.decreaseZoom(ZOOM_STEP);
     }
 }

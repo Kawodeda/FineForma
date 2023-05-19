@@ -2,7 +2,8 @@ canvas {
     background-color:black; 
     margin: 0; 
     position: absolute; 
-    width: 100%; 
+    width: -moz-available; 
+    width: -webkit-fill-available; 
     height: -moz-available;
     height: -webkit-fill-available;
 }
