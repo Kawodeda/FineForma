@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { FineFormaRoutingModule } from './fine-forma-routing.module';
 import { FineFormaComponent } from './fine-forma.component';
+import { EditorModule } from './editor/editor.module';
 
 @NgModule({
     declarations: [
@@ -10,7 +11,8 @@ import { FineFormaComponent } from './fine-forma.component';
     ],
     imports: [
         BrowserModule,
-        FineFormaRoutingModule
+        FineFormaRoutingModule,
+        EditorModule
     ],
     providers: [],
     bootstrap: [FineFormaComponent]
