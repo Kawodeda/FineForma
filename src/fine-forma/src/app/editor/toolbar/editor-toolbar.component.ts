@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
 import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
 
@@ -8,15 +8,13 @@ import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
     styleUrls: ['editor-toolbar.component.scss']
 })
 
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
 
     private readonly _selectionService: ISelectionService;
 
     constructor(@Inject(SELECTION_SERVICE) selectionService: ISelectionService) {
         this._selectionService = selectionService;
     }
-
-    ngOnInit() { }
 
     onSelectClick(): void {
         this._selectionService.selectItemAt(0, 0);

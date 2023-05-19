@@ -18,6 +18,6 @@ import { VIEWER_PROVIDER } from './shared/i-viewer-provider';
         { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
         { provide: SELECTION_SERVICE, useClass: SelectionService }
-    ],
+    ]
 })
 export class EditorModule { }

@@ -62,7 +62,7 @@ export class ViewerProvider implements IViewerProvider {
             new DesignRenderer(
                 new LayerRenderer(
                     new ItemRendererFactory({
-                        getContent: (storageId) => {
+                        getContent: () => {
                             throw new Error()
                         }
                     }))),

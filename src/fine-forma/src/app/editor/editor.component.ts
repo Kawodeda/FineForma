@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'ff-editor',
@@ -6,8 +6,6 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./editor.component.scss']
 })
 
-export class EditorComponent implements OnInit {
-    constructor() { }
-
-    ngOnInit() { }
+export class EditorComponent {
+    
 }

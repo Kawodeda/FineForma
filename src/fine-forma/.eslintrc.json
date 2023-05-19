@@ -1,0 +1,53 @@
+{
+    "overrides": [
+        {
+            "files": [
+                "*.ts"
+            ],
+            "parserOptions": {
+                "project": ["./tsconfig.(app|spec).json", "./tsconfig.json"]
+            },
+            "extends": [
+                "../base.eslintrc.cjs",
+                "eslint:recommended",
+                "plugin:@typescript-eslint/recommended",
+                "plugin:@angular-eslint/recommended",
+                "plugin:@angular-eslint/template/process-inline-templates"
+            ],
+            "rules": {
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "ff",
+                        "style": "camelCase"
+                    }
+                ],
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "ff",
+                        "style": "kebab-case"
+                    }
+                ],
+                "@typescript-eslint/no-extraneous-class": [
+                    "error",
+                    {
+                        "allowWithDecorator": true
+                    }
+                ]
+            }
+        },
+        {
+            "files": [
+                "*.html"
+            ],
+            "extends": [
+                "plugin:@angular-eslint/template/recommended",
+                "plugin:@angular-eslint/template/accessibility"
+            ],
+            "rules": {}
+        }
+    ]
+}

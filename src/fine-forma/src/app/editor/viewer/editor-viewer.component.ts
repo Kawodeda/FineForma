@@ -29,7 +29,7 @@ export class ViewerComponent implements AfterViewInit {
 
     private get _context(): CanvasRenderingContext2D {
         const ctx = this._canvas.getContext('2d');
-        if(ctx == null) {
+        if (ctx == null) {
             throw new Error('Unable to get canvas rendering context');
         }
 
@@ -37,7 +37,7 @@ export class ViewerComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const redrawViewer = () => {
+        const redrawViewer = (): void => {
             this._renderingService.redrawViewer(this._context);
 
             requestAnimationFrame(redrawViewer);
@@ -49,7 +49,7 @@ export class ViewerComponent implements AfterViewInit {
 
     private _onCanvasResized(entries: ResizeObserverEntry[]): void {
         const canvas = entries[0];
-        if (canvas == null || canvas.contentBoxSize?.at(0) == null) {
+        if (canvas == null || canvas.contentBoxSize[0] == null) {
             throw new Error('Canvas resize processing falied');
         }
 

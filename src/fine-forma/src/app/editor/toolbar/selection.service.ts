@@ -17,12 +17,14 @@ export class SelectionService implements ISelectionService {
     selectItemAt(layerIndex: number, itemIndex: number): void {
         this._viewerProvider.viewer.execute(new Command([], [], [
             new SelectItemAtCommand(layerIndex, itemIndex)
-        ]));
+        ]))
+        .catch(reason => console.error(reason));
     }
 
     clearSelection(): void {
         this._viewerProvider.viewer.execute(new Command([], [], [
             new ClearSelectionCommand()
-        ]));
+        ]))
+        .catch(reason => console.error(reason));
     }
 }
