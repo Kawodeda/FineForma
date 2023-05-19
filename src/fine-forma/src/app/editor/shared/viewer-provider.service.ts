@@ -10,6 +10,9 @@ import {
     LayerRenderer, 
     Pen, 
     RendererFactory,
+    RgbColor,
+    Selection,
+    SolidBrush,
     UiRenderer, 
     Vector2, 
     Viewer, 
@@ -18,13 +21,16 @@ import {
     createCircle 
 } from 'fine-forma-core';
 
+import { IViewerProvider } from './i-viewer-provider';
+
 @Injectable()
-export class ViewerProvider {
+export class ViewerProvider implements IViewerProvider {
 
     private readonly _viewer: Viewer;
 
     constructor() {
         this._viewer = this._createViewer();
+        this._viewer.selection = new Selection(this._viewer.design.layers.get(0).items.get(0));
     }
 
     get viewer(): Viewer {
@@ -60,6 +66,6 @@ export class ViewerProvider {
                             throw new Error()
                         }
                     }))),
-            new UiRenderer({ stroke: new Pen(Brushes.cyan(), 2) }));
+            new UiRenderer({ stroke: new Pen(new SolidBrush(new RgbColor(0, 144, 255, 255)), 2) }));
     }
 }
