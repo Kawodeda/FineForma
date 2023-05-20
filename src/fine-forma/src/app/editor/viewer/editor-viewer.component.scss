@@ -1,8 +1,9 @@
 canvas {
-    background-color:black; 
+    background-color:rgb(255, 255, 255); 
     margin: 0; 
     position: absolute; 
-    width: 100%; 
+    width: -moz-available; 
+    width: -webkit-fill-available; 
     height: -moz-available;
     height: -webkit-fill-available;
 }

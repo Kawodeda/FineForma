@@ -4,6 +4,8 @@ export const SELECTION_SERVICE = new InjectionToken<ISelectionService>('selectio
 
 export interface ISelectionService {
 
+    get isSelectionEmpty(): boolean;
+
     selectItemAt(layerIndex: number, itemIndex: number): void;
 
     clearSelection(): void;

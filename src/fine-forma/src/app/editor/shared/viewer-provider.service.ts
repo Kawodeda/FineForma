@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { 
     Brushes, 
+    DashSettings, 
     Design,
     DesignRenderer, 
     IRendererFactory, 
@@ -18,7 +19,8 @@ import {
     Viewer, 
     Viewport, 
     ViewportConstraints, 
-    createCircle 
+    createCircle, 
+    createRectangle
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -52,7 +54,11 @@ export class ViewerProvider implements IViewerProvider {
     private _createDesign(): Design {
         return new Design([
             new Layer([
-                createCircle(200, 300, 90).setFill(Brushes.magenta()).build()
+                createCircle(200, 300, 90).setFill(Brushes.green()).build(),
+                createRectangle(400, 200, 150, 80)
+                    .setFill(Brushes.lavender())
+                    .setStroke(new Pen(Brushes.red(), 4, new DashSettings([9, 4])))
+                    .build()
             ], 1)
         ]);
     }
