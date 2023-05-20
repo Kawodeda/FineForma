@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 
-import { IZoomService, ZOOM_SERVICE } from '../i-zoom-service';
+import { IZoomService, ZOOM_SERVICE } from './i-zoom-service';
 
 const ZOOM_STEP = 0.2;
 

@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { AddZoomCommand, Command, nearlyEquals } from 'fine-forma-core';
 
 import { IZoomService } from './i-zoom-service';
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 
 @Injectable()
 export class ZoomService implements IZoomService {

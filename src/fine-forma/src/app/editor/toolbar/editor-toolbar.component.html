@@ -1,31 +1,29 @@
-<div>
-    <mat-toolbar style="justify-content: space-between; height: min-content;">
-        <div style="display: flex; align-items: center; margin: 5px 0;">
-            <button mat-button (click)="onSelectClick()">Select</button>
-            <button mat-button (click)="onClearSelectionClick()">Clear selection</button>
-            <button mat-icon-button [matMenuTriggerFor]="addItemMenu">
-                <mat-icon>add</mat-icon>
+<mat-toolbar>
+    <div style="display: flex; align-items: center; margin: 5px 0;">
+        <button mat-button (click)="onSelectClick()">Select</button>
+        <button mat-button (click)="onClearSelectionClick()">Clear selection</button>
+        <button mat-icon-button [matMenuTriggerFor]="addItemMenu">
+            <mat-icon>add</mat-icon>
+        </button>
+        <mat-menu #addItemMenu>
+            <button mat-menu-item (click)="onInsertRectangleClick()">
+                <mat-icon>square</mat-icon>
+                Rectangle
             </button>
-            <mat-menu #addItemMenu>
-                <button mat-menu-item (click)="onInsertRectangleClick()">
-                    <mat-icon>square</mat-icon>
-                    Rectangle
-                </button>
-                <button mat-menu-item (click)="onInsertCircleClick()">
-                    <mat-icon>circle</mat-icon>
-                    Circle
-                </button>
-                <button mat-menu-item (click)="onInsertLineClick()">
-                    <mat-icon>linear_scale</mat-icon>
-                    Line
-                </button>
-            </mat-menu>
-            <button mat-icon-button color="warn" (click)="onDeleteClick()" [disabled]="!canDelete">
-                <mat-icon>delete</mat-icon>
+            <button mat-menu-item (click)="onInsertCircleClick()">
+                <mat-icon>circle</mat-icon>
+                Circle
             </button>
-            <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
-            <ff-editor-zoom-panel></ff-editor-zoom-panel>
-        </div>
-        <span>Fine Forma</span>
-    </mat-toolbar>
-</div>
+            <button mat-menu-item (click)="onInsertLineClick()">
+                <mat-icon>linear_scale</mat-icon>
+                Line
+            </button>
+        </mat-menu>
+        <button mat-icon-button color="warn" (click)="onDeleteClick()" [disabled]="!canDelete">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
+        <ff-editor-zoom-panel></ff-editor-zoom-panel>
+    </div>
+    <span>Fine Forma</span>
+</mat-toolbar>
