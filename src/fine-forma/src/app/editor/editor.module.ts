@@ -20,11 +20,12 @@ import { ZoomService } from './toolbar/zoom.service';
 import { SharedModule } from '../shared/shared.module';
 import { ITEM_SERVICE } from './toolbar/i-item-service';
 import { ItemService } from './toolbar/item.service';
+import { ZoomPanelComponent } from './toolbar/zoom-panel/zoom-panel.component';
 
 @NgModule({
     imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule],
     exports: [EditorComponent],
-    declarations: [EditorComponent, ViewerComponent, ToolbarComponent],
+    declarations: [EditorComponent, ViewerComponent, ToolbarComponent, ZoomPanelComponent],
     providers: [
         { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
