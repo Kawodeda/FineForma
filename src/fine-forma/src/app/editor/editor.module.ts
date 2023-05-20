@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { EditorComponent } from './editor.component';
 import { ViewerComponent } from './viewer/editor-viewer.component';
@@ -21,7 +22,7 @@ import { ITEM_SERVICE } from './toolbar/i-item-service';
 import { ItemService } from './toolbar/item.service';
 
 @NgModule({
-    imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule],
+    imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule],
     exports: [EditorComponent],
     declarations: [EditorComponent, ViewerComponent, ToolbarComponent],
     providers: [

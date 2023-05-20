@@ -5,6 +5,7 @@ import { FineFormaRoutingModule } from './fine-forma-routing.module';
 import { FineFormaComponent } from './fine-forma.component';
 import { EditorModule } from './editor/editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         BrowserModule,
         FineFormaRoutingModule,
         EditorModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        FontAwesomeModule
     ],
     providers: [],
     bootstrap: [FineFormaComponent]

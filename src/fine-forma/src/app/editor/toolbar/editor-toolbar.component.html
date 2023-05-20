@@ -3,9 +3,23 @@
         <div style="display: flex; align-items: center;">
             <button mat-button (click)="onSelectClick()">Select</button>
             <button mat-button (click)="onClearSelectionClick()">Clear selection</button>
-            <button mat-icon-button>
+            <button mat-icon-button [matMenuTriggerFor]="addItemMenu">
                 <mat-icon>add</mat-icon>
             </button>
+            <mat-menu #addItemMenu>
+                <button mat-menu-item>
+                    <mat-icon>square</mat-icon>
+                    Rectangle
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>circle</mat-icon>
+                    Circle
+                </button>
+                <button mat-menu-item>
+                    <mat-icon>linear_scale</mat-icon>
+                    Line
+                </button>
+            </mat-menu>
             <button mat-icon-button color="warn" (click)="onDeleteClick()" [disabled]="!canDelete">
                 <mat-icon>delete</mat-icon>
             </button>
