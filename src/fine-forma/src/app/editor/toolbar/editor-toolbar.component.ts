@@ -61,4 +61,16 @@ export class ToolbarComponent {
     async onDeleteClick(): Promise<void> {
         await this._itemService.deleteSelectedItem();
     }
+
+    async onInsertRectangleClick(): Promise<void> {
+        await this._itemService.insertRectangle(700, 450);
+    }
+
+    async onInsertCircleClick(): Promise<void> {
+        await this._itemService.insertCircle(700, 450);
+    }
+
+    async onInsertLineClick(): Promise<void> {
+        await this._itemService.insertLine(700, 450);
+    }
 }

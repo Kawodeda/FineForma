@@ -7,15 +7,15 @@
                 <mat-icon>add</mat-icon>
             </button>
             <mat-menu #addItemMenu>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="onInsertRectangleClick()">
                     <mat-icon>square</mat-icon>
                     Rectangle
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="onInsertCircleClick()">
                     <mat-icon>circle</mat-icon>
                     Circle
                 </button>
-                <button mat-menu-item>
+                <button mat-menu-item (click)="onInsertLineClick()">
                     <mat-icon>linear_scale</mat-icon>
                     Line
                 </button>
