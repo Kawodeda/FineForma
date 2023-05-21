@@ -62,7 +62,8 @@ export class ViewerProvider implements IViewerProvider {
                     .setFill(Brushes.lavender())
                     .setStroke(new Pen(Brushes.red(), 4, new DashSettings([9, 4])))
                     .build(),
-                createImage(600, 600, 200, 200, 'masyunya3').build()
+                createImage(600, 600, 200, 200, 'masyunya3').build(),
+                createImage(800, 200, 200, 200, 'sima2').build()
             ], 1)
         ]);
     }

@@ -45,11 +45,6 @@ export class ViewerComponent implements AfterViewInit {
     redrawViewer = (): void => {
         this._renderingService.redrawViewer(this._context);
         requestAnimationFrame(this.redrawViewer);
-        // const image = new Image();
-        // image.onload = () => {
-        //     this._context.drawImage(image, 600, 600, 200, 200);
-        // }
-        // image.src = 'https://vk.com/sticker/1-79353-512';
     }
 
     onKeyDown(e: KeyboardEvent): void {
@@ -57,6 +52,10 @@ export class ViewerComponent implements AfterViewInit {
     }
 
     onWheel(e: WheelEvent): void {
+        e.preventDefault();
+    }
+
+    onMouseDown(e: MouseEvent): void {
         e.preventDefault();
     }
 
