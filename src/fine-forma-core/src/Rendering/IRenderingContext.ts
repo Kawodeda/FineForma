@@ -1,3 +1,4 @@
+import { ImageContent } from '.';
 import { IColorPreview } from '../Style/Color/IColorPreview';
 import { IFillStyleContext } from '../Style/IFillStyleContext';
 import { Transform } from '../Transform';
@@ -19,7 +20,7 @@ export interface IRenderingContext extends IFillStyleContext, IRenderingPathBuil
 
     fill(): void;
 
-    drawImage(image: Uint8ClampedArray, x: number, y: number, width: number, height: number): void;
+    drawImage(image: ImageContent, x: number, y: number, width: number, height: number): void;
 
     save(): void;
 

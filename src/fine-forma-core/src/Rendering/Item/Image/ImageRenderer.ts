@@ -29,7 +29,7 @@ export class ImageRenderer extends BaseItemRenderer {
     // TODO: implement image flip when its rectangle is flipped
     private _drawImage(context: IRenderingContext, imageContent: ImageContent): void {
         context.drawImage(
-            Uint8ClampedArray.from(imageContent.image), 
+            imageContent, 
             this._item.controls.path.bounds.corner1.x, 
             this._item.controls.path.bounds.corner1.y,
             this._item.controls.path.bounds.width,

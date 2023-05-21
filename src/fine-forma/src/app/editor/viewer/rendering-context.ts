@@ -1,15 +1,18 @@
-import { ColorComponent, IColorPreview, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
+import { ColorComponent, IColorPreview, IRenderingContext, ImageContent, Transform, Vector2 } from 'fine-forma-core';
 
 import { PathBuilder } from './path-builder';
+import { IImageBitmapProvider } from '../../shared/i-image-bitmap-provider';
 
 export class RenderingContext implements IRenderingContext {
 
     private readonly _context: CanvasRenderingContext2D;
     private readonly _pathBuilder: PathBuilder;
+    private readonly _imageBitmapProvider: IImageBitmapProvider;
 
-    constructor(context: CanvasRenderingContext2D) {
+    constructor(context: CanvasRenderingContext2D, imageBitmapProvider: IImageBitmapProvider) {
         this._context = context;
         this._pathBuilder = new PathBuilder(this._context);
+        this._imageBitmapProvider = imageBitmapProvider;
     }
 
     setTransform(transform: Transform): void {
@@ -55,16 +58,12 @@ export class RenderingContext implements IRenderingContext {
         this._context.fill();
     }
 
-    drawImage(image: Uint8ClampedArray, x: number, y: number, width: number, height: number): void {
-        const blob = new Blob([image]);
-        const url = URL.createObjectURL(blob);
-        const img = new Image();
+    drawImage(image: ImageContent, x: number, y: number, width: number, height: number): void {
+        const bitmap = this._imageBitmapProvider.getImageBitmap(image);
 
-        img.onload = () => {
-            this._context.drawImage(img, x, y, width, height);
-        };
-
-        img.src = url;
+        if (bitmap != null) {
+            this._context.drawImage(bitmap, x, y, width, height);
+        }
     }
 
     save(): void {

@@ -6,6 +6,8 @@ import { FineFormaComponent } from './fine-forma.component';
 import { EditorModule } from './editor/editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { IMAGE_BITMAP_PROVIDER } from './shared/i-image-bitmap-provider';
+import { ImageBitmapProvider } from './shared/image-bitmap-provider';
 
 @NgModule({
     declarations: [
@@ -18,7 +20,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         BrowserAnimationsModule,
         FontAwesomeModule
     ],
-    providers: [],
+    providers: [
+        { provide: IMAGE_BITMAP_PROVIDER, useClass: ImageBitmapProvider }
+    ],
     bootstrap: [FineFormaComponent]
 })
 export class FineFormaModule { }

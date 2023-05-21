@@ -6,6 +6,7 @@ import {
     Design,
     DesignRenderer, 
     IRendererFactory, 
+    ImageContentProvider, 
     ItemRendererFactory, 
     Layer, 
     LayerRenderer, 
@@ -20,10 +21,12 @@ import {
     Viewport, 
     ViewportConstraints, 
     createCircle, 
+    createImage, 
     createRectangle
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
+import { ExternalImageStorage } from '../../shared/external-image-storage';
 
 @Injectable()
 export class ViewerProvider implements IViewerProvider {
@@ -58,20 +61,27 @@ export class ViewerProvider implements IViewerProvider {
                 createRectangle(400, 200, 150, 80)
                     .setFill(Brushes.lavender())
                     .setStroke(new Pen(Brushes.red(), 4, new DashSettings([9, 4])))
-                    .build()
+                    .build(),
+                createImage(600, 600, 200, 200, 'masyunya3').build()
             ], 1)
         ]);
     }
 
     private _createRendererFactory(): IRendererFactory {
+        const images = [
+            ['masyunya', 'https://vk.com/sticker/1-71339-512'],
+            ['masyunya2', 'https://vk.com/sticker/1-71326-512'],
+            ['masyunya3', 'https://vk.com/sticker/1-71367-512'],
+            ['sima', 'https://vk.com/sticker/1-79353-512'],
+            ['sima2', 'https://vk.com/sticker/1-79342-512']
+        ] as [string, string][];
+
         return new RendererFactory(
             new DesignRenderer(
                 new LayerRenderer(
-                    new ItemRendererFactory({
-                        getContent: () => {
-                            throw new Error()
-                        }
-                    }))),
+                    new ItemRendererFactory(
+                        new ImageContentProvider(
+                            new ExternalImageStorage(images))))),
             new UiRenderer({ stroke: new Pen(new SolidBrush(new RgbColor(0, 144, 255, 255)), 2) }));
     }
 }

@@ -1,7 +1,7 @@
 import { CanvasRenderingContext2D, Image, DOMMatrix } from 'canvas';
 import { Buffer } from 'node:buffer';
 
-import { IColorPreview, IRenderingContext, Transform, Vector2 } from 'fine-forma-core';
+import { IColorPreview, IRenderingContext, ImageContent, Transform, Vector2 } from 'fine-forma-core';
 
 import { PathBuilderFake } from './PathBuilderFake';
 import { colorPreviewToHtml } from './Rendering/Utils';
@@ -59,8 +59,8 @@ export class RenderingContextFake implements IRenderingContext {
         this._context.fill();
     }
 
-    drawImage(image: Uint8ClampedArray, x: number, y: number, width: number, height: number): void {
-        const base64Image = Buffer.from(image.buffer).toString('base64');
+    drawImage(image: ImageContent, x: number, y: number, width: number, height: number): void {
+        const base64Image = Buffer.from(image.image.buffer).toString('base64');
         const url = `data:image/png;base64,${base64Image}`;
         const img = new Image();
 
