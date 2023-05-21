@@ -17,6 +17,7 @@ export class ViewerComponent implements AfterViewInit {
     constructor(@Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService) {
         this._renderingService = renderingService;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
+        window.addEventListener('keydown', e => this.onKeyDown(e));
     }
 
     private get _canvas(): HTMLCanvasElement {
@@ -37,14 +38,26 @@ export class ViewerComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const redrawViewer = (): void => {
-            this._renderingService.redrawViewer(this._context);
-
-            requestAnimationFrame(redrawViewer);
-        }
-
         this._canvasResizeObserver.observe(this._canvas, { box: 'content-box' });
-        redrawViewer();
+        requestAnimationFrame(this.redrawViewer);
+    }
+
+    redrawViewer = (): void => {
+        this._renderingService.redrawViewer(this._context);
+        requestAnimationFrame(this.redrawViewer);
+        // const image = new Image();
+        // image.onload = () => {
+        //     this._context.drawImage(image, 600, 600, 200, 200);
+        // }
+        // image.src = 'https://vk.com/sticker/1-79353-512';
+    }
+
+    onKeyDown(e: KeyboardEvent): void {
+        void 0;
+    }
+
+    onWheel(e: WheelEvent): void {
+        e.preventDefault();
     }
 
     private _onCanvasResized(entries: ResizeObserverEntry[]): void {
