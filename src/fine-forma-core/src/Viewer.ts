@@ -1,10 +1,11 @@
 import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design } from './Design';
+import { ICommandExecutor } from './InputHandling';
 import { IRenderer, IDesignContext, IViewportContext, IRendererFactory, ISelectionContext } from './Rendering';
 import { Selection } from './Selection';
 import { Viewport } from './Viewport';
 
-export class Viewer implements IDesignContext, IViewportContext, ISelectionContext, IExecutionContext {
+export class Viewer implements IDesignContext, IViewportContext, ISelectionContext, IExecutionContext, ICommandExecutor {
     
     private readonly _renderer: IRenderer;
 

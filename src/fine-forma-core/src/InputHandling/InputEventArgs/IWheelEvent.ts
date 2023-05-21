@@ -1,5 +1,5 @@
-import { IMouseEventArgs } from '.';
-import { Vector2 } from '../Math';
+import { IMouseEventArgs } from '..';
+import { Vector2 } from '../../Math';
 
 export interface IWheelEvent extends IMouseEventArgs {
 

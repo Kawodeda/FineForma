@@ -1,4 +1,4 @@
-import { Vector2 } from '../Math';
+import { Vector2 } from '../../Math';
 
 export type MouseButton = 'left' | 'right' | 'middle';
 
