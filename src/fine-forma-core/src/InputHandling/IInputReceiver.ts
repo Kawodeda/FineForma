@@ -1,4 +1,4 @@
-import { IKeyboardEvent, IMouseEventArgs, IWheelEvent } from '.';
+import { IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs } from '.';
 
 export interface IInputReceiver {
 
@@ -8,9 +8,9 @@ export interface IInputReceiver {
 
     sendMouseMove(event: IMouseEventArgs): Promise<void>;
 
-    sendWheel(event: IWheelEvent): Promise<void>;
+    sendWheel(event: IWheelEventArgs): Promise<void>;
 
-    sendKeyDown(event: IKeyboardEvent): Promise<void>;
+    sendKeyDown(event: IKeyboardEventArgs): Promise<void>;
 
-    sendKeyUp(event: IKeyboardEvent): Promise<void>;
+    sendKeyUp(event: IKeyboardEventArgs): Promise<void>;
 }

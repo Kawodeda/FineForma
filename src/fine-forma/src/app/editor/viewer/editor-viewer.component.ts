@@ -1,8 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
 
 import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-rendering-service';
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
-import { Vector2 } from 'fine-forma-core';
+import { IInputHandlingService, INPUT_HANDLING_SERVICE } from './i-input-handling-service';
+import { handleAsyncAction } from '../../shared/utils';
 
 @Component({
   selector: 'ff-editor-viewer',
@@ -14,14 +14,14 @@ export class ViewerComponent implements AfterViewInit {
     @ViewChild('mainCanvas') canvas: ElementRef<HTMLCanvasElement> | undefined;
 
     private readonly _renderingService: IViewerRenderingService;
-    private readonly _viewerProvider: IViewerProvider;
+    private readonly _inputHandlingService: IInputHandlingService;
     private readonly _canvasResizeObserver: ResizeObserver;
 
     constructor(
         @Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService,
-        @Inject(VIEWER_PROVIDER) viewerProvider: IViewerProvider) {
+        @Inject(INPUT_HANDLING_SERVICE) inputHandlingService: IInputHandlingService) {
         this._renderingService = renderingService;
-        this._viewerProvider = viewerProvider;
+        this._inputHandlingService = inputHandlingService;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
         window.addEventListener('keydown', e => this.onKeyDown(e));
     }
@@ -45,33 +45,25 @@ export class ViewerComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         this._canvasResizeObserver.observe(this._canvas, { box: 'content-box' });
-        requestAnimationFrame(this.redrawViewer);
+        requestAnimationFrame(() => this._redrawViewer());
     }
 
-    redrawViewer = (): void => {
+    onKeyDown(event: KeyboardEvent): void {
+        handleAsyncAction(this._inputHandlingService.keyDown(event));
+    }
+
+    onWheel(event: WheelEvent): void {
+        event.preventDefault();
+        handleAsyncAction(this._inputHandlingService.wheel(event));
+    }
+
+    onMouseDown(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseDown(event));
+    }
+
+    private _redrawViewer(): void {
         this._renderingService.redrawViewer(this._context);
-        requestAnimationFrame(this.redrawViewer);
-    }
-
-    onKeyDown(e: KeyboardEvent): void {
-        void e;
-    }
-
-    onWheel(e: WheelEvent): void {
-        e.preventDefault();
-        this._viewerProvider.viewer.inputReceiver.sendWheel({
-            delta: new Vector2(e.deltaX, e.deltaY),
-            button: 'left',
-            position: new Vector2(e.clientX, e.clientY),
-            altKey: e.altKey,
-            shiftKey: e.shiftKey,
-            ctrlKey: e.ctrlKey
-        })
-        .catch(reason => console.error(reason));
-    }
-
-    onMouseDown(e: MouseEvent): void {
-        e.preventDefault();
+        requestAnimationFrame(() => this._redrawViewer());
     }
 
     private _onCanvasResized(entries: ResizeObserverEntry[]): void {

@@ -21,6 +21,8 @@ import { SharedModule } from '../shared/shared.module';
 import { ITEM_SERVICE } from './toolbar/i-item-service';
 import { ItemService } from './toolbar/item.service';
 import { ZoomPanelComponent } from './toolbar/zoom-panel/zoom-panel.component';
+import { INPUT_HANDLING_SERVICE } from './viewer/i-input-handling-service';
+import { InputHandlingService } from './viewer/input-handling.service';
 
 @NgModule({
     imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule],
@@ -31,7 +33,8 @@ import { ZoomPanelComponent } from './toolbar/zoom-panel/zoom-panel.component';
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
         { provide: SELECTION_SERVICE, useClass: SelectionService },
         { provide: ZOOM_SERVICE, useClass: ZoomService },
-        { provide: ITEM_SERVICE, useClass: ItemService }
+        { provide: ITEM_SERVICE, useClass: ItemService },
+        { provide: INPUT_HANDLING_SERVICE, useClass: InputHandlingService }
     ]
 })
 export class EditorModule { }

@@ -1,4 +1,4 @@
-import { IMouseEventArgs, IWheelEvent, IKeyboardEvent } from '.';
+import { IMouseEventArgs, IWheelEventArgs, IKeyboardEventArgs } from '.';
 import { ICommand } from '../Commands';
 
 export interface IInputHandler {
@@ -9,9 +9,9 @@ export interface IInputHandler {
 
     mouseMove(event: IMouseEventArgs): ICommand;
 
-    wheel(event: IWheelEvent): ICommand;
+    wheel(event: IWheelEventArgs): ICommand;
 
-    keyDown(event: IKeyboardEvent): ICommand;
+    keyDown(event: IKeyboardEventArgs): ICommand;
 
-    keyUp(event: IKeyboardEvent): ICommand;
+    keyUp(event: IKeyboardEventArgs): ICommand;
 }

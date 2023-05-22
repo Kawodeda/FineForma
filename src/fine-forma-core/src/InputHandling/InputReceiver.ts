@@ -1,4 +1,4 @@
-import { IChainableInputHandler, ICommandExecutor, IInputReceiver, IKeyboardEvent, IMouseEventArgs, IWheelEvent } from '.';
+import { IChainableInputHandler, ICommandExecutor, IInputReceiver, IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs } from '.';
 import { ICommand } from '../Commands';
 
 export class InputReceiver implements IInputReceiver {
@@ -29,19 +29,19 @@ export class InputReceiver implements IInputReceiver {
         );
     }
     
-    sendWheel(event: IWheelEvent): Promise<void> {
+    sendWheel(event: IWheelEventArgs): Promise<void> {
         return this._execute(
             this._inputHandler.wheel(event)
         );
     }
     
-    sendKeyDown(event: IKeyboardEvent): Promise<void> {
+    sendKeyDown(event: IKeyboardEventArgs): Promise<void> {
         return this._execute(
             this._inputHandler.keyDown(event)
         );
     }
     
-    sendKeyUp(event: IKeyboardEvent): Promise<void> {
+    sendKeyUp(event: IKeyboardEventArgs): Promise<void> {
         return this._execute(
             this._inputHandler.keyUp(event)
         );

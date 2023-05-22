@@ -1,4 +1,4 @@
-export interface IKeyboardEvent {
+export interface IKeyboardEventArgs {
 
     get code(): string;
 

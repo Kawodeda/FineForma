@@ -1,5 +1,5 @@
-import { IChainableInputHandler, IKeyboardEvent, IMouseEventArgs, IWheelEvent } from '..';
-import { AddZoomCommand, Command, ICommand, ScrollCommand, ZoomCommand } from '../../Commands';
+import { IChainableInputHandler, IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs } from '..';
+import { AddZoomCommand, Command, ICommand, ScrollCommand } from '../../Commands';
 import { Vector2 } from '../../Math';
 
 export class ViewportInputHandler implements IChainableInputHandler {
@@ -15,18 +15,18 @@ export class ViewportInputHandler implements IChainableInputHandler {
     }
 
     mouseDown(event: IMouseEventArgs): ICommand {
-        throw new Error('Method not implemented.');
+        return new Command();
     }
 
     mouseUp(event: IMouseEventArgs): ICommand {
-        throw new Error('Method not implemented.');
+        return new Command();
     }
 
     mouseMove(event: IMouseEventArgs): ICommand {
         return new Command();
     }
 
-    wheel(event: IWheelEvent): ICommand {
+    wheel(event: IWheelEventArgs): ICommand {
         if (event.ctrlKey) {
             return new Command([], [
                 new AddZoomCommand(event.delta.y / -500)
@@ -45,11 +45,11 @@ export class ViewportInputHandler implements IChainableInputHandler {
         ]);
     }
 
-    keyDown(event: IKeyboardEvent): ICommand {
-        throw new Error('Method not implemented.');
+    keyDown(event: IKeyboardEventArgs): ICommand {
+        return new Command();
     }
 
-    keyUp(event: IKeyboardEvent): ICommand {
-        throw new Error('Method not implemented.');
+    keyUp(event: IKeyboardEventArgs): ICommand {
+        return new Command();
     }
 }
