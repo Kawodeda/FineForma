@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
 
 import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-rendering-service';
+import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { Vector2 } from 'fine-forma-core';
 
 @Component({
   selector: 'ff-editor-viewer',
@@ -12,10 +14,14 @@ export class ViewerComponent implements AfterViewInit {
     @ViewChild('mainCanvas') canvas: ElementRef<HTMLCanvasElement> | undefined;
 
     private readonly _renderingService: IViewerRenderingService;
+    private readonly _viewerProvider: IViewerProvider;
     private readonly _canvasResizeObserver: ResizeObserver;
 
-    constructor(@Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService) {
+    constructor(
+        @Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService,
+        @Inject(VIEWER_PROVIDER) viewerProvider: IViewerProvider) {
         this._renderingService = renderingService;
+        this._viewerProvider = viewerProvider;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
         window.addEventListener('keydown', e => this.onKeyDown(e));
     }
@@ -48,11 +54,20 @@ export class ViewerComponent implements AfterViewInit {
     }
 
     onKeyDown(e: KeyboardEvent): void {
-        void 0;
+        void e;
     }
 
     onWheel(e: WheelEvent): void {
         e.preventDefault();
+        this._viewerProvider.viewer.inputReceiver.sendWheel({
+            delta: new Vector2(e.deltaX, e.deltaY),
+            button: 'left',
+            position: new Vector2(e.clientX, e.clientY),
+            altKey: e.altKey,
+            shiftKey: e.shiftKey,
+            ctrlKey: e.ctrlKey
+        })
+        .catch(reason => console.error(reason));
     }
 
     onMouseDown(e: MouseEvent): void {

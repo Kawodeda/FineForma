@@ -22,7 +22,9 @@ import {
     ViewportConstraints, 
     createCircle, 
     createImage, 
-    createRectangle
+    createRectangle,
+    InputReceiver,
+    ViewportInputHandler
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -50,7 +52,8 @@ export class ViewerProvider implements IViewerProvider {
                 new Vector2(0, 0),
                 1,
                 0),
-            this._createRendererFactory()
+            this._createRendererFactory(),
+            { create: executor => new InputReceiver(new ViewportInputHandler(), executor) }
         );
     }
 

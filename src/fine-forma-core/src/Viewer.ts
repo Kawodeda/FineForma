@@ -1,6 +1,6 @@
 import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design } from './Design';
-import { ICommandExecutor } from './InputHandling';
+import { ICommandExecutor, IInputReceiver, IInputReceiverFactory } from './InputHandling';
 import { IRenderer, IDesignContext, IViewportContext, IRendererFactory, ISelectionContext } from './Rendering';
 import { Selection } from './Selection';
 import { Viewport } from './Viewport';
@@ -8,20 +8,26 @@ import { Viewport } from './Viewport';
 export class Viewer implements IDesignContext, IViewportContext, ISelectionContext, IExecutionContext, ICommandExecutor {
     
     private readonly _renderer: IRenderer;
+    private readonly _inputReceiver: IInputReceiver;
 
     private _design: Design;
     private _viewport: Viewport;
     private _selection: Selection;
 
-    constructor(design: Design, viewport: Viewport, rendererFactory: IRendererFactory) {
+    constructor(design: Design, viewport: Viewport, rendererFactory: IRendererFactory, inputReceiverFactory: IInputReceiverFactory) {
         this._design = design;
         this._viewport = viewport;
-        this._renderer = rendererFactory.create(this, this, this);
         this._selection = Selection.empty;
+        this._renderer = rendererFactory.create(this, this, this);
+        this._inputReceiver = inputReceiverFactory.create(this);
     }
 
     get renderer(): IRenderer {
         return this._renderer;
+    }
+
+    get inputReceiver(): IInputReceiver {
+        return this._inputReceiver;
     }
 
     get design(): Design {

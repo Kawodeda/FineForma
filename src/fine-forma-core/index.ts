@@ -9,3 +9,4 @@ export * from './src/Viewport';
 export * from './src/Viewer';
 export * from './src/Commands';
 export * from './src/Selection';
+export * from './src/InputHandling';

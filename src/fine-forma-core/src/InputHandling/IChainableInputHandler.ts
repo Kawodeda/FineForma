@@ -2,5 +2,5 @@ import { IInputHandler } from './IInputHandler';
 
 export interface IChainableInputHandler extends IInputHandler {
 
-    get next(): IChainableInputHandler;
+    get next(): IChainableInputHandler | null;
 }
