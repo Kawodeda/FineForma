@@ -25,7 +25,7 @@ import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 
 const expect = chai.expect;
 
@@ -57,7 +57,8 @@ suite('UseCase: rotate item', () => {
                 new Vector2(-100, -100),
                 1.2,
                 0),
-            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.blue(), 3) })
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.blue(), 3) }),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');

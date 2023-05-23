@@ -4,14 +4,17 @@ import { Canvas, Image } from 'canvas';
 import { 
     DesignRenderer, 
     IImageContentStorage, 
+    IInputReceiverFactory, 
     IRendererFactory, 
     ImageContentProvider, 
+    InputReceiver, 
     ItemRendererFactory, 
     LayerRenderer, 
     Pen, 
     RendererFactory, 
     UiRenderer, 
-    Viewer
+    Viewer,
+    ViewportInputHandler
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from './Settings';
@@ -31,6 +34,12 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
                 new ItemRendererFactory(
                     new ImageContentProvider(imageStorageDummy())))),
         new UiRenderer({ stroke: Pen.empty }));
+}
+
+export function inputReceiverFactory(): IInputReceiverFactory {
+    return {
+        create: executor => new InputReceiver(new ViewportInputHandler(), executor)
+    };
 }
 
 export function assertViewer(actual: Viewer, expected: Viewer): void {

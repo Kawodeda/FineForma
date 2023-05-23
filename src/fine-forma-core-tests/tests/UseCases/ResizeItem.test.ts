@@ -27,7 +27,7 @@ import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 import { pathApple } from '../TestPaths';
 
 const expect = chai.expect;
@@ -63,7 +63,8 @@ suite('UseCase: resize item', () => {
                 new Vector2(-100, -100),
                 0.9,
                 0),
-            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.yellow(), 1) })
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.yellow(), 1) }),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');

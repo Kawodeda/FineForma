@@ -29,7 +29,7 @@ import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 import { pathApple } from '../TestPaths';
 
 const expect = chai.expect;
@@ -66,7 +66,8 @@ suite('UseCase: set item fill style', () => {
                 new Vector2(-100, -100),
                 1.2,
                 0),
-            rendererFactory(await imageStorage)
+            rendererFactory(await imageStorage),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');

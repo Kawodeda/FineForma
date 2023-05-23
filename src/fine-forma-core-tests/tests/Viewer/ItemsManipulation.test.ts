@@ -19,7 +19,7 @@ import {
     createRectangle
 } from 'fine-forma-core';
 
-import { assertViewer, rendererFactoryWithDummyImageStroage } from '../Utils';
+import { assertViewer, inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -35,7 +35,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddItemToLayerCommand(createRectangle(80, 0, 100, 100).build(), viewer.design.layers.get(0))
@@ -57,7 +58,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add items to design, layer at index, single command',
@@ -68,7 +70,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddItemToLayerAtCommand(createLine(-100, 0, 100, 100).build(), 0),
@@ -88,7 +91,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add items to design, layer at index, separate commands',
@@ -99,7 +103,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddItemToLayerAtCommand(createLine(-100, 0, 100, 100).build(), 0)
@@ -121,7 +126,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     90),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'remove items from design',
@@ -142,7 +148,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveItemCommand(viewer.design.layers.get(1).items.get(1)),
@@ -164,7 +171,8 @@ suite('Manipulate items', () => {
                     new Vector2(0, 100),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         }
     ];
 
@@ -186,7 +194,8 @@ suite('Manipulate items', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddItemToLayerCommand(createRectangle(0, 0, 200, 300).build(), new Layer([], 0))
@@ -202,7 +211,8 @@ suite('Manipulate items', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddItemToLayerAtCommand(createRectangle(0, 0, 200, 300).build(), 1)
@@ -218,7 +228,8 @@ suite('Manipulate items', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveItemCommand(createRectangle(0, 0, 200, 300).build())

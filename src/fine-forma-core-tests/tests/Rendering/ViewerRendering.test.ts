@@ -35,7 +35,7 @@ import {
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { setupImageContentProvider } from './Utils';
-import { loadImage } from '../Utils';
+import { inputReceiverFactory, loadImage } from '../Utils';
 import { RenderingContextFake } from '../RenderingContextFake';
 
 suite('Viewer rendering', () => {
@@ -103,7 +103,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -118,7 +119,8 @@ suite('Viewer rendering', () => {
                     new Vector2(500, 780),
                     2.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -133,7 +135,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -214,7 +217,8 @@ suite('Viewer rendering', () => {
                     new Vector2(200, 150),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -295,7 +299,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -376,7 +381,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -457,7 +463,8 @@ suite('Viewer rendering', () => {
                     new Vector2(100, 200),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -538,7 +545,8 @@ suite('Viewer rendering', () => {
                     new Vector2(-200, 100),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -619,7 +627,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -700,7 +709,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1.63,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -783,7 +793,8 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     0.7,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -867,7 +878,8 @@ suite('Viewer rendering', () => {
                         new Vector2(-200, 100),
                         0.5,
                         0),
-                    new RendererFactory(createDesignRenderer(), createUiRenderer()));
+                    new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                    inputReceiverFactory());
                 
                 result.selection = new Selection([
                     ...result.design.layers.get(1).items,

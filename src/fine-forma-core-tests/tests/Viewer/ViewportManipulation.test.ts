@@ -17,7 +17,7 @@ import {
     createRectangle
 } from 'fine-forma-core';
 
-import { assertViewer, rendererFactoryWithDummyImageStroage } from '../Utils';
+import { assertViewer, inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -36,7 +36,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ScrollCommand(new Vector2(0, 156.8))]));
             },
@@ -50,7 +51,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(0, 156.8),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'scroll #2',
@@ -64,7 +66,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ScrollCommand(new Vector2(138, 156.8))]));
             },
@@ -78,7 +81,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(38, 96.8),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'scroll #3',
@@ -92,7 +96,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ScrollCommand(new Vector2(-100, -200))]));
             },
@@ -106,7 +111,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-200, -260),
                     2,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'zoom #1',
@@ -120,7 +126,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     1.1,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ZoomCommand(2)]));
             },
@@ -134,7 +141,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     2.2,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'zoom #2',
@@ -148,7 +156,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     1.5,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ZoomCommand(0.5)]));
             },
@@ -162,7 +171,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     0.75,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add zoom #1',
@@ -176,7 +186,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     1.1,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new AddZoomCommand(2)]));
             },
@@ -190,7 +201,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     3.1,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add zoom #2',
@@ -204,7 +216,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     1.5,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new AddZoomCommand(-1)]));
             },
@@ -218,7 +231,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(-100, -60),
                     0.5,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         }
     ];
 
@@ -240,7 +254,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ScrollCommand(new Vector2(-300, 0))]));
             }
@@ -254,7 +269,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ScrollCommand(new Vector2(401, 401))]));
             }
@@ -268,7 +284,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ZoomCommand(0.1)]));
             }
@@ -282,7 +299,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new ZoomCommand(8)]));
             }
@@ -296,7 +314,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new AddZoomCommand(5)]));
             }
@@ -310,7 +329,8 @@ suite('Manipulate viewport', () => {
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [new AddZoomCommand(-1)]));
             }
