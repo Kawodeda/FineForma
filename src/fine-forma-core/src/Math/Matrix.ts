@@ -1,4 +1,5 @@
 import { isRealNumber, nearlyEquals } from './Utils';
+import { Vector2 } from './Vector2';
 
 export class Matrix {
 
@@ -73,6 +74,13 @@ export class Matrix {
             this.m11 / determinant,
             (this.m12 * this.d2 - this.d1 * this.m22) / determinant,
             -(this.m11 * this.d2 - this.d1 * this.m21) / determinant
+        );
+    }
+
+    applyTo(vector: Vector2): Vector2 {
+        return new Vector2(
+            this.m11 * vector.x + this.m12 * vector.y + this.d1,
+            this.m21 * vector.x + this.m22 * vector.y + this.d2
         );
     }
 

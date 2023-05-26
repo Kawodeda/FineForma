@@ -61,6 +61,13 @@ export class Vector2 {
         return this.x * other.x + this.y * other.y;
     }
 
+    multiply(other: Vector2): Vector2 {
+        return new Vector2(
+            this.x * other.x,
+            this.y * other.y
+        );
+    }
+
     equals(other: Vector2): boolean {
         return nearlyEquals(this.x, other.x) 
             && nearlyEquals(this.y, other.y);

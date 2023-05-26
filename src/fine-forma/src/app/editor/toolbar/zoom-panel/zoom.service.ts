@@ -1,9 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { AddZoomCommand, Command, nearlyEquals } from 'fine-forma-core';
+import { AddZoomAtCommand, Command, Vector2, nearlyEquals } from 'fine-forma-core';
 
 import { IZoomService } from './i-zoom-service';
 import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
+import { canvasToDesignPoint } from '../../shared/reference-frame-converter';
 
 @Injectable()
 export class ZoomService implements IZoomService {
@@ -40,15 +41,22 @@ export class ZoomService implements IZoomService {
             || nearlyEquals(decreasedZoom, this._minZoom);
     }
 
-    increaseZoom(amount: number): Promise<void> {
+    increaseZoom(amount: number, viewerWidth: number, viewerHeight: number): Promise<void> {
         return this._viewerProvider.viewer.execute(new Command([], [
-            new AddZoomCommand(amount)
+            new AddZoomAtCommand(amount, this._getZoomCenter(viewerWidth, viewerHeight))
         ]));
     }
 
-    decreaseZoom(amount: number): Promise<void> {
+    decreaseZoom(amount: number, viewerWidth: number, viewerHeight: number): Promise<void> {
         return this._viewerProvider.viewer.execute(new Command([], [
-            new AddZoomCommand(-amount)
+            new AddZoomAtCommand(-amount, this._getZoomCenter(viewerWidth, viewerHeight))
         ]));
+    }
+
+    private _getZoomCenter(viewerWidth: number, viewerHeight: number): Vector2 {
+        return canvasToDesignPoint(
+            new Vector2(viewerWidth / 2, viewerHeight / 2), 
+            this._viewerProvider.viewer.viewport
+        );
     }
 }

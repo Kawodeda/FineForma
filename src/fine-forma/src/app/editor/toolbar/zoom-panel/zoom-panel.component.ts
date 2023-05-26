@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 
 import { IZoomService, ZOOM_SERVICE } from './i-zoom-service';
 
@@ -11,6 +11,9 @@ const ZOOM_STEP = 0.2;
 })
 export class ZoomPanelComponent {
     
+    @Input() viewerWidth = 0;
+    @Input() viewerHeight = 0;
+
     private readonly _zoomService: IZoomService;
     
     constructor(@Inject(ZOOM_SERVICE) zoomService: IZoomService) {
@@ -30,10 +33,10 @@ export class ZoomPanelComponent {
     }
 
     async onZoomInClick(): Promise<void> {
-        await this._zoomService.increaseZoom(ZOOM_STEP);
+        await this._zoomService.increaseZoom(ZOOM_STEP, this.viewerWidth, this.viewerHeight);
     }
 
     async onZoomOutClick():  Promise<void> {
-        await this._zoomService.decreaseZoom(ZOOM_STEP);
+        await this._zoomService.decreaseZoom(ZOOM_STEP, this.viewerWidth, this.viewerHeight);
     }
 }

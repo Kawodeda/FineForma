@@ -13,7 +13,8 @@ export class ScrollCommand implements IViewportCommand {
     execute(viewport: Viewport): Promise<Viewport> {
         return Promise.resolve(
             new Viewport(
-                viewport.constraints, 
+                viewport.constraints,
+                viewport.size, 
                 viewport.scroll.add(this._delta), 
                 viewport.zoom, 
                 viewport.angle

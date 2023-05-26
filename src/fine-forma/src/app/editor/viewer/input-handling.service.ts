@@ -4,6 +4,7 @@ import { IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs, MouseButton, Vect
 
 import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
 import { IInputHandlingService } from './i-input-handling-service';
+import { canvasToDesignPoint } from '../shared/reference-frame-converter';
 
 @Injectable()
 export class InputHandlingService implements IInputHandlingService {
@@ -53,7 +54,7 @@ export class InputHandlingService implements IInputHandlingService {
     private _toMouseEventArgs(event: MouseEvent): IMouseEventArgs {
         return {
             button: this._convertMouseButton(event.button),
-            position: new Vector2(event.clientX, event.clientY),
+            position: this._extractMousePosition(event),
             altKey: event.altKey,
             shiftKey: event.shiftKey,
             ctrlKey: event.ctrlKey
@@ -64,7 +65,7 @@ export class InputHandlingService implements IInputHandlingService {
         return {
             delta: new Vector2(event.deltaX, event.deltaY),
             button: this._convertMouseButton(event.button),
-            position: new Vector2(event.clientX, event.clientY),
+            position: this._extractMousePosition(event),
             altKey: event.altKey,
             shiftKey: event.shiftKey,
             ctrlKey: event.ctrlKey
@@ -79,6 +80,13 @@ export class InputHandlingService implements IInputHandlingService {
             ctrlKey: event.ctrlKey,
             repeat: event.repeat
         };
+    }
+
+    private _extractMousePosition(event: MouseEvent): Vector2 {
+        return canvasToDesignPoint(
+            new Vector2(event.offsetX, event.offsetY), 
+            this._viewerProvider.viewer.viewport
+        );
     }
 
     private _convertMouseButton(button: number): MouseButton {

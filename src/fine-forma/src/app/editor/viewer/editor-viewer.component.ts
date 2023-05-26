@@ -1,8 +1,9 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Inject, Output, EventEmitter } from '@angular/core';
 
 import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-rendering-service';
 import { IInputHandlingService, INPUT_HANDLING_SERVICE } from './i-input-handling-service';
 import { handleAsyncAction } from '../../shared/utils';
+import { IViewportService, VIEWPORT_SERVICE } from './i-viewport-service';
 
 @Component({
   selector: 'ff-editor-viewer',
@@ -11,17 +12,24 @@ import { handleAsyncAction } from '../../shared/utils';
 })
 export class ViewerComponent implements AfterViewInit {
 
-    @ViewChild('mainCanvas') canvas: ElementRef<HTMLCanvasElement> | undefined;
+    @ViewChild('mainCanvas') readonly canvas: ElementRef<HTMLCanvasElement> | undefined;
+
+    @Output() readonly widthChanged = new EventEmitter<number>();
+
+    @Output() readonly heightChanged = new EventEmitter<number>();
 
     private readonly _renderingService: IViewerRenderingService;
     private readonly _inputHandlingService: IInputHandlingService;
+    private readonly _viewportService: IViewportService;
     private readonly _canvasResizeObserver: ResizeObserver;
 
     constructor(
         @Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService,
-        @Inject(INPUT_HANDLING_SERVICE) inputHandlingService: IInputHandlingService) {
+        @Inject(INPUT_HANDLING_SERVICE) inputHandlingService: IInputHandlingService,
+        @Inject(VIEWPORT_SERVICE) viewportService: IViewportService) {
         this._renderingService = renderingService;
         this._inputHandlingService = inputHandlingService;
+        this._viewportService = viewportService;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
         window.addEventListener('keydown', e => this.onKeyDown(e));
     }
@@ -80,6 +88,9 @@ export class ViewerComponent implements AfterViewInit {
 
     private _setCanvasSize(width: number, height: number): void {
         this._canvas.width = width;
+        this.widthChanged.emit(width);
         this._canvas.height = height;
+        this.heightChanged.emit(height);
+        handleAsyncAction(this._viewportService.updateViewportSize(width, height));
     }
 }

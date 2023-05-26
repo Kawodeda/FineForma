@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 
 import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
 import { IItemService, ITEM_SERVICE } from './i-item-service';
-
 
 @Component({
     selector: 'ff-editor-toolbar',
@@ -10,6 +9,9 @@ import { IItemService, ITEM_SERVICE } from './i-item-service';
     styleUrls: ['editor-toolbar.component.scss']
 })
 export class ToolbarComponent {
+
+    @Input() viewerWidth = 0;
+    @Input() viewerHeight = 0;
 
     private readonly _selectionService: ISelectionService;
     private readonly _itemService: IItemService;

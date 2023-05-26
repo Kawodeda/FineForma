@@ -1,3 +1,4 @@
+import { nearlyEquals } from './Utils';
 import { Vector2 } from './Vector2';
 
 export class Rectangle {
@@ -24,12 +25,23 @@ export class Rectangle {
             .scale(1 / 2);
     }
 
+    get size(): Vector2 {
+        return this.corner2.subtract(this.corner1);
+    }
+
     get width(): number {
-        return this.corner2.x - this.corner1.x;
+        return this.size.x;
     }
 
     get height(): number {
-        return this.corner2.y - this.corner1.y;
+        return this.size.y;
+    }
+
+    contains(point: Vector2): boolean {
+        return (point.x > this.corner1.x || nearlyEquals(point.x, this.corner1.x))
+            && (point.y > this.corner1.y || nearlyEquals(point.y, this.corner1.y))
+            && (point.x < this.corner2.x || nearlyEquals(point.x, this.corner2.x))
+            && (point.y < this.corner2.y || nearlyEquals(point.y, this.corner2.y));
     }
 
     equals(other: Rectangle): boolean {

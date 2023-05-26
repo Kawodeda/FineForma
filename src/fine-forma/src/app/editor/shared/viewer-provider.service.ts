@@ -24,7 +24,8 @@ import {
     createImage, 
     createRectangle,
     InputReceiver,
-    ViewportInputHandler
+    ViewportInputHandler,
+    Rectangle
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -48,7 +49,12 @@ export class ViewerProvider implements IViewerProvider {
         return new Viewer(
             this._createDesign(),
             new Viewport(
-                new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.1, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(0, 0), new Vector2(1000, 1000)),
+                    new Rectangle(new Vector2(400, 400), new Vector2(400, 400)), 
+                    0.1, 
+                    8),
+                new Vector2(0, 0),
                 new Vector2(0, 0),
                 1,
                 0),

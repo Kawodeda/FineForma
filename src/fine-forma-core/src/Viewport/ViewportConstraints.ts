@@ -1,25 +1,25 @@
-import { Vector2, isRealNumber, nearlyEquals } from '../Math';
+import { Rectangle, Vector2, isRealNumber, nearlyEquals } from '../Math';
 
 export class ViewportConstraints {
 
-    private readonly _minScroll: Vector2;
-    private readonly _maxScroll: Vector2;
+    private readonly _workarea: Rectangle;
+    private readonly _workareaMargin: Rectangle;
     private readonly _minZoom: number;
     private readonly _maxZoom: number;
     
-    constructor(minScroll: Vector2, maxScroll: Vector2, minZoom: number, maxZoom: number) {
-        this._minScroll = minScroll;
-        this._maxScroll = maxScroll;
+    constructor(workarea: Rectangle, workareaMargin: Rectangle, minZoom: number, maxZoom: number) {
+        this._workarea = workarea;
+        this._workareaMargin = workareaMargin;
         this._minZoom = minZoom;
         this._maxZoom = maxZoom;
     }
 
-    get minScroll(): Vector2 {
-        return this._minScroll;
+    get workarea(): Rectangle {
+        return this._workarea;
     }
 
-    get maxScroll(): Vector2 {
-        return this._maxScroll;
+    get workareaMargin(): Rectangle {
+        return this._workareaMargin;
     }
 
     get minZoom(): number {
@@ -30,11 +30,8 @@ export class ViewportConstraints {
         return this._maxZoom;
     }
 
-    isValidScroll(scroll: Vector2): boolean {
-        return (scroll.x > this.minScroll.x || nearlyEquals(scroll.x, this.minScroll.x)) 
-            && (scroll.y > this.minScroll.y || nearlyEquals(scroll.y, this.minScroll.y))
-            && (scroll.x < this.maxScroll.x || nearlyEquals(scroll.x, this.maxScroll.x))
-            && (scroll.y < this.maxScroll.y || nearlyEquals(scroll.y, this.maxScroll.y));
+    isValidScroll(scroll: Vector2, zoom: number, viewportSize: Vector2): boolean {
+        return this._scrollableArea(viewportSize, zoom).contains(scroll);
     }
 
     isValidZoom(zoom: number): boolean {
@@ -48,9 +45,29 @@ export class ViewportConstraints {
     }
 
     equals(other: ViewportConstraints): boolean {
-        return this.minScroll.equals(other.minScroll)
-            && this.maxScroll.equals(other.maxScroll)
+        return this._workarea.equals(other.workarea)
+            && this._workareaMargin.equals(other.workareaMargin)
             && nearlyEquals(this.minZoom, other.minZoom)
             && nearlyEquals(this.maxZoom, other.maxZoom);
+    }
+
+    private _scrollableArea(viewportSize: Vector2, zoom: number): Rectangle {
+        const actualWorkarea = this._scaleRectangle(this.workarea, zoom);
+        const actualMargin = this._scaleRectangle(this.workareaMargin, 1 / zoom);
+
+        return new Rectangle(
+            actualWorkarea.corner1.subtract(actualMargin.corner1),
+            actualWorkarea.corner1
+                .add(actualMargin.corner2)
+                .add(actualWorkarea.size)
+                .subtract(viewportSize)
+        );
+    }
+
+    private _scaleRectangle(rectangle: Rectangle, factor: number): Rectangle {
+        return new Rectangle(
+            rectangle.corner1.scale(factor),
+            rectangle.corner2.scale(factor)
+        );
     }
 }
