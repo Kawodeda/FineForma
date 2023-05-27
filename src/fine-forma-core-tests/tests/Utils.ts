@@ -38,7 +38,10 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
 
 export function inputReceiverFactory(): IInputReceiverFactory {
     return {
-        create: executor => new InputReceiver(new ViewportInputHandler(), executor)
+        create: executor => new InputReceiver(
+            new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 }), 
+            executor
+        )
     };
 }
 

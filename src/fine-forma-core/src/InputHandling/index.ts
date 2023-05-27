@@ -6,4 +6,5 @@ export * from './ICommandExecutor';
 export * from './IChainableInputHandler';
 export * from './InputReceiver';
 export * from './IInuptReceiverFactory';
+export * from './IInputHandlingConfiguration';
 export * from './Viewport/ViewportInputHandler';
