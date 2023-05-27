@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { Command, SetViewportSizeCommand, Vector2 } from 'fine-forma-core';
+import { Command, SetViewportConstraintsCommand, Vector2, ViewportConstraints } from 'fine-forma-core';
 
 import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
 import { IViewportService } from './i-viewport-service';
@@ -15,14 +15,22 @@ export class ViewportService implements IViewportService {
         this._viewerProvider = viewerProvider;
     }
 
-    updateViewportSize(viewportWidth: number, viewportHeight: number): Promise<void> {
-        return this._viewerProvider.viewer.execute(
-            new Command([], [
-                new SetViewportSizeCommand(canvasToDesignSize(
-                    new Vector2(viewportWidth, viewportHeight), 
-                    this._viewerProvider.viewer.viewport
-                ))
-            ])
-        );
+    async updateViewportSize(viewportWidth: number, viewportHeight: number): Promise<void> {
+        const constraints = this._viewerProvider.viewer.viewport.constraints;
+        if (constraints instanceof ViewportConstraints) {
+            await this._viewerProvider.viewer.execute(
+                new Command([], [
+                    new SetViewportConstraintsCommand(new ViewportConstraints(
+                        constraints.workarea,
+                        constraints.workareaMargin,
+                        constraints.minZoom,
+                        constraints.maxZoom,
+                        canvasToDesignSize(
+                            new Vector2(viewportWidth, viewportHeight), 
+                            this._viewerProvider.viewer.viewport)
+                    ))
+                ])
+            );
+        }
     }
 }

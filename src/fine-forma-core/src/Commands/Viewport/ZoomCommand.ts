@@ -13,7 +13,6 @@ export class ZoomCommand implements IViewportCommand {
         return Promise.resolve(
             new Viewport(
                 viewport.constraints,
-                viewport.size,
                 viewport.scroll,
                 viewport.zoom * this._factor,
                 viewport.angle

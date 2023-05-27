@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { AddZoomAtCommand, Command, Vector2, nearlyEquals } from 'fine-forma-core';
+import { AddZoomAtCommand, Command, Vector2 } from 'fine-forma-core';
 
 import { IZoomService } from './i-zoom-service';
 import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
@@ -19,26 +19,16 @@ export class ZoomService implements IZoomService {
         return this._viewerProvider.viewer.viewport.zoom;
     }
 
-    private get _maxZoom(): number {
-        return this._viewerProvider.viewer.viewport.constraints.maxZoom;
-    }
-
-    private get _minZoom(): number {
-        return this._viewerProvider.viewer.viewport.constraints.minZoom;
-    }
-
     canIncreaseZoomBy(amount: number): boolean {
         const increasedZoom = this.zoom + amount;
 
-        return increasedZoom < this._maxZoom
-            || nearlyEquals(increasedZoom, this._maxZoom);
+        return this._isValidZoom(increasedZoom);
     }
 
     canDecreaseZoomBy(amount: number): boolean {
         const decreasedZoom = this.zoom - amount;
 
-        return decreasedZoom > this._minZoom
-            || nearlyEquals(decreasedZoom, this._minZoom);
+        return this._isValidZoom(decreasedZoom);
     }
 
     increaseZoom(amount: number, viewerWidth: number, viewerHeight: number): Promise<void> {
@@ -51,6 +41,10 @@ export class ZoomService implements IZoomService {
         return this._viewerProvider.viewer.execute(new Command([], [
             new AddZoomAtCommand(-amount, this._getZoomCenter(viewerWidth, viewerHeight))
         ]));
+    }
+
+    private _isValidZoom(zoom: number): boolean {
+        return this._viewerProvider.viewer.viewport.constraints.isValidZoom(zoom);
     }
 
     private _getZoomCenter(viewerWidth: number, viewerHeight: number): Vector2 {

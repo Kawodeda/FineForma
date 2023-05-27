@@ -14,7 +14,8 @@ import {
     RendererFactory, 
     UiRenderer, 
     Viewer,
-    ViewportInputHandler
+    ViewportInputHandler,
+    arrayEquals
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from './Settings';
@@ -48,6 +49,7 @@ export function inputReceiverFactory(): IInputReceiverFactory {
 export function assertViewer(actual: Viewer, expected: Viewer): void {
     expect(actual.design.equals(expected.design)).to.be.true;
     expect(actual.viewport.equals(expected.viewport)).to.be.true;
+    expect(arrayEquals(actual.selection.items, expected.selection.items, (a, b) => a.equals(b))).to.be.true;
 }
 
 export function delay(milliseconds: number): Promise<void> {

@@ -1,6 +1,6 @@
 import { Vector2 } from '../../Math';
 
-export type MouseButton = 'left' | 'right' | 'middle';
+export type MouseButton = 'unknown' | 'left' | 'right' | 'middle';
 
 export interface IMouseEventArgs {
 

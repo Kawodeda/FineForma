@@ -10,10 +10,13 @@ export class AddZoomCommand implements IViewportCommand {
     }
 
     execute(viewport: Viewport): Promise<Viewport> {
+        if (!viewport.constraints.isValidZoom(viewport.zoom + this._delta)) {
+            return Promise.resolve(viewport);
+        }
+
         return Promise.resolve(
             new Viewport(
                 viewport.constraints,
-                viewport.size,
                 viewport.scroll,
                 viewport.zoom + this._delta,
                 viewport.angle

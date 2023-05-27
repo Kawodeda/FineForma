@@ -52,15 +52,20 @@ export class ViewerProvider implements IViewerProvider {
             new Viewport(
                 new ViewportConstraints(
                     new Rectangle(new Vector2(0, 0), new Vector2(1000, 1000)),
-                    new Margin(950, 400, 950, 400), 
+                    new Margin(-100, -100, -100, -100), 
                     0.1, 
-                    8),
-                new Vector2(0, 0),
+                    8,
+                    new Vector2(1000, 1000)),
                 new Vector2(0, 0),
                 1,
                 0),
             this._createRendererFactory(),
-            { create: executor => new InputReceiver(new ViewportInputHandler(), executor) }
+            { 
+                create: executor => new InputReceiver(
+                    new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 }), 
+                    executor
+                ) 
+            }
         );
     }
 
@@ -74,7 +79,13 @@ export class ViewerProvider implements IViewerProvider {
                     .build(),
                 createImage(600, 600, 200, 200, 'masyunya3').build(),
                 createImage(800, 200, 200, 200, 'sima2').build()
-            ], 1)
+            ], 1),
+            new Layer([
+                createRectangle(50, 50, 100, 100).build(),
+                createRectangle(950, 950, 100, 100).build(),
+                createRectangle(950, 50, 100, 100).build(),
+                createRectangle(50, 950, 100, 100).build()
+            ], 2)
         ]);
     }
 
