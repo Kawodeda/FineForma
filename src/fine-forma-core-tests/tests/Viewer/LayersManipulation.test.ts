@@ -14,7 +14,9 @@ import {
     createRectangle,
     Command,
     AddLayerCommand,
-    RemoveLayerCommand
+    RemoveLayerCommand,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
 import { assertViewer, inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
@@ -29,7 +31,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -49,7 +56,12 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -61,7 +73,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -79,7 +96,12 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -91,7 +113,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(1, 2),
                     1.3,
                     0),
@@ -110,7 +137,12 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(1, 2),
                     1.3,
                     0),
@@ -122,7 +154,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -145,7 +182,12 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(90, 1, 40, 500).build()], 1),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -157,7 +199,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -171,7 +218,12 @@ suite('Manipulate layers', () => {
             expected: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -187,7 +239,12 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -202,7 +259,12 @@ suite('Manipulate layers', () => {
             expected: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -225,7 +287,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -242,7 +309,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -259,7 +331,12 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),

@@ -8,6 +8,8 @@ import {
     Command,
     Design,
     Layer,
+    Margin,
+    Rectangle,
     RemoveItemCommand,
     Vector2,
     Viewer, 
@@ -31,7 +33,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -54,7 +61,12 @@ suite('Manipulate items', () => {
                     ], 0)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -66,7 +78,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -87,7 +104,12 @@ suite('Manipulate items', () => {
                     ], 0)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -99,7 +121,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -122,7 +149,12 @@ suite('Manipulate items', () => {
                     ], 0)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     90),
@@ -144,7 +176,12 @@ suite('Manipulate items', () => {
                     ], -100)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     0),
@@ -167,7 +204,12 @@ suite('Manipulate items', () => {
                     ], -100)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(0, 100),
                     2,
                     0),
@@ -190,7 +232,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -207,7 +254,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),
@@ -224,7 +276,12 @@ suite('Manipulate items', () => {
             viewer: new Viewer(
                 new Design([new Layer([createCircle(9, 9, 70).build()], 0)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5),
+                    new Vector2(500, 500),
                     new Vector2(100, 100),
                     0.9,
                     0),

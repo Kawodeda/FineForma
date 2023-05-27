@@ -20,7 +20,8 @@ import {
     createImage,
     degreeToRadians,
     ResizeItemCommand,
-    SelectItemAtCommand
+    SelectItemAtCommand,
+    Margin
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
@@ -59,7 +60,12 @@ suite('UseCase: resize item', () => {
                 ], 1)
             ]), 
             new Viewport(
-                new ViewportConstraints(new Vector2(-500, -500), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(-500, -500), new Vector2(500, 500)), 
+                    new Margin(0, 0, 0, 0), 
+                    0.2, 
+                    5),
+                new Vector2(500, 500),
                 new Vector2(-100, -100),
                 0.9,
                 0),

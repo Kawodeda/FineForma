@@ -1,13 +1,13 @@
-import { Rectangle, Vector2, isRealNumber, nearlyEquals } from '../Math';
+import { Margin, Rectangle, Vector2, isRealNumber, nearlyEquals } from '../Math';
 
 export class ViewportConstraints {
 
     private readonly _workarea: Rectangle;
-    private readonly _workareaMargin: Rectangle;
+    private readonly _workareaMargin: Margin;
     private readonly _minZoom: number;
     private readonly _maxZoom: number;
     
-    constructor(workarea: Rectangle, workareaMargin: Rectangle, minZoom: number, maxZoom: number) {
+    constructor(workarea: Rectangle, workareaMargin: Margin, minZoom: number, maxZoom: number) {
         this._workarea = workarea;
         this._workareaMargin = workareaMargin;
         this._minZoom = minZoom;
@@ -18,7 +18,7 @@ export class ViewportConstraints {
         return this._workarea;
     }
 
-    get workareaMargin(): Rectangle {
+    get workareaMargin(): Margin {
         return this._workareaMargin;
     }
 
@@ -53,10 +53,10 @@ export class ViewportConstraints {
 
     private _scrollableArea(viewportSize: Vector2, zoom: number): Rectangle {
         const actualWorkarea = this._scaleRectangle(this.workarea, zoom);
-        const actualMargin = this._scaleRectangle(this.workareaMargin, 1 / zoom);
+        const actualMargin = this._scaleRectangle(this.workareaMargin.rectangle, 1 / zoom);
 
         return new Rectangle(
-            actualWorkarea.corner1.subtract(actualMargin.corner1),
+            actualWorkarea.corner1.add(actualMargin.corner1),
             actualWorkarea.corner1
                 .add(actualMargin.corner2)
                 .add(actualWorkarea.size)

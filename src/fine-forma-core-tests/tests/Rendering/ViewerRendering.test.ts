@@ -29,7 +29,9 @@ import {
     QuadraticBezierSegment,
     degreeToRadians,
     UiRenderer,
-    Selection
+    Selection,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from '../Settings';
@@ -99,7 +101,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 new Design([]),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -115,7 +122,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 new Design([]),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(500, 780),
                     2.5,
                     0),
@@ -131,7 +143,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(0, 0),
                     1,
                     0),
@@ -213,7 +230,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(800, 800),
                     new Vector2(200, 150),
                     1,
                     0),
@@ -295,7 +317,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(0, 0),
                     1.5,
                     0),
@@ -377,7 +404,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3),
+                    new Vector2(800, 800),
                     new Vector2(0, 0),
                     0.5,
                     0),
@@ -459,7 +491,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(100, 200),
                     1.5,
                     0),
@@ -541,7 +578,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3),
+                    new Vector2(800, 800),
                     new Vector2(-200, 100),
                     0.5,
                     0),
@@ -623,7 +665,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(0, -800),
                     1,
                     90),
@@ -705,7 +752,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3),
+                    new Vector2(1000, 1000),
                     new Vector2(0, -800),
                     1.63,
                     90),
@@ -789,7 +841,12 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3),
+                    new Vector2(800, 800),
                     new Vector2(0, -800),
                     0.7,
                     90),
@@ -874,7 +931,12 @@ suite('Viewer rendering', () => {
                 const result = new Viewer(
                     designs[0]!(),
                     new Viewport(
-                        new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                        new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3),
+                    new Vector2(800, 800),
                         new Vector2(-200, 100),
                         0.5,
                         0),
