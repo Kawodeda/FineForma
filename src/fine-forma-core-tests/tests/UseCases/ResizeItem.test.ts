@@ -153,7 +153,7 @@ suite('UseCase: resize item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot7(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 

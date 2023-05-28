@@ -61,7 +61,6 @@ export class ViewportConstraints implements IViewportConstraints {
         }
 
         const scrollableArea = this._scrollableArea(this.viewportSize, zoom);
-        console.log('constrain scroll');
 
         return clamp(scroll, scrollableArea.corner1, scrollableArea.corner2);
     }

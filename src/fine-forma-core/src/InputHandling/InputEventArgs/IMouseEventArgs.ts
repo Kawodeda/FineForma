@@ -6,7 +6,9 @@ export interface IMouseEventArgs {
 
     get button(): MouseButton;
 
-    get position(): Vector2;
+    get viewportPosition(): Vector2;
+
+    get workspacePosition(): Vector2;
 
     get altKey(): boolean;
 

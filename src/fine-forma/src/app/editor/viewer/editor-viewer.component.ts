@@ -32,6 +32,7 @@ export class ViewerComponent implements AfterViewInit {
         this._viewportService = viewportService;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
         window.addEventListener('keydown', e => this.onKeyDown(e));
+        window.addEventListener('keyup', e => this.onKeyUp(e));
     }
 
     private get _canvas(): HTMLCanvasElement {
@@ -56,8 +57,16 @@ export class ViewerComponent implements AfterViewInit {
         requestAnimationFrame(() => this._redrawViewer());
     }
 
-    onKeyDown(event: KeyboardEvent): void {
-        handleAsyncAction(this._inputHandlingService.keyDown(event));
+    onMouseDown(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseDown(event));
+    }
+
+    onMouseUp(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseUp(event));
+    }
+
+    onMouseMove(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseMove(event));
     }
 
     onWheel(event: WheelEvent): void {
@@ -65,8 +74,12 @@ export class ViewerComponent implements AfterViewInit {
         handleAsyncAction(this._inputHandlingService.wheel(event));
     }
 
-    onMouseDown(event: MouseEvent): void {
-        handleAsyncAction(this._inputHandlingService.mouseDown(event));
+    onKeyDown(event: KeyboardEvent): void {
+        handleAsyncAction(this._inputHandlingService.keyDown(event));
+    }
+
+    onKeyUp(event: KeyboardEvent): void {
+        handleAsyncAction(this._inputHandlingService.keyUp(event));
     }
 
     private _redrawViewer(): void {

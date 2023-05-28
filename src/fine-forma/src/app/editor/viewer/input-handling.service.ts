@@ -54,7 +54,8 @@ export class InputHandlingService implements IInputHandlingService {
     private _toMouseEventArgs(event: MouseEvent): IMouseEventArgs {
         return {
             button: this._convertMouseButton(event.button),
-            position: this._extractMousePosition(event),
+            viewportPosition: this._extractViewportPosition(event),
+            workspacePosition: this._extractWorkspacePosition(event),
             altKey: event.altKey,
             shiftKey: event.shiftKey,
             ctrlKey: event.ctrlKey
@@ -65,7 +66,8 @@ export class InputHandlingService implements IInputHandlingService {
         return {
             delta: new Vector2(event.deltaX, event.deltaY),
             button: this._convertMouseButton(event.button),
-            position: this._extractMousePosition(event),
+            viewportPosition: this._extractViewportPosition(event),
+            workspacePosition: this._extractWorkspacePosition(event),
             altKey: event.altKey,
             shiftKey: event.shiftKey,
             ctrlKey: event.ctrlKey
@@ -82,7 +84,11 @@ export class InputHandlingService implements IInputHandlingService {
         };
     }
 
-    private _extractMousePosition(event: MouseEvent): Vector2 {
+    private _extractViewportPosition(event: MouseEvent): Vector2 {
+        return new Vector2(event.offsetX, event.offsetY);
+    }
+
+    private _extractWorkspacePosition(event: MouseEvent): Vector2 {
         return canvasToDesignPoint(
             new Vector2(event.offsetX, event.offsetY), 
             this._viewerProvider.viewer.viewport

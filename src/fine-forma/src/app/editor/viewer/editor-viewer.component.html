@@ -1,4 +1,6 @@
 <canvas #mainCanvas 
-    (wheel)="onWheel($event)" 
     (mousedown)="onMouseDown($event)"
+    (mouseup)="onMouseUp($event)"
+    (mousemove)="onMouseMove($event)"
+    (wheel)="onWheel($event)"
     (contextmenu)="$event.preventDefault()"></canvas>

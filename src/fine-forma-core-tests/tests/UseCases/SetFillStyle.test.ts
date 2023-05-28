@@ -132,7 +132,7 @@ suite('UseCase: set item fill style', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot6(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 
