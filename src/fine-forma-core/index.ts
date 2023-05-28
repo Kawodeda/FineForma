@@ -11,3 +11,4 @@ export * from './src/Commands';
 export * from './src/Selection';
 export * from './src/InputHandling';
 export * from './src/ArrayUtils';
+export * from './src/HitTest';
