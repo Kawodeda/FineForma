@@ -1,5 +1,7 @@
+import { IDesignContext } from '../Design';
+import { ISelectionContext } from '../ISelectionContext';
 import { IDesignRenderer } from './IDesignRenderer';
-import { IDesignContext, IRenderer, ISelectionContext, IViewportContext } from './IRenderer';
+import { IRenderer, IViewportContext } from './IRenderer';
 import { IRenderingContext } from './IRenderingContext';
 import { IUiRenderer } from './UI';
 

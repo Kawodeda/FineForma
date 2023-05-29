@@ -26,7 +26,9 @@ import {
     InputReceiver,
     ViewportInputHandler,
     Rectangle,
-    Margin
+    Margin,
+    SelectionInputHandler,
+    HitTestService
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -62,7 +64,10 @@ export class ViewerProvider implements IViewerProvider {
             this._createRendererFactory(),
             { 
                 create: executor => new InputReceiver(
-                    new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 }), 
+                    new SelectionInputHandler(
+                        new HitTestService(executor), 
+                        executor,
+                        new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })), 
                     executor
                 ) 
             }

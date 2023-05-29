@@ -1,7 +1,8 @@
 import { ICommand, IExecutionContext } from './Commands/Interfaces';
 import { Design, IDesignContext } from './Design';
+import { ISelectionContext } from './ISelectionContext';
 import { ICommandExecutor, IInputReceiver, IInputReceiverFactory } from './InputHandling';
-import { IRenderer, IViewportContext, IRendererFactory, ISelectionContext } from './Rendering';
+import { IRenderer, IViewportContext, IRendererFactory } from './Rendering';
 import { Selection } from './Selection';
 import { Viewport } from './Viewport';
 

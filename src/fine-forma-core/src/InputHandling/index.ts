@@ -8,3 +8,4 @@ export * from './InputReceiver';
 export * from './IInuptReceiverFactory';
 export * from './IInputHandlingConfiguration';
 export * from './Viewport/ViewportInputHandler';
+export * from './Selection/SelectionInputHandler';

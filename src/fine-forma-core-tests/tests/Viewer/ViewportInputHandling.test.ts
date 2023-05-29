@@ -16,16 +16,9 @@ import {
     createImage
 } from 'fine-forma-core';
 
-import { assertViewer, rendererFactoryWithDummyImageStroage } from '../Utils';
+import { assertViewer, inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
 
-suite('Input handling', () => {
-    const inputReceiverFactory = { 
-        create: (viewer: Viewer) => new InputReceiver(
-            new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 }), 
-            viewer
-        ) 
-    };
-
+suite('Viewport input handling', () => {
     const testCases = [
         {
             title: 'zoom in by wheel',
@@ -47,7 +40,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -87,7 +80,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -110,7 +103,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -204,7 +197,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -227,7 +220,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -267,7 +260,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -290,7 +283,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -330,7 +323,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -353,7 +346,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -402,7 +395,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -425,7 +418,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -465,7 +458,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -488,7 +481,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendWheel({
@@ -537,7 +530,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -560,7 +553,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendMouseDown({
@@ -622,7 +615,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -645,7 +638,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendMouseDown({
@@ -715,7 +708,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -738,7 +731,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendMouseDown({
@@ -800,7 +793,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         },
         {
@@ -823,7 +816,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             ),
             sendInput: async (inputReceiver: IInputReceiver) => {
                 await inputReceiver.sendMouseDown({
@@ -901,7 +894,7 @@ suite('Input handling', () => {
                     0
                 ),
                 rendererFactoryWithDummyImageStroage(),
-                inputReceiverFactory
+                inputReceiverFactory()
             )
         }
     ];

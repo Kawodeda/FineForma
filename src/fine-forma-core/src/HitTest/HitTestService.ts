@@ -13,9 +13,9 @@ export class HitTestService implements IHitTestService {
     }
 
     hitTest(point: Vector2): IHitTestResult {
-        const items = this._designContext.design.layers
-            .sort((a, b) => b.zIndex - a.zIndex).elements
-            .flatMap(layer => layer.items.elements);
+        const items = this._designContext.design.layers.elements
+            .flatMap(layer => layer.items.elements)
+            .sort(() => -1); // inverse
 
         return {
             item: Maybe.maybe(
@@ -25,6 +25,6 @@ export class HitTestService implements IHitTestService {
     }
 
     private _hitTestItem(item: Item, point: Vector2): boolean {
-        return item.controls.path.bounds.rectangle.contains(point);
+        return item.controls.path.bounds.rectangle.contains(point.subtract(item.position));
     }
 }

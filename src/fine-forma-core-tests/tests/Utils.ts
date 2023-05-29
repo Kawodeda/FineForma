@@ -3,6 +3,7 @@ import { Canvas, Image } from 'canvas';
 
 import { 
     DesignRenderer, 
+    HitTestService, 
     IImageContentStorage, 
     IInputReceiverFactory, 
     IRendererFactory, 
@@ -12,6 +13,7 @@ import {
     LayerRenderer, 
     Pen, 
     RendererFactory, 
+    SelectionInputHandler, 
     UiRenderer, 
     Viewer,
     ViewportInputHandler,
@@ -40,7 +42,11 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
 export function inputReceiverFactory(): IInputReceiverFactory {
     return {
         create: executor => new InputReceiver(
-            new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 }), 
+            new SelectionInputHandler(
+                new HitTestService(executor),
+                executor,
+                new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+            ), 
             executor
         )
     };
