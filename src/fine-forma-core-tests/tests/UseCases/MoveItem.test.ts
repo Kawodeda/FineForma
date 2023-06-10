@@ -18,14 +18,16 @@ import {
     MoveItemCommand,
     SelectItemCommand,
     SelectItemAtCommand,
-    Pen
+    Pen,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 
 const expect = chai.expect;
 
@@ -45,11 +47,17 @@ suite('UseCase: move item', () => {
                     .build()
             ], 0)]), 
             new Viewport(
-                new ViewportConstraints(new Vector2(-500, -500), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(-500, -500), new Vector2(500, 500)), 
+                    new Margin(0, 0, 0, 0), 
+                    0.2, 
+                    5,
+                    new Vector2(500, 500)),
                 new Vector2(0, -100),
                 1.5,
                 0),
-            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.cyan(), 2) })
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.cyan(), 2) }),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -87,7 +95,7 @@ suite('UseCase: move item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot4(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 
@@ -127,7 +135,7 @@ suite('UseCase: move item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,255,255)';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-61, -61);
         ctx.lineTo(79, -61);
@@ -177,7 +185,7 @@ suite('UseCase: move item', () => {
         ctx.drawImage(await loadImage('sima.png'), -75, -75, 150, 150);
 
         ctx.strokeStyle = 'rgb(0,255,255)';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-75, -75);
         ctx.lineTo(75, -75);

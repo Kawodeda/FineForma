@@ -1,3 +1,5 @@
+import { Vector2 } from '.';
+
 const DEGREE_PER_RADIAN = 180;
 const EPSILON = 0.000001;
 
@@ -20,8 +22,20 @@ export function degreeToRadians(angle: number): number {
     return Math.PI * angle / DEGREE_PER_RADIAN;
 }
 
-export function clamp(value: number, min: number, max: number): number {
-    return Math.min(max, Math.max(value, min));
+export function clamp(value: number, min: number, max: number): number
+export function clamp(value: Vector2, min: Vector2, max: Vector2): Vector2
+export function clamp(value: number | Vector2, min: number | Vector2, max: number | Vector2): number | Vector2 {
+    if (value instanceof Vector2 && min instanceof Vector2 && max instanceof Vector2) {
+        return new Vector2(
+            Math.min(max.x, Math.max(value.x, min.x)),
+            Math.min(max.y, Math.max(value.y, min.y))
+        );
+    }
+    if (typeof(value) === 'number' && typeof(min) === 'number' && typeof(max) === 'number') {
+        return Math.min(max, Math.max(value, min));
+    }
+
+    throw new Error('Inconsistent parameter types');
 }
 
 export function angleToPositive(signedAngle: number): number {

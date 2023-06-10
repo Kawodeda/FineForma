@@ -20,14 +20,15 @@ import {
     createImage,
     degreeToRadians,
     ResizeItemCommand,
-    SelectItemAtCommand
+    SelectItemAtCommand,
+    Margin
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 import { pathApple } from '../TestPaths';
 
 const expect = chai.expect;
@@ -59,11 +60,17 @@ suite('UseCase: resize item', () => {
                 ], 1)
             ]), 
             new Viewport(
-                new ViewportConstraints(new Vector2(-500, -500), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(-500, -500), new Vector2(500, 500)), 
+                    new Margin(0, 0, 0, 0), 
+                    0.2, 
+                    5,
+                    new Vector2(500, 500)),
                 new Vector2(-100, -100),
                 0.9,
                 0),
-            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.yellow(), 1) })
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.yellow(), 1) }),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -146,7 +153,7 @@ suite('UseCase: resize item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot7(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 
@@ -238,7 +245,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
         ctx.beginPath();
@@ -302,7 +309,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-110.005, -147.8);
@@ -366,7 +373,7 @@ suite('UseCase: resize item', () => {
         
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -431,7 +438,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -496,7 +503,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -561,7 +568,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);

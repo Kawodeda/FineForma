@@ -1,25 +1,28 @@
-import { Vector2, isRealNumber, nearlyEquals } from '../Math';
+import { Margin, Rectangle, Vector2, clamp, isRealNumber, nearlyEquals } from '../Math';
+import { IViewportConstraints } from './IViewportConstraints';
 
-export class ViewportConstraints {
+export class ViewportConstraints implements IViewportConstraints {
 
-    private readonly _minScroll: Vector2;
-    private readonly _maxScroll: Vector2;
+    private readonly _workarea: Rectangle;
+    private readonly _workareaMargin: Margin;
     private readonly _minZoom: number;
     private readonly _maxZoom: number;
+    private readonly _viewportSize: Vector2;
     
-    constructor(minScroll: Vector2, maxScroll: Vector2, minZoom: number, maxZoom: number) {
-        this._minScroll = minScroll;
-        this._maxScroll = maxScroll;
+    constructor(workarea: Rectangle, workareaMargin: Margin, minZoom: number, maxZoom: number, viewportSize: Vector2) {
+        this._workarea = workarea;
+        this._workareaMargin = workareaMargin;
         this._minZoom = minZoom;
         this._maxZoom = maxZoom;
+        this._viewportSize = viewportSize;
     }
 
-    get minScroll(): Vector2 {
-        return this._minScroll;
+    get workarea(): Rectangle {
+        return this._workarea;
     }
 
-    get maxScroll(): Vector2 {
-        return this._maxScroll;
+    get workareaMargin(): Margin {
+        return this._workareaMargin;
     }
 
     get minZoom(): number {
@@ -30,11 +33,12 @@ export class ViewportConstraints {
         return this._maxZoom;
     }
 
-    isValidScroll(scroll: Vector2): boolean {
-        return (scroll.x > this.minScroll.x || nearlyEquals(scroll.x, this.minScroll.x)) 
-            && (scroll.y > this.minScroll.y || nearlyEquals(scroll.y, this.minScroll.y))
-            && (scroll.x < this.maxScroll.x || nearlyEquals(scroll.x, this.maxScroll.x))
-            && (scroll.y < this.maxScroll.y || nearlyEquals(scroll.y, this.maxScroll.y));
+    get viewportSize(): Vector2 {
+        return this._viewportSize;
+    }
+
+    isValidScroll(scroll: Vector2, zoom: number, viewportSize: Vector2): boolean {
+        return this._scrollableArea(viewportSize, zoom).contains(scroll);
     }
 
     isValidZoom(zoom: number): boolean {
@@ -47,10 +51,51 @@ export class ViewportConstraints {
         return isRealNumber(angle);
     }
 
+    constrainZoom(zoom: number): number {
+        return clamp(zoom, this.minZoom, this.maxZoom);
+    }
+
+    constrainScroll(zoom: number, scroll: Vector2): Vector2 {
+        if (this.isValidScroll(scroll, zoom, this.viewportSize)) {
+            return scroll;
+        }
+
+        const scrollableArea = this._scrollableArea(this.viewportSize, zoom);
+
+        return clamp(scroll, scrollableArea.corner1, scrollableArea.corner2);
+    }
+
+    constrainAngle(angle: number): number {
+        return this.isValidAngle(angle) ? angle : 0;
+    }
+
     equals(other: ViewportConstraints): boolean {
-        return this.minScroll.equals(other.minScroll)
-            && this.maxScroll.equals(other.maxScroll)
+        return this._workarea.equals(other.workarea)
+            && this._workareaMargin.equals(other.workareaMargin)
             && nearlyEquals(this.minZoom, other.minZoom)
             && nearlyEquals(this.maxZoom, other.maxZoom);
+    }
+
+    private _scrollableArea(viewportSize: Vector2, zoom: number): Rectangle {
+        const actualWorkarea = this._scaleRectangle(this.workarea, zoom);
+        const actualMargin = new Rectangle(
+            this.viewportSize.subtract(this.workareaMargin.rectangle.corner1),
+            this.viewportSize.add(this.workareaMargin.rectangle.corner2)
+        );
+
+        return new Rectangle(
+            actualWorkarea.corner1.subtract(actualMargin.corner1),
+            actualWorkarea.corner1
+                .add(actualMargin.corner2)
+                .add(actualWorkarea.size)
+                .subtract(viewportSize)
+        );
+    }
+
+    private _scaleRectangle(rectangle: Rectangle, factor: number): Rectangle {
+        return new Rectangle(
+            rectangle.corner1.scale(factor),
+            rectangle.corner2.scale(factor)
+        );
     }
 }

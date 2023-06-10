@@ -1,5 +1,7 @@
+import { IDesignContext } from '../Design';
+import { ISelectionContext } from '../ISelectionContext';
 import { IDesignRenderer } from './IDesignRenderer';
-import { IDesignContext, IRenderer, ISelectionContext, IViewportContext } from './IRenderer';
+import { IRenderer, IViewportContext } from './IRenderer';
 import { IRenderingContext } from './IRenderingContext';
 import { IUiRenderer } from './UI';
 
@@ -27,6 +29,6 @@ export class Renderer implements IRenderer {
     render(context: IRenderingContext): void {
         context.setTransform(this._viewportContext.viewport.transform);
         this._designRenderer.render(context, this._designContext.design);
-        this._uiRenderer.render(context, this._selectionContext.selection);
+        this._uiRenderer.render(context, this._selectionContext.selection, this._viewportContext.viewport);
     }
 }

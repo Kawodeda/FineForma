@@ -14,10 +14,12 @@ import {
     createRectangle,
     Command,
     AddLayerCommand,
-    RemoveLayerCommand
+    RemoveLayerCommand,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
-import { assertViewer, rendererFactoryWithDummyImageStroage } from '../Utils';
+import { assertViewer, inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -29,11 +31,17 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(0, 0),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11))
@@ -48,22 +56,34 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(0, 0),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add layers to blank design, single command',
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(0, 0),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11)),
@@ -76,22 +96,34 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(0, 0),
                     1,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add layers to design, single command',
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(1, 2),
                     1.3,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([], 11)),
@@ -105,22 +137,34 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(1, 2),
                     1.3,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'add a layer to design',
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new AddLayerCommand(new Layer([
@@ -138,22 +182,34 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(90, 1, 40, 500).build()], 1),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'remove a layer from design',
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(viewer.design.layers.elements[0]!)
@@ -162,11 +218,17 @@ suite('Manipulate layers', () => {
             expected: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         },
         {
             title: 'remove layers from design, single command',
@@ -177,11 +239,17 @@ suite('Manipulate layers', () => {
                     new Layer([createRectangle(0, 0, 100, 100).build()], -2)
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(viewer.design.layers.elements[0]!),
@@ -191,11 +259,17 @@ suite('Manipulate layers', () => {
             expected: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage())
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory())
         }
     ];
 
@@ -213,11 +287,17 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([], 0)),
@@ -229,11 +309,17 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([createEllipse(90, 1, 40, 500).build()], 1)),
@@ -245,11 +331,17 @@ suite('Manipulate layers', () => {
             viewer: new Viewer(
                 new Design([new Layer([createRectangle(90, 1, 40, 500).build()], 1)]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(150, 150, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([
                     new RemoveLayerCommand(new Layer([createRectangle(90, 1, 40, 500).build()], 1)),

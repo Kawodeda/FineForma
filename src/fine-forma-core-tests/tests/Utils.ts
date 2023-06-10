@@ -3,15 +3,21 @@ import { Canvas, Image } from 'canvas';
 
 import { 
     DesignRenderer, 
+    HitTestService, 
     IImageContentStorage, 
+    IInputReceiverFactory, 
     IRendererFactory, 
     ImageContentProvider, 
+    InputReceiver, 
     ItemRendererFactory, 
     LayerRenderer, 
     Pen, 
     RendererFactory, 
+    SelectionInputHandler, 
     UiRenderer, 
-    Viewer
+    Viewer,
+    ViewportInputHandler,
+    arrayEquals
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from './Settings';
@@ -33,9 +39,23 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
         new UiRenderer({ stroke: Pen.empty }));
 }
 
+export function inputReceiverFactory(): IInputReceiverFactory {
+    return {
+        create: executor => new InputReceiver(
+            new SelectionInputHandler(
+                new HitTestService(executor),
+                executor,
+                new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+            ), 
+            executor
+        )
+    };
+}
+
 export function assertViewer(actual: Viewer, expected: Viewer): void {
     expect(actual.design.equals(expected.design)).to.be.true;
     expect(actual.viewport.equals(expected.viewport)).to.be.true;
+    expect(arrayEquals(actual.selection.items, expected.selection.items, (a, b) => a.equals(b))).to.be.true;
 }
 
 export function delay(milliseconds: number): Promise<void> {

@@ -35,10 +35,7 @@ export class Transform {
     }
 
     applyTo(vector: Vector2): Vector2 {
-        return new Vector2(
-            this.matrix.m11 * vector.x + this.matrix.m12 * vector.y + this.matrix.d1,
-            this.matrix.m21 * vector.x + this.matrix.m22 * vector.y + this.matrix.d2
-        );
+        return this.matrix.applyTo(vector);
     }
 
     translate(shift: Vector2): Transform {
@@ -49,11 +46,20 @@ export class Transform {
         return new Transform(
             this._translate, 
             new Vector2(this._scale.x * factor.x, this._scale.y * factor.y),
-            this._rotate);
+            this._rotate
+        );
     }
 
     rotate(angle: number): Transform {
         return new Transform(this._translate, this._scale, this._rotate + angle);
+    }
+
+    scaleAt(factor: Vector2, center: Vector2): Transform {
+        const scaled = this.scale(factor);
+
+        return scaled.translate(
+            center.multiply(scaled.scaleFactor).subtract(center.multiply(this.scaleFactor))
+        );
     }
 
     equals(other: Transform): boolean {

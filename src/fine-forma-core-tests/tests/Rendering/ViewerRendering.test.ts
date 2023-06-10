@@ -29,13 +29,15 @@ import {
     QuadraticBezierSegment,
     degreeToRadians,
     UiRenderer,
-    Selection
+    Selection,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { setupImageContentProvider } from './Utils';
-import { loadImage } from '../Utils';
+import { inputReceiverFactory, loadImage } from '../Utils';
 import { RenderingContextFake } from '../RenderingContextFake';
 
 suite('Viewer rendering', () => {
@@ -99,11 +101,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 new Design([]),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -114,11 +122,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 new Design([]),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(500, 780),
                     2.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 return createBlankCanvas();
@@ -129,11 +143,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -210,11 +230,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(800, 800)),
                     new Vector2(200, 150),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -291,11 +317,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(0, 0),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -372,11 +404,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3,
+                        new Vector2(800, 800)),
                     new Vector2(0, 0),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -453,11 +491,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(100, 200),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -534,11 +578,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3,
+                        new Vector2(800, 800)),
                     new Vector2(-200, 100),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -615,11 +665,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(0, -800),
                     1,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -696,11 +752,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.5, 
+                        3,
+                        new Vector2(1000, 1000)),
                     new Vector2(0, -800),
                     1.63,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -779,11 +841,17 @@ suite('Viewer rendering', () => {
             viewer: () => new Viewer(
                 designs[0]!(),
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)), 
+                        new Margin(200, 200, 200, 200), 
+                        0.5, 
+                        3,
+                        new Vector2(800, 800)),
                     new Vector2(0, -800),
                     0.7,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer())
+                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                inputReceiverFactory()
             ),
             expected: async () => {
                 const canvas = createBlankCanvas();
@@ -863,11 +931,17 @@ suite('Viewer rendering', () => {
                 const result = new Viewer(
                     designs[0]!(),
                     new Viewport(
-                        new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.5, 3),
+                        new ViewportConstraints(
+                            new Rectangle(new Vector2(-1000, -1000), new Vector2(1000, 1000)),
+                            new Margin(200, 200, 200, 200),
+                            0.5,
+                            3,
+                            new Vector2(800, 800)),
                         new Vector2(-200, 100),
                         0.5,
                         0),
-                    new RendererFactory(createDesignRenderer(), createUiRenderer()));
+                    new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                    inputReceiverFactory());
                 
                 result.selection = new Selection([
                     ...result.design.layers.get(1).items,
@@ -944,7 +1018,7 @@ suite('Viewer rendering', () => {
                 ctx.restore();
 
                 ctx.strokeStyle = 'rgb(0,0,255)';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 4;
                 ctx.save();
                 ctx.translate(150, 600);
                 ctx.rotate(degreeToRadians(61.4));

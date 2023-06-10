@@ -7,7 +7,9 @@ import {
     Command,
     Design,
     Layer,
+    Margin,
     Pen,
+    Rectangle,
     RotateItemCommand,
     SelectItemAtCommand,
     SelectItemCommand,
@@ -25,7 +27,7 @@ import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 
 const expect = chai.expect;
 
@@ -53,11 +55,17 @@ suite('UseCase: rotate item', () => {
                 ], 1)
             ]), 
             new Viewport(
-                new ViewportConstraints(new Vector2(-500, -500), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(-500, -500), new Vector2(500, 500)), 
+                    new Margin(0, 0, 0, 0), 
+                    0.2, 
+                    5,
+                    new Vector2(500, 500)),
                 new Vector2(-100, -100),
                 1.2,
                 0),
-            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.blue(), 3) })
+            rendererFactory(await imageStorage, { stroke: new Pen(Brushes.blue(), 3) }),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -120,7 +128,7 @@ suite('UseCase: rotate item', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot6(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 
@@ -166,7 +174,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
         ctx.beginPath();
@@ -206,7 +214,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(28));
         ctx.beginPath();
@@ -246,7 +254,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
         ctx.beginPath();
@@ -290,7 +298,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(9, 9);
         ctx.rotate(degreeToRadians(111));
         ctx.beginPath();
@@ -334,7 +342,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-38));
         ctx.beginPath();

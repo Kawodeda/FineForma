@@ -60,7 +60,7 @@ export class ArcSegment extends Segment {
         return new ArcSegment(
             transform.applyTo(this.start),
             transform.applyTo(this.end),
-            this.radius,
+            this.radius.multiply(transform.scaleFactor),
             this.xAxisRotation
         );
     }

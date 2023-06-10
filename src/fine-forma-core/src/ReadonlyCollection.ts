@@ -84,4 +84,13 @@ export class ReadonlyCollection<T> {
     sort(compareFn?: (a: T, b: T) => number): ReadonlyCollection<T> {
         return new ReadonlyCollection([...this.elements].sort(compareFn));
     }
+
+    indexOf(element: T): number {
+        const index = this.elements.indexOf(element);
+        if (index === -1) {
+            throw new Error('Specified element is missing in collection');
+        }
+
+        return index;
+    }
 }

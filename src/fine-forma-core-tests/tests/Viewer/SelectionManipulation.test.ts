@@ -7,7 +7,9 @@ import {
     Command,
     Design, 
     Layer, 
+    Margin, 
     MoveItemCommand,
+    Rectangle,
     SelectItemAtCommand, 
     SelectItemCommand, 
     Selection, 
@@ -19,7 +21,7 @@ import {
     createRectangle
 } from 'fine-forma-core';
 
-import { rendererFactoryWithDummyImageStroage } from '../Utils';
+import { inputReceiverFactory, rendererFactoryWithDummyImageStroage } from '../Utils';
 
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -33,11 +35,17 @@ suite('Manipulate selection', () => {
                 new Layer([createRectangle(80, 0, 100, 100).build()], 2),
             ]),
             new Viewport(
-                new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                 new Vector2(0, 0),
                 1,
                 0),
-            rendererFactoryWithDummyImageStroage());
+            rendererFactoryWithDummyImageStroage(),
+            inputReceiverFactory());
         
         await viewer.execute(new Command([], [], [
             new SelectItemCommand(viewer.design.layers.get(1).items.get(0))
@@ -53,11 +61,17 @@ suite('Manipulate selection', () => {
                 new Layer([createRectangle(80, 0, 100, 100).build()], 2),
             ]),
             new Viewport(
-                new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                 new Vector2(0, 0),
                 1,
                 0),
-            rendererFactoryWithDummyImageStroage());
+            rendererFactoryWithDummyImageStroage(),
+            inputReceiverFactory());
         
         await viewer.execute(new Command([], [], [
             new SelectItemAtCommand(1, 0)
@@ -73,11 +87,17 @@ suite('Manipulate selection', () => {
                 new Layer([createRectangle(80, 0, 100, 100).build()], 2),
             ]),
             new Viewport(
-                new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                 new Vector2(0, 0),
                 1,
                 0),
-            rendererFactoryWithDummyImageStroage());
+            rendererFactoryWithDummyImageStroage(),
+            inputReceiverFactory());
 
         await viewer.execute(new Command([
             new MoveItemCommand(
@@ -100,11 +120,17 @@ suite('Manipulate selection', () => {
                 new Layer([createRectangle(80, 0, 100, 100).build()], 2),
             ]),
             new Viewport(
-                new ViewportConstraints(new Vector2(0, 0), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                        new Rectangle(new Vector2(0, 0), new Vector2(500, 500)), 
+                        new Margin(0, 0, 0, 0), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                 new Vector2(0, 0),
                 1,
                 0),
-            rendererFactoryWithDummyImageStroage());
+            rendererFactoryWithDummyImageStroage(),
+            inputReceiverFactory());
         
         viewer.selection = new Selection([
             viewer.design.layers.get(0).items.get(0),
@@ -128,11 +154,17 @@ suite('Manipulate selection', () => {
                     new Layer([createRectangle(80, 0, 100, 100).build()], 2),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-100, -1000), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-100, -1000), new Vector2(500, 500)), 
+                        new Margin(0, 0, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [], [
                     new SelectItemCommand(createCircle(9, 9, 70).build())
@@ -147,11 +179,17 @@ suite('Manipulate selection', () => {
                     new Layer([createRectangle(80, 0, 100, 100).build()], 2),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-100, -1000), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-100, -1000), new Vector2(500, 500)), 
+                        new Margin(0, 0, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 const changedItem = viewer.design.layers.get(0).items.get(0);
 
@@ -172,11 +210,17 @@ suite('Manipulate selection', () => {
                     new Layer([createRectangle(80, 0, 100, 100).build()], 2),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-100, -1000), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-100, -1000), new Vector2(500, 500)), 
+                        new Margin(0, 0, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [], [
                     new SelectItemAtCommand(0, 1)
@@ -191,11 +235,17 @@ suite('Manipulate selection', () => {
                     new Layer([createRectangle(80, 0, 100, 100).build()], 2),
                 ]), 
                 new Viewport(
-                    new ViewportConstraints(new Vector2(-100, -1000), new Vector2(500, 500), 0.2, 5),
+                    new ViewportConstraints(
+                        new Rectangle(new Vector2(-100, -1000), new Vector2(500, 500)), 
+                        new Margin(0, 0, 150, 150), 
+                        0.2, 
+                        5,
+                        new Vector2(500, 500)),
                     new Vector2(100, 100),
                     0.9,
                     0),
-                rendererFactoryWithDummyImageStroage()),
+                rendererFactoryWithDummyImageStroage(),
+                inputReceiverFactory()),
             actions: async (viewer: Viewer) => {
                 await viewer.execute(new Command([], [], [
                     new SelectItemAtCommand(2, 0)

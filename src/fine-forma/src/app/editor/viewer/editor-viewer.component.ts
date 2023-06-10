@@ -1,6 +1,9 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, Inject } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Inject, Output, EventEmitter } from '@angular/core';
 
 import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-rendering-service';
+import { IInputHandlingService, INPUT_HANDLING_SERVICE } from './i-input-handling-service';
+import { handleAsyncAction } from '../../shared/utils';
+import { IViewportService, VIEWPORT_SERVICE } from './i-viewport-service';
 
 @Component({
   selector: 'ff-editor-viewer',
@@ -9,14 +12,27 @@ import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-re
 })
 export class ViewerComponent implements AfterViewInit {
 
-    @ViewChild('mainCanvas') canvas: ElementRef<HTMLCanvasElement> | undefined;
+    @ViewChild('mainCanvas') readonly canvas: ElementRef<HTMLCanvasElement> | undefined;
+
+    @Output() readonly widthChanged = new EventEmitter<number>();
+
+    @Output() readonly heightChanged = new EventEmitter<number>();
 
     private readonly _renderingService: IViewerRenderingService;
+    private readonly _inputHandlingService: IInputHandlingService;
+    private readonly _viewportService: IViewportService;
     private readonly _canvasResizeObserver: ResizeObserver;
 
-    constructor(@Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService) {
+    constructor(
+        @Inject(VIEWER_RENDERING_SERVICE) renderingService: IViewerRenderingService,
+        @Inject(INPUT_HANDLING_SERVICE) inputHandlingService: IInputHandlingService,
+        @Inject(VIEWPORT_SERVICE) viewportService: IViewportService) {
         this._renderingService = renderingService;
+        this._inputHandlingService = inputHandlingService;
+        this._viewportService = viewportService;
         this._canvasResizeObserver = new ResizeObserver(entries => this._onCanvasResized(entries));
+        window.addEventListener('keydown', e => this.onKeyDown(e));
+        window.addEventListener('keyup', e => this.onKeyUp(e));
     }
 
     private get _canvas(): HTMLCanvasElement {
@@ -37,14 +53,38 @@ export class ViewerComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const redrawViewer = (): void => {
-            this._renderingService.redrawViewer(this._context);
-
-            requestAnimationFrame(redrawViewer);
-        }
-
         this._canvasResizeObserver.observe(this._canvas, { box: 'content-box' });
-        redrawViewer();
+        requestAnimationFrame(() => this._redrawViewer());
+    }
+
+    onMouseDown(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseDown(event));
+    }
+
+    onMouseUp(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseUp(event));
+    }
+
+    onMouseMove(event: MouseEvent): void {
+        handleAsyncAction(this._inputHandlingService.mouseMove(event));
+    }
+
+    onWheel(event: WheelEvent): void {
+        event.preventDefault();
+        handleAsyncAction(this._inputHandlingService.wheel(event));
+    }
+
+    onKeyDown(event: KeyboardEvent): void {
+        handleAsyncAction(this._inputHandlingService.keyDown(event));
+    }
+
+    onKeyUp(event: KeyboardEvent): void {
+        handleAsyncAction(this._inputHandlingService.keyUp(event));
+    }
+
+    private _redrawViewer(): void {
+        this._renderingService.redrawViewer(this._context);
+        requestAnimationFrame(() => this._redrawViewer());
     }
 
     private _onCanvasResized(entries: ResizeObserverEntry[]): void {
@@ -61,6 +101,9 @@ export class ViewerComponent implements AfterViewInit {
 
     private _setCanvasSize(width: number, height: number): void {
         this._canvas.width = width;
+        this.widthChanged.emit(width);
         this._canvas.height = height;
+        this.heightChanged.emit(height);
+        handleAsyncAction(this._viewportService.updateViewportSize(width, height));
     }
 }

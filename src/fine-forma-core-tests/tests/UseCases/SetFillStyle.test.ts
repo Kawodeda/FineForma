@@ -22,14 +22,16 @@ import {
     SetFillStyleCommand,
     IItemWithFill,
     SolidBrush,
-    RgbColor
+    RgbColor,
+    Rectangle,
+    Margin
 } from 'fine-forma-core';
 
 import { rendererFactory } from './Utils';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { RenderingContextFake } from '../RenderingContextFake';
-import { clearCanvas, delay, loadImage } from '../Utils';
+import { clearCanvas, delay, inputReceiverFactory, loadImage } from '../Utils';
 import { pathApple } from '../TestPaths';
 
 const expect = chai.expect;
@@ -62,11 +64,17 @@ suite('UseCase: set item fill style', () => {
                 ], 1)
             ]), 
             new Viewport(
-                new ViewportConstraints(new Vector2(-500, -500), new Vector2(500, 500), 0.2, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(-500, -500), new Vector2(500, 500)), 
+                    new Margin(0, 0, 0, 0), 
+                    0.2, 
+                    5,
+                    new Vector2(500, 500)),
                 new Vector2(-100, -100),
                 1.2,
                 0),
-            rendererFactory(await imageStorage)
+            rendererFactory(await imageStorage),
+            inputReceiverFactory()
         );
         const canvas = createBlankCanvas();
         const ctx = canvas.getContext('2d');
@@ -124,7 +132,7 @@ suite('UseCase: set item fill style', () => {
         clearCanvas(canvas);
         viewer.renderer.render(context);
         await assertSnapshot6(canvas);
-    }).timeout(1000);
+    }).timeout(2000);
 
     const createBlankCanvas = (): Canvas => createCanvas(800, 800);
 

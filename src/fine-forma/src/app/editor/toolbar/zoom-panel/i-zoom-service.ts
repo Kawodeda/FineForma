@@ -10,7 +10,7 @@ export interface IZoomService {
 
     canDecreaseZoomBy(amount: number): boolean;
 
-    increaseZoom(amount: number): Promise<void>;
+    increaseZoom(amount: number, viewerWidth: number, viewerHeight: number): Promise<void>;
 
-    decreaseZoom(amount: number): Promise<void>;
+    decreaseZoom(amount: number, viewerWidth: number, viewerHeight: number): Promise<void>;
 }

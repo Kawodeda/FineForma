@@ -22,7 +22,13 @@ import {
     ViewportConstraints, 
     createCircle, 
     createImage, 
-    createRectangle
+    createRectangle,
+    InputReceiver,
+    ViewportInputHandler,
+    Rectangle,
+    Margin,
+    SelectionInputHandler,
+    HitTestService
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -46,11 +52,25 @@ export class ViewerProvider implements IViewerProvider {
         return new Viewer(
             this._createDesign(),
             new Viewport(
-                new ViewportConstraints(new Vector2(-1000, -1000), new Vector2(1000, 1000), 0.1, 5),
+                new ViewportConstraints(
+                    new Rectangle(new Vector2(0, 0), new Vector2(1000, 1000)),
+                    new Margin(-100, -100, -100, -100), 
+                    0.1, 
+                    8,
+                    new Vector2(1000, 1000)),
                 new Vector2(0, 0),
                 1,
                 0),
-            this._createRendererFactory()
+            this._createRendererFactory(),
+            { 
+                create: executor => new InputReceiver(
+                    new SelectionInputHandler(
+                        new HitTestService(executor), 
+                        executor,
+                        new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })), 
+                    executor
+                ) 
+            }
         );
     }
 
@@ -62,8 +82,15 @@ export class ViewerProvider implements IViewerProvider {
                     .setFill(Brushes.lavender())
                     .setStroke(new Pen(Brushes.red(), 4, new DashSettings([9, 4])))
                     .build(),
-                createImage(600, 600, 200, 200, 'masyunya3').build()
-            ], 1)
+                createImage(600, 600, 200, 200, 'masyunya3').build(),
+                createImage(800, 200, 200, 200, 'sima2').build()
+            ], 1),
+            new Layer([
+                createRectangle(50, 50, 100, 100).build(),
+                createRectangle(950, 950, 100, 100).build(),
+                createRectangle(950, 50, 100, 100).build(),
+                createRectangle(50, 950, 100, 100).build()
+            ], 2)
         ]);
     }
 

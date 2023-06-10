@@ -1,4 +1,6 @@
-import { IDesignContext, IRenderer, ISelectionContext, IViewportContext } from './IRenderer';
+import { IDesignContext } from '../Design';
+import { ISelectionContext } from '../ISelectionContext';
+import { IRenderer, IViewportContext } from './IRenderer';
 
 export interface IRendererFactory {
 
