@@ -135,7 +135,7 @@ suite('UseCase: move item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,255,255)';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-61, -61);
         ctx.lineTo(79, -61);
@@ -185,7 +185,7 @@ suite('UseCase: move item', () => {
         ctx.drawImage(await loadImage('sima.png'), -75, -75, 150, 150);
 
         ctx.strokeStyle = 'rgb(0,255,255)';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-75, -75);
         ctx.lineTo(75, -75);

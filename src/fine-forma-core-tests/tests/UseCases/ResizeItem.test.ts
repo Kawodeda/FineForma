@@ -245,7 +245,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
         ctx.beginPath();
@@ -309,7 +309,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-110.005, -147.8);
@@ -373,7 +373,7 @@ suite('UseCase: resize item', () => {
         
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -438,7 +438,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -503,7 +503,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);
@@ -568,7 +568,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
         ctx.moveTo(-220.01, -295.6);

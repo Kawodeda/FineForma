@@ -174,7 +174,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
         ctx.beginPath();
@@ -214,7 +214,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(28));
         ctx.beginPath();
@@ -254,7 +254,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
         ctx.beginPath();
@@ -298,7 +298,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(9, 9);
         ctx.rotate(degreeToRadians(111));
         ctx.beginPath();
@@ -342,7 +342,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-38));
         ctx.beginPath();

@@ -1018,7 +1018,7 @@ suite('Viewer rendering', () => {
                 ctx.restore();
 
                 ctx.strokeStyle = 'rgb(0,0,255)';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 4;
                 ctx.save();
                 ctx.translate(150, 600);
                 ctx.rotate(degreeToRadians(61.4));
