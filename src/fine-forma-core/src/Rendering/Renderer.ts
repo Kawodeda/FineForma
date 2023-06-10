@@ -29,6 +29,6 @@ export class Renderer implements IRenderer {
     render(context: IRenderingContext): void {
         context.setTransform(this._viewportContext.viewport.transform);
         this._designRenderer.render(context, this._designContext.design);
-        this._uiRenderer.render(context, this._selectionContext.selection);
+        this._uiRenderer.render(context, this._selectionContext.selection, this._viewportContext.viewport);
     }
 }
