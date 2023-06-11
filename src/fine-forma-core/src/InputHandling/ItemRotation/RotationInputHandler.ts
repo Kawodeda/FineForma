@@ -1,5 +1,4 @@
-import { IChainableInputHandler, IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs } from '..';
-import { ICommand } from '../../Commands';
+import { IChainableInputHandler } from '..';
 import { Design, IDesignContext } from '../../Design';
 import { IHitTestService } from '../../HitTest';
 import { ISelectionContext } from '../../ISelectionContext';
@@ -7,18 +6,18 @@ import { IViewportContext } from '../../Rendering';
 import { Selection } from '../../Selection';
 import { IRotationGrip } from '../../Ui';
 import { Viewport } from '../../Viewport';
+import { BaseInputHandler } from '../BaseInputHandler';
 import { IInputHandlerState } from '../State';
 import { IRotationInputHandlerStateContext } from './IRotationInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class RotationInputHandler implements IChainableInputHandler, IRotationInputHandlerStateContext {
+export class RotationInputHandler extends BaseInputHandler implements IRotationInputHandlerStateContext {
     
-    private readonly _next: IChainableInputHandler | null;
+    protected override _state: IInputHandlerState;
+
     private readonly _context: IDesignContext & ISelectionContext & IViewportContext;
     private readonly _hitTestService: IHitTestService;
     private readonly _rotationGrip: IRotationGrip;
-
-    private _state: IInputHandlerState;
 
     constructor(
         rotationGrip: IRotationGrip, 
@@ -26,15 +25,12 @@ export class RotationInputHandler implements IChainableInputHandler, IRotationIn
         hitTestService: IHitTestService,
         next: IChainableInputHandler | null = null
     ) {
+        super(next);
+
         this._context = context;
-        this._next = next;
         this._rotationGrip = rotationGrip;
         this._hitTestService = hitTestService;
         this._state = new IdleState(this);
-    }
-    
-    get next(): IChainableInputHandler | null {
-        return this._next;
     }
 
     get hitTestService(): IHitTestService {
@@ -55,33 +51,5 @@ export class RotationInputHandler implements IChainableInputHandler, IRotationIn
 
     get rotationGrip(): IRotationGrip {
         return this._rotationGrip;
-    }
-    
-    set state(state: IInputHandlerState) {
-        this._state = state;
-    }
-    
-    mouseDown(event: IMouseEventArgs): ICommand {
-        return this._state.mouseDown(event);
-    }
-    
-    mouseUp(event: IMouseEventArgs): ICommand {
-        return this._state.mouseUp(event);
-    }
-    
-    mouseMove(event: IMouseEventArgs): ICommand {
-        return this._state.mouseMove(event);
-    }
-    
-    wheel(event: IWheelEventArgs): ICommand {
-        return this._state.wheel(event);
-    }
-    
-    keyDown(event: IKeyboardEventArgs): ICommand {
-        return this._state.keyDown(event);
-    }
-    
-    keyUp(event: IKeyboardEventArgs): ICommand {
-        return this._state.keyUp(event);
     }
 }

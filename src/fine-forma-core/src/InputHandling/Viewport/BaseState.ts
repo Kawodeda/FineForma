@@ -1,32 +1,20 @@
-import { IMouseEventArgs, IWheelEventArgs, IKeyboardEventArgs, IInputHandlingConfiguration } from '..';
+import { IWheelEventArgs, IInputHandlingConfiguration } from '..';
 import { AddZoomAtCommand, Command, ICommand } from '../../Commands';
-import { IInputHandlerState, IInputHandlerStateContext } from '../State';
+import { BaseInputHandlerState, IInputHandlerStateContext } from '../State';
 
 const ZOOM_FACTOR = -1 / 500;
 
-export class BaseState implements IInputHandlerState {
+export class BaseState extends BaseInputHandlerState {
     
     protected readonly _configuration: IInputHandlingConfiguration;
-    protected readonly _context: IInputHandlerStateContext;
 
     constructor(configuration: IInputHandlingConfiguration, context: IInputHandlerStateContext) {
+        super(context);
+
         this._configuration = configuration;
-        this._context = context;
     }
 
-    mouseDown(event: IMouseEventArgs): ICommand {
-        return this._context.next?.mouseDown(event) ?? Command.empty;
-    }
-
-    mouseUp(event: IMouseEventArgs): ICommand {
-        return this._context.next?.mouseUp(event) ?? Command.empty;
-    }
-
-    mouseMove(event: IMouseEventArgs): ICommand {
-        return this._context.next?.mouseMove(event) ?? Command.empty;
-    }
-
-    wheel(event: IWheelEventArgs): ICommand {
+    override wheel(event: IWheelEventArgs): ICommand {
         if (event.ctrlKey) {
             return new Command([], [
                 new AddZoomAtCommand(this._wheelZoom(event), event.workspacePosition)
@@ -34,14 +22,6 @@ export class BaseState implements IInputHandlerState {
         }
 
         return Command.empty;
-    }
-
-    keyDown(event: IKeyboardEventArgs): ICommand {
-        return this._context.next?.keyDown(event) ?? Command.empty;
-    }
-
-    keyUp(event: IKeyboardEventArgs): ICommand {
-        return this._context.next?.keyUp(event) ?? Command.empty;
     }
 
     private _wheelZoom(event: IWheelEventArgs): number {

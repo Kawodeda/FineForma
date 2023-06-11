@@ -1,10 +1,11 @@
 import { IMouseEventArgs } from '..';
 import { ClearSelectionCommand, Command, ICommand, SelectItemCommand } from '../../Commands';
 import { Vector2 } from '../../Math';
-import { BaseState } from './BaseState';
+import { BaseInputHandlerState } from '../State';
+import { ISelectionInputHandlerStateContext } from './ISelectionInputHandlerStateContext';
 import { SelectionDragState } from './SelectionDragState';
 
-export class IdleState extends BaseState {
+export class IdleState extends BaseInputHandlerState<ISelectionInputHandlerStateContext> {
 
     override mouseDown(event: IMouseEventArgs): ICommand {
         if (event.button !== 'left') {
