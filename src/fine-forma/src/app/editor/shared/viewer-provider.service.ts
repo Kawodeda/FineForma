@@ -33,7 +33,8 @@ import {
     RotationGripRenderer,
     RotationInputHandler,
     IRotationGrip,
-    RotationGrip
+    RotationGrip,
+    ResizeGripsRenderer
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -55,6 +56,7 @@ export class ViewerProvider implements IViewerProvider {
 
     private _createViewer(): Viewer {
         const rotationGrip = new RotationGrip(20, 24);
+        const resizeGripSize = 10;
 
         return new Viewer(
             this._createDesign(),
@@ -68,7 +70,7 @@ export class ViewerProvider implements IViewerProvider {
                 new Vector2(0, 0),
                 1,
                 0),
-            this._createRendererFactory(rotationGrip),
+            this._createRendererFactory(rotationGrip, resizeGripSize),
             { 
                 create: executor => {
                     const hitTestService = new HitTestService(executor);
@@ -111,7 +113,7 @@ export class ViewerProvider implements IViewerProvider {
         ]);
     }
 
-    private _createRendererFactory(rotationGrip: IRotationGrip): IRendererFactory {
+    private _createRendererFactory(rotationGrip: IRotationGrip, resizeGripSize: number): IRendererFactory {
         const images = [
             ['masyunya', 'https://vk.com/sticker/1-71339-512'],
             ['masyunya2', 'https://vk.com/sticker/1-71326-512'],
@@ -136,6 +138,12 @@ export class ViewerProvider implements IViewerProvider {
                         selectionContext, 
                         viewportContext,
                         { stroke: gripsStyle.stroke }
+                    ),
+                    new ResizeGripsRenderer(
+                        selectionContext,
+                        viewportContext,
+                        { gripSize: resizeGripSize },
+                        gripsStyle
                     ),
                     new RotationGripRenderer(
                         selectionContext, 
