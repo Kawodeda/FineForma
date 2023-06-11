@@ -1,8 +1,9 @@
 import { Maybe } from 'tsmonad';
 import { IDesignContext, Item } from '../Design';
-import { Vector2 } from '../Math';
+import { Rectangle, Vector2 } from '../Math';
 import { IHitTestResult } from './IHitTestResult';
 import { IHitTestService } from './IHitTestService';
+import { Transform } from '../Transform';
 
 export class HitTestService implements IHitTestService {
     
@@ -24,7 +25,15 @@ export class HitTestService implements IHitTestService {
         };
     }
 
+    hitTestRectangle(point: Vector2, rectangle: Rectangle, transform: Transform): boolean {
+        return rectangle.contains(transform.inverse.applyTo(point));
+    }
+
     private _hitTestItem(item: Item, point: Vector2): boolean {
-        return item.controls.path.bounds.rectangle.contains(point.subtract(item.position));
+        return this.hitTestRectangle(
+            point.subtract(item.position), 
+            item.controls.path.bounds.rectangle, 
+            item.transform
+        );
     }
 }

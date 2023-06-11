@@ -32,6 +32,17 @@ export class Design {
         return result;
     }
 
+    getIndexOf(item: Item): { layerIndex: number; itemIndex: number } {
+        const layer = this.getLayerOf(item);
+        const layerIndex = this.layers.indexOf(layer);
+        const itemIndex = layer.items.indexOf(item);
+
+        return {
+            layerIndex: layerIndex,
+            itemIndex: itemIndex
+        };
+    }
+
     equals(other: Design): boolean {
         return this.layers.equals(other.layers, (a, b) => a.equals(b));
     }

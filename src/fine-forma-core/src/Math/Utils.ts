@@ -1,6 +1,6 @@
 import { Vector2 } from '.';
 
-const DEGREE_PER_RADIAN = 180;
+const DEGREE_PER_PI = 180;
 const EPSILON = 0.000001;
 
 export function nearlyEquals(a: number, b: number, epsilon = EPSILON): boolean {
@@ -19,7 +19,11 @@ export function isRealNumber(number: number): boolean {
 }
 
 export function degreeToRadians(angle: number): number {
-    return Math.PI * angle / DEGREE_PER_RADIAN;
+    return Math.PI * angle / DEGREE_PER_PI;
+}
+
+export function radiansToDegree(angle: number): number {
+    return DEGREE_PER_PI * angle / Math.PI;
 }
 
 export function clamp(value: number, min: number, max: number): number

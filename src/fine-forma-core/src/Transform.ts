@@ -30,6 +30,14 @@ export class Transform {
         return this._rotate;
     }
 
+    get inverse(): Transform {
+        return new Transform(
+            this.shift.negate(), 
+            new Vector2(1 / this.scaleFactor.x, 1 / this.scaleFactor.y),
+            -this.angle
+        );
+    }
+
     static createIdentity(): Transform {
         return new Transform(Vector2.zero, new Vector2(1, 1), 0);
     }
