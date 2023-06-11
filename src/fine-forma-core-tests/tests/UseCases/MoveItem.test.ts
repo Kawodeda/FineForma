@@ -135,6 +135,7 @@ suite('UseCase: move item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,255,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-61, -61);
@@ -142,6 +143,12 @@ suite('UseCase: move item', () => {
         ctx.lineTo(79, 79);
         ctx.lineTo(-61, 79);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(9, 95, 6.6666666, 6.6666666, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -185,6 +192,7 @@ suite('UseCase: move item', () => {
         ctx.drawImage(await loadImage('sima.png'), -75, -75, 150, 150);
 
         ctx.strokeStyle = 'rgb(0,255,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.33333333;
         ctx.beginPath();
         ctx.moveTo(-75, -75);
@@ -192,6 +200,12 @@ suite('UseCase: move item', () => {
         ctx.lineTo(75, 75);
         ctx.lineTo(-75, 75);
         ctx.closePath();
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.ellipse(0, 91, 6.6666666, 6.6666666, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());

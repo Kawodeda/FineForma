@@ -62,6 +62,15 @@ export class Transform {
         );
     }
 
+    rotateAt(angle: number, center: Vector2): Transform {
+        const rotated = this.rotate(angle);
+
+        return rotated.translate(
+            Transform.createIdentity().rotate(rotated.angle).applyTo(center)
+                .subtract(Transform.createIdentity().rotate(this.angle).applyTo(center))
+        );
+    }
+
     equals(other: Transform): boolean {
         return this.matrix.equals(other.matrix);
     }

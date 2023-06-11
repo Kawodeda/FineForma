@@ -1,8 +1,4 @@
-import { Image } from 'canvas';
-
 import { ColorComponent, IColorPreview, IImageContentProvider, IImageContentStorage, ImageContentProvider } from 'fine-forma-core';
-
-import { TEST_RESOURCES_PATH } from '../Settings';
 
 export function colorPreviewToHtml(preview: IColorPreview): string {
     if(preview.alpha.value === ColorComponent.maxValue) {

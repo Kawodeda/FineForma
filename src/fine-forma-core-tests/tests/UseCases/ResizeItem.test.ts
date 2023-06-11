@@ -245,6 +245,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
@@ -254,6 +255,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(80, 80);
         ctx.lineTo(-80, 80);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 106.66666666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -309,6 +316,7 @@ suite('UseCase: resize item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
@@ -317,6 +325,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(110, 108.102);
         ctx.lineTo(-110.005, 108.102);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(-0.0025, 134.768666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -373,6 +387,7 @@ suite('UseCase: resize item', () => {
         
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
@@ -381,6 +396,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(220, 216.204);
         ctx.lineTo(-220.01, 216.204);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(-0.004999, 242.870666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
 
@@ -438,6 +459,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
@@ -446,6 +468,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(220, 216.204);
         ctx.lineTo(-220.01, 216.204);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(-0.004999, 242.870666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
 
@@ -503,6 +531,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
@@ -511,6 +540,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(220, 216.204);
         ctx.lineTo(-220.01, 216.204);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(-0.004999, 242.870666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
 
@@ -568,6 +603,7 @@ suite('UseCase: resize item', () => {
 
         ctx.save();
         ctx.strokeStyle = 'rgb(255,255,0)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 1.111111111;
         ctx.translate(250, 250);
         ctx.beginPath();
@@ -576,6 +612,12 @@ suite('UseCase: resize item', () => {
         ctx.lineTo(220, 216.204);
         ctx.lineTo(-220.01, 216.204);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(-0.004999, 242.870666, 11.1111111, 11.1111111, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
         ctx.restore();
 

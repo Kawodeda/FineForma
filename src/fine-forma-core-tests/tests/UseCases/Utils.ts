@@ -1,4 +1,15 @@
-import { DesignRenderer, IImageContentStorage, IRendererFactory, ISelectionStyle, ImageContentProvider, ItemRendererFactory, LayerRenderer, Pen, RendererFactory, UiRenderer } from 'fine-forma-core';
+import { 
+    DesignRenderer, 
+    IImageContentStorage, 
+    IRendererFactory, 
+    ISelectionStyle, 
+    ImageContentProvider, 
+    ItemRendererFactory, 
+    LayerRenderer, 
+    Pen, 
+    RendererFactory 
+} from 'fine-forma-core';
+import { uiRendererFactory } from '../Utils';
 
 export function rendererFactory(
     imageStorage: IImageContentStorage, 
@@ -8,5 +19,6 @@ export function rendererFactory(
             new LayerRenderer(
                 new ItemRendererFactory(
                     new ImageContentProvider(imageStorage)))),
-        new UiRenderer(selectionStyle));
+        uiRendererFactory(selectionStyle)
+    );
 }
