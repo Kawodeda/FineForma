@@ -119,6 +119,10 @@ export class ViewerProvider implements IViewerProvider {
             ['sima', 'https://vk.com/sticker/1-79353-512'],
             ['sima2', 'https://vk.com/sticker/1-79342-512']
         ] as [string, string][];
+        const gripsStyle = { 
+            stroke: new Pen(new SolidBrush(new RgbColor(0, 144, 255, 255)), 2),
+            fill: Brushes.white() 
+        };
 
         return new RendererFactory(
             new DesignRenderer(
@@ -131,9 +135,13 @@ export class ViewerProvider implements IViewerProvider {
                     new SelectionRenderer(
                         selectionContext, 
                         viewportContext,
-                        { stroke: new Pen(new SolidBrush(new RgbColor(0, 144, 255, 255)), 2) }
+                        { stroke: gripsStyle.stroke }
                     ),
-                    new RotationGripRenderer(selectionContext, viewportContext, { rotationGrip: rotationGrip })
+                    new RotationGripRenderer(
+                        selectionContext, 
+                        viewportContext, 
+                        { rotationGrip: rotationGrip },
+                        gripsStyle)
                 ])
             }
         );

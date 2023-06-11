@@ -174,6 +174,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-32));
@@ -183,6 +184,12 @@ suite('UseCase: rotate item', () => {
         ctx.lineTo(80, 80);
         ctx.lineTo(-80, 80);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 100, 8.333333, 8.333333, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -214,6 +221,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(28));
@@ -223,6 +231,12 @@ suite('UseCase: rotate item', () => {
         ctx.lineTo(80, 80);
         ctx.lineTo(-80, 80);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 100, 8.333333, 8.333333, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -254,6 +268,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 2.5;
         ctx.translate(100, 300);
         ctx.rotate(degreeToRadians(87));
@@ -263,6 +278,12 @@ suite('UseCase: rotate item', () => {
         ctx.lineTo(80, 80);
         ctx.lineTo(-80, 80);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 100, 8.333333, 8.333333, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -298,6 +319,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 2.5;
         ctx.translate(9, 9);
         ctx.rotate(degreeToRadians(111));
@@ -307,6 +329,12 @@ suite('UseCase: rotate item', () => {
         ctx.lineTo(35, 50);
         ctx.lineTo(-35, 50);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 70, 8.333333, 8.333333, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());
@@ -342,6 +370,7 @@ suite('UseCase: rotate item', () => {
         ctx.restore();
 
         ctx.strokeStyle = 'rgb(0,0,255)';
+        ctx.fillStyle = 'rgb(255,255,255)';
         ctx.lineWidth = 2.5;
         ctx.translate(500, 400);
         ctx.rotate(degreeToRadians(-38));
@@ -351,6 +380,12 @@ suite('UseCase: rotate item', () => {
         ctx.lineTo(80, 80);
         ctx.lineTo(-80, 80);
         ctx.closePath();
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.ellipse(0, 100, 8.333333, 8.333333, 0, 0, 2 * Math.PI);
+        ctx.closePath();
+        ctx.fill();
         ctx.stroke();
 
         expect(actual.toDataURL()).to.be.equal(expected.toDataURL());

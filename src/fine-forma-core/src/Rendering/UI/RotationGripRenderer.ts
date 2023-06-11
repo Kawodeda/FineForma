@@ -1,9 +1,11 @@
 import { IRenderer, IRenderingContext, IViewportContext } from '..';
 import { ISelectionContext } from '../../ISelectionContext';
 import { Rectangle } from '../../Math';
-import { RgbColor, white } from '../../Style';
+import { Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { IRotationGrip } from '../../Ui';
+import { RenderingStyleContext } from '../RenderingStyleContext';
+import { IGripsStyle } from './IGripsStyle';
 
 interface IRotationGripContext {
 
@@ -15,11 +17,18 @@ export class RotationGripRenderer implements IRenderer {
     private readonly _selectionContext: ISelectionContext;
     private readonly _viewportContext: IViewportContext;
     private readonly _rotationGripContext: IRotationGripContext;
+    private readonly _gripsStyle: IGripsStyle;
 
-    constructor(selectionContext: ISelectionContext, viewportContext: IViewportContext, rotationGripContext: IRotationGripContext) {
+    constructor(
+        selectionContext: ISelectionContext, 
+        viewportContext: IViewportContext, 
+        rotationGripContext: IRotationGripContext,
+        gripsStyle: IGripsStyle
+    ) {
         this._selectionContext = selectionContext;
         this._viewportContext = viewportContext;
         this._rotationGripContext = rotationGripContext;
+        this._gripsStyle = gripsStyle;
     }
 
     private get _rotationGripRectangle(): Rectangle {
@@ -52,9 +61,13 @@ export class RotationGripRenderer implements IRenderer {
     }
 
     private _applyRotationGripStyle(context: IRenderingContext): void {
-        context.setStrokeStyle(new RgbColor(0, 144, 255, 255));
-        context.setLineWidth(2 / this._viewportContext.viewport.zoom);
-        context.setFillStyle(white());
+        const styleContext = new RenderingStyleContext(context);
+        styleContext.setStrokeStyle(new Pen(
+            this._gripsStyle.stroke.style, 
+            this._gripsStyle.stroke.width / this._viewportContext.viewport.zoom,
+            this._gripsStyle.stroke.dash
+        ));
+        styleContext.setFillStyle(this._gripsStyle.fill);
     }
 
     private _renderRotationGrip(context: IRenderingContext): void {

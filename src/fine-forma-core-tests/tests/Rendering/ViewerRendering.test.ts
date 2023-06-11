@@ -37,13 +37,13 @@ import {
 import { TEST_RESOURCES_PATH } from '../Settings';
 import { ImageContentStorageStub } from '../ImageContentStorageStub';
 import { setupImageContentProvider } from './Utils';
-import { inputReceiverFactory, loadImage } from '../Utils';
+import { inputReceiverFactory, loadImage, uiRendererFactory } from '../Utils';
 import { RenderingContextFake } from '../RenderingContextFake';
 
 suite('Viewer rendering', () => {
     const createBlankCanvas = () => createCanvas(800, 800);
     const createDesignRenderer = () => new DesignRenderer(new LayerRenderer(new ItemRendererFactory(imageContentProvider)));
-    const createUiRenderer = () => new UiRenderer({ stroke: new Pen(Brushes.blue(), 2) });
+    const selectionStyle = { stroke: new Pen(Brushes.blue(), 2) };
     const images = new Map<string, string>([
         ['masyunya', `${TEST_RESOURCES_PATH}\\masyunya.png`],
         ['ruka', `${TEST_RESOURCES_PATH}\\ruka.png`],
@@ -110,7 +110,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -131,7 +131,7 @@ suite('Viewer rendering', () => {
                     new Vector2(500, 780),
                     2.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -152,7 +152,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -239,7 +239,7 @@ suite('Viewer rendering', () => {
                     new Vector2(200, 150),
                     1,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -326,7 +326,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -413,7 +413,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, 0),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -500,7 +500,7 @@ suite('Viewer rendering', () => {
                     new Vector2(100, 200),
                     1.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -587,7 +587,7 @@ suite('Viewer rendering', () => {
                     new Vector2(-200, 100),
                     0.5,
                     0),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -674,7 +674,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -761,7 +761,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     1.63,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -850,7 +850,7 @@ suite('Viewer rendering', () => {
                     new Vector2(0, -800),
                     0.7,
                     90),
-                new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                 inputReceiverFactory()
             ),
             expected: async () => {
@@ -940,7 +940,7 @@ suite('Viewer rendering', () => {
                         new Vector2(-200, 100),
                         0.5,
                         0),
-                    new RendererFactory(createDesignRenderer(), createUiRenderer()),
+                    new RendererFactory(createDesignRenderer(), uiRendererFactory(selectionStyle)),
                     inputReceiverFactory());
                 
                 result.selection = new Selection([

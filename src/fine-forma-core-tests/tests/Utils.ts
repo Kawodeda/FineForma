@@ -2,18 +2,25 @@ import { expect } from 'chai';
 import { Canvas, Image } from 'canvas';
 
 import { 
+    Brushes,
     DesignRenderer, 
     HitTestService, 
     IImageContentStorage, 
     IInputReceiverFactory, 
     IRendererFactory, 
+    IRotationGrip, 
+    ISelectionStyle, 
     ImageContentProvider, 
     InputReceiver, 
     ItemRendererFactory, 
     LayerRenderer, 
     Pen, 
     RendererFactory, 
+    RotationGrip, 
+    RotationGripRenderer, 
+    RotationInputHandler, 
     SelectionInputHandler, 
+    SelectionRenderer, 
     UiRenderer, 
     Viewer,
     ViewportInputHandler,
@@ -21,6 +28,10 @@ import {
 } from 'fine-forma-core';
 
 import { TEST_RESOURCES_PATH } from './Settings';
+
+export function rotationGrip(): IRotationGrip {
+    return new RotationGrip(20, 24);
+}
 
 export function imageStorageDummy(): IImageContentStorage {
     return {
@@ -36,16 +47,39 @@ export function rendererFactoryWithDummyImageStroage(): IRendererFactory {
             new LayerRenderer(
                 new ItemRendererFactory(
                     new ImageContentProvider(imageStorageDummy())))),
-        new UiRenderer({ stroke: Pen.empty }));
+        uiRendererFactory({ stroke: Pen.empty })
+    );
+}
+
+export function uiRendererFactory(selectionStyle: ISelectionStyle): IRendererFactory {
+    return {
+        create: (designContext, viewportContext, selectionContext) => new UiRenderer([
+            new SelectionRenderer(
+                selectionContext,
+                viewportContext,
+                selectionStyle
+            ),
+            new RotationGripRenderer(
+                selectionContext, 
+                viewportContext, 
+                { rotationGrip: rotationGrip() },
+                { stroke: selectionStyle.stroke, fill: Brushes.white() })
+        ])
+    };
 }
 
 export function inputReceiverFactory(): IInputReceiverFactory {
     return {
         create: executor => new InputReceiver(
-            new SelectionInputHandler(
-                new HitTestService(executor),
+            new RotationInputHandler(
+                rotationGrip(),
                 executor,
-                new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                new HitTestService(executor),
+                new SelectionInputHandler(
+                    new HitTestService(executor),
+                    executor,
+                    new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                )
             ), 
             executor
         )
