@@ -2,6 +2,7 @@ import { IRenderer, IRenderingContext, ISelectionStyle, IViewportContext } from 
 import { Item } from '../../Design';
 import { ISelectionContext } from '../../ISelectionContext';
 import { Vector2, Rectangle } from '../../Math';
+import { Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { RenderingStyleContext } from '../RenderingStyleContext';
 
@@ -18,38 +19,35 @@ export class SelectionRenderer implements IRenderer {
     }
 
     render(context: IRenderingContext): void {
-        this._applySelectionStyle(context, this._selectionStyle);
+        this._applySelectionStyle(context, this._viewportContext.viewport.zoom);
         for (const item of this._selectionContext.selection.items) {
             context.save();
-            context.setTransform(new Transform(
-                this._viewportContext.viewport.transform.shift, 
-                new Vector2(1, 1), 
-                this._viewportContext.viewport.transform.angle
-            ));
-            this._applyItemSelectionTransform(context, item, this._viewportContext.viewport.zoom);
-            this._renderItemSelection(context, item, this._viewportContext.viewport.zoom);
+            this._applyItemSelectionTransform(context, item);
+            this._renderItemSelection(context, item);
             context.restore();
         }
     }
 
-    private _applySelectionStyle(context: IRenderingContext, selectionStyle: ISelectionStyle): void {
-        new RenderingStyleContext(context).setStrokeStyle(selectionStyle.stroke);
+    private _applySelectionStyle(context: IRenderingContext, zoom: number): void {
+        new RenderingStyleContext(context).setStrokeStyle(new Pen(
+            this._selectionStyle.stroke.style,
+            this._selectionStyle.stroke.width / zoom,
+            this._selectionStyle.stroke.dash
+        ));
     }
 
-    private _renderItemSelection(context: IRenderingContext, item: Item, zoom: number): void {
-        this._buildSelectionRectangle(context, this._getSelectionRectangle(item, zoom));
+    private _renderItemSelection(context: IRenderingContext, item: Item): void {
+        this._buildSelectionRectangle(context, this._getSelectionRectangle(item));
         context.stroke();
     }
 
-    private _applyItemSelectionTransform(context: IRenderingContext, item: Item, zoom: number): void {
-        context.transform(Transform.createIdentity().translate(item.position.scale(zoom)));
-        context.transform(Transform.createIdentity().rotate(item.transform.angle));
+    private _applyItemSelectionTransform(context: IRenderingContext, item: Item): void {
+        context.transform(Transform.createIdentity().translate(item.position));
+        context.transform(item.transform);
     }
 
-    private _getSelectionRectangle(item: Item, zoom: number): Rectangle {
-        const transform = new Transform(item.transform.shift.scale(zoom), item.transform.scaleFactor.scale(zoom), 0);
-
-        return item.controls.path.transform(transform).bounds.rectangle;
+    private _getSelectionRectangle(item: Item): Rectangle {
+        return item.controls.path.bounds.rectangle;
     }
 
     private _buildSelectionRectangle(context: IRenderingContext, rectangle: Rectangle): void {

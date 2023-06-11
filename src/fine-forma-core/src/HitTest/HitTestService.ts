@@ -26,7 +26,7 @@ export class HitTestService implements IHitTestService {
     }
 
     hitTestRectangle(point: Vector2, rectangle: Rectangle, transform: Transform): boolean {
-        return rectangle.contains(transform.inverse.applyTo(point));
+        return rectangle.contains(transform.matrix.inverse().applyTo(point));
     }
 
     private _hitTestItem(item: Item, point: Vector2): boolean {

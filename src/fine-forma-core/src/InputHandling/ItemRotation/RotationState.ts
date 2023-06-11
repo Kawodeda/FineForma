@@ -34,7 +34,7 @@ export class RotationState extends BaseState {
         this._context.state = new RotationState(this._context, event.workspacePosition);
 
         return new Command([
-            new RotateItemCommand(this._context.selection.single, deltaAngle)
+            new RotateItemCommand(this._context.selection.single, deltaAngle, this._context.selection.single.controls.path.bounds.rectangle.center)
         ], [], [
             new SelectItemAtCommand(itemIndex.layerIndex, itemIndex.itemIndex)
         ]);
