@@ -37,6 +37,15 @@ export class Rectangle {
         return this.size.y;
     }
 
+    static from(center: Vector2, width: number, height: number): Rectangle {
+        const cornerOffset = new Vector2(width / 2, height / 2);
+        
+        return new Rectangle(
+            center.subtract(cornerOffset),
+            center.add(cornerOffset)
+        );
+    }
+
     contains(point: Vector2): boolean {
         return (point.x > this.corner1.x || nearlyEquals(point.x, this.corner1.x))
             && (point.y > this.corner1.y || nearlyEquals(point.y, this.corner1.y))

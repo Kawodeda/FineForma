@@ -1,3 +1,4 @@
-export * from './IUiRenderer';
 export * from './UiRenderer';
 export * from './ISelectionStyle';
+export * from './SelectionRenderer';
+export * from './RotationGripRenderer';

@@ -34,6 +34,10 @@ export class Selection {
         return this._items.length === 1;
     }
 
+    get isMultiselection(): boolean {
+        return !this.isEmpty && !this.isSingle;
+    }
+
     get single(): Item {
         if (!this.isSingle) {
             throw new Error('Selection does not contain single item');
