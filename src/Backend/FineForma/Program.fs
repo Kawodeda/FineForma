@@ -8,6 +8,7 @@ open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
+open FineFormaCore.Design
 
 // ---------------------------------
 // Web app
@@ -20,17 +21,47 @@ let square (a: int) =
     | 1 -> "Error: 1 is not supported" |> Error
     | _ -> a * a |> Ok
 
-let squareHandler (num: string) =
-    let result = num |> int |> square
+let design = {
+    Layers = [
+        {
+            Items = [
+                ClosedShape {
+                    Position = zeroVector2
+                    Transform = {
+                        Translate = zeroVector2
+                        Scale = vector2 (1, 1)
+                        Rotate = 0
+                    }
+                    Controls =
+                        Rectangle {
+                            Corner1 = vector2 (-100, -100)
+                            Corner2 = vector2 (100, 100)
+                        }
+                    Style = {|
+                        Fill = Solid { Color = rgb 255uy 0uy 0uy }
+                        Stroke = {
+                            Style = Solid { Color = rgb 0uy 0uy 0uy }
+                            Width = 2
+                            Dash = {
+                                Dashes = []
+                                DashOffset = 0
+                            }
+                        }
+                    |}
+                }
+            ]
+            ZIndex = 0
+        }
+    ]
+}
 
-    match result with
-    | Ok value -> json value
-    | Error error -> setStatusCode 400 >=> text error
+let designHandler = json design
 
 let webApp =
-    choose
-        [ GET >=> choose [ route "/" >=> indexHandler; routef "/square/%s" squareHandler ]
-          setStatusCode 404 >=> text "bibok" ]
+    choose [
+        GET >=> choose [ route "/" >=> indexHandler; route "/design" >=> designHandler ]
+        setStatusCode 404 >=> text "bibok"
+    ]
 
 // ---------------------------------
 // Error handler
