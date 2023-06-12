@@ -3,3 +3,4 @@ export * from './ISelectionStyle';
 export * from './SelectionRenderer';
 export * from './RotationGripRenderer';
 export * from './ResizeGripsRenderer';
+export * from './SelectionDebugRenderer';

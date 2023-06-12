@@ -41,7 +41,9 @@ export class RotationState extends BaseInputHandlerState<IRotationInputHandlerSt
     }
 
     private _getAngle(mousePosition: Vector2): number {
-        const center = this._context.selection.single.controls.path.bounds.rectangle.center;
+        const center = this._context.selection.single.transform.applyTo(
+            this._context.selection.single.controls.path.bounds.rectangle.center
+        );
         const delta = mousePosition
             .subtract(center)
             .subtract(this._context.selection.single.position);

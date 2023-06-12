@@ -34,7 +34,9 @@ import {
     RotationInputHandler,
     IRotationGrip,
     RotationGrip,
-    ResizeGripsRenderer
+    ResizeGripsRenderer,
+    ResizeInputHandler,
+    SelectionDebugRenderer
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -80,10 +82,15 @@ export class ViewerProvider implements IViewerProvider {
                             rotationGrip,
                             executor,
                             hitTestService,
-                            new SelectionInputHandler(
-                                hitTestService, 
+                            new ResizeInputHandler(
                                 executor,
-                                new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                                hitTestService,
+                                resizeGripSize,
+                                new SelectionInputHandler(
+                                    hitTestService, 
+                                    executor,
+                                    new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                                )
                             )   
                         ), 
                         executor
@@ -149,7 +156,9 @@ export class ViewerProvider implements IViewerProvider {
                         selectionContext, 
                         viewportContext, 
                         { rotationGrip: rotationGrip },
-                        gripsStyle)
+                        gripsStyle
+                    )/* ,
+                    new SelectionDebugRenderer(selectionContext, viewportContext) */
                 ])
             }
         );

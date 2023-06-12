@@ -9,6 +9,10 @@ export function nearlyEquals(a: number, b: number, epsilon = EPSILON): boolean {
     return difference < epsilon;
 }
 
+export function lessOrNearlyEquals(a: number, b: number, epsilon = EPSILON): boolean {
+    return nearlyEquals(a, b, epsilon) || a < b;
+}
+
 export function nearlyInRange(value: number, min: number, max: number): boolean {
     return (value > min || nearlyEquals(value, min)) 
         && (value < max || nearlyEquals(value, max));
