@@ -1,4 +1,4 @@
-import { IMouseEventArgs } from '..';
+import { IKeyboardEventArgs, IMouseEventArgs } from '..';
 import { Command, ICommand, ResizeItemCommand, SelectItemAtCommand } from '../../Commands';
 import { Rectangle, Vector2, lessOrNearlyEquals } from '../../Math';
 import { BaseInputHandlerState } from '../State';
@@ -16,6 +16,10 @@ export class ResizeState extends BaseInputHandlerState<IResizeInputHandlerStateC
         this._capturedGrip = capturedGrip;
     }
 
+    private get _selectionRectangle(): Rectangle {
+        return this._context.selection.single.controls.path.bounds.rectangle;
+    }
+
     override mouseUp(event: IMouseEventArgs): ICommand {
         if (event.button === 'left') {
             this._context.state = new IdleState(this._context);
@@ -27,7 +31,22 @@ export class ResizeState extends BaseInputHandlerState<IResizeInputHandlerStateC
     }
 
     override mouseMove(event: IMouseEventArgs): ICommand {
-        const resizedRectangle = this._getResizedItemBounds(event.workspacePosition);
+        return this._resizeSelection(this._toGripFrame(event.workspacePosition), event.shiftKey);
+    }
+
+    override keyDown(event: IKeyboardEventArgs): ICommand {
+        if (event.shiftKey) {
+            return this._resizeSelection(
+                this._capturedGrip.getBounds(this._selectionRectangle).center, 
+                true
+            );
+        }
+
+        return super.keyDown(event);
+    }
+
+    private _resizeSelection(newGripPosition: Vector2, proportionalResize: boolean): ICommand {
+        const resizedRectangle = this._getResizedItemBounds(newGripPosition, proportionalResize);
         const { layerIndex, itemIndex } = this._context.design.getIndexOf(this._context.selection.single);
 
         this._context.state = new ResizeState(this._context, this._capturedGrip);
@@ -39,19 +58,31 @@ export class ResizeState extends BaseInputHandlerState<IResizeInputHandlerStateC
         ]);
     }
 
-    private _getResizedItemBounds(mousePosition: Vector2): Rectangle {
-        const selectionRectangle = this._context.selection.single.controls.path.bounds.rectangle;
+    private _toGripFrame(mousePosition: Vector2): Vector2 {
         const transform = this._context.selection.single.transform.matrix.inverse();
-        const gripShift = transform.applyTo(
-            mousePosition.subtract(this._context.selection.single.position)
-        )
-        .subtract(this._capturedGrip.getBounds(selectionRectangle).center);
-        const resizedRectangle = this._capturedGrip.resizeRectangle(selectionRectangle, gripShift);
 
-        return this._constrainResize(selectionRectangle, resizedRectangle);
+        return transform.applyTo(
+            mousePosition.subtract(this._context.selection.single.position)
+        );
     }
 
-    private _constrainResize(initialBounds: Rectangle, resizedBounds: Rectangle): Rectangle {
+    private _getResizedItemBounds(newGripPosition: Vector2, proportionalResize: boolean): Rectangle {
+        const result = this._capturedGrip.resizeRectangle(
+            this._selectionRectangle, 
+            this._getGripShift(newGripPosition),
+            proportionalResize
+        );
+
+        return this._constrainNegativeResize(this._selectionRectangle, result);
+    }
+
+    private _getGripShift(newGripPosition: Vector2): Vector2 {
+        return newGripPosition.subtract(
+            this._capturedGrip.getBounds(this._selectionRectangle).center
+        );
+    }
+
+    private _constrainNegativeResize(initialBounds: Rectangle, resizedBounds: Rectangle): Rectangle {
         const center = new Vector2(
             lessOrNearlyEquals(resizedBounds.width, 0) ? initialBounds.center.x : resizedBounds.center.x,
             lessOrNearlyEquals(resizedBounds.height, 0) ? initialBounds.center.y : resizedBounds.center.y

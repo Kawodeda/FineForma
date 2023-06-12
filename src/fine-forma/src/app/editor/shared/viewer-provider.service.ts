@@ -36,11 +36,14 @@ import {
     RotationGrip,
     ResizeGripsRenderer,
     ResizeInputHandler,
-    SelectionDebugRenderer
+    SelectionDebugRenderer,
+    IRenderer
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
 import { ExternalImageStorage } from '../../shared/external-image-storage';
+
+const DEBUG_MODE = false;
 
 @Injectable()
 export class ViewerProvider implements IViewerProvider {
@@ -140,26 +143,32 @@ export class ViewerProvider implements IViewerProvider {
                         new ImageContentProvider(
                             new ExternalImageStorage(images))))),
             {
-                create: (designContext, viewportContext, selectionContext) => new UiRenderer([
-                    new SelectionRenderer(
-                        selectionContext, 
-                        viewportContext,
-                        { stroke: gripsStyle.stroke }
-                    ),
-                    new ResizeGripsRenderer(
-                        selectionContext,
-                        viewportContext,
-                        { gripSize: resizeGripSize },
-                        gripsStyle
-                    ),
-                    new RotationGripRenderer(
-                        selectionContext, 
-                        viewportContext, 
-                        { rotationGrip: rotationGrip },
-                        gripsStyle
-                    )/* ,
-                    new SelectionDebugRenderer(selectionContext, viewportContext) */
-                ])
+                create: (designContext, viewportContext, selectionContext) => {
+                    const uiRenderers: IRenderer[] = [
+                        new SelectionRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { stroke: gripsStyle.stroke }
+                        ),
+                        new ResizeGripsRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { gripSize: resizeGripSize },
+                            gripsStyle
+                        ),
+                        new RotationGripRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { rotationGrip: rotationGrip },
+                            gripsStyle
+                        )
+                    ];
+                    if (DEBUG_MODE) {
+                        uiRenderers.push(new SelectionDebugRenderer(selectionContext, viewportContext));
+                    }
+
+                    return new UiRenderer(uiRenderers);
+                }
             }
         );
     }

@@ -14,11 +14,32 @@ export class ResizeGrip {
         return this._bounds(selectionBounds);
     }
 
-    resizeRectangle(rectangle: Rectangle, gripShift: Vector2): Rectangle {
-        return new Rectangle(
+    resizeRectangle(rectangle: Rectangle, gripShift: Vector2, proportionalResize: boolean): Rectangle {
+        const result = this._resizeRectangle(rectangle, gripShift);
+        if (proportionalResize) {
+            return this._constrainArbitraryResize(result);
+        }
+
+        return result;
+    }
+
+    private _resizeRectangle(rectangle: Rectangle, gripShift: Vector2): Rectangle {
+        const result = new Rectangle(
             rectangle.corner1.add(this._getCorner1Shift(gripShift)),
             rectangle.corner2.add(this._getCorner2Shift(gripShift))
         );
+
+        return result;
+    }
+
+    private _constrainArbitraryResize(resizedBounds: Rectangle): Rectangle {
+        const minAxisSize = Math.min(resizedBounds.width, resizedBounds.height);
+        const constraintShift = new Vector2(
+            (minAxisSize - resizedBounds.width) * this._resizeFactor.x,
+            (minAxisSize - resizedBounds.height) * this._resizeFactor.y
+        );
+
+        return this._resizeRectangle(resizedBounds, constraintShift);
     }
 
     private _getCorner1Shift(gripShift: Vector2): Vector2 {

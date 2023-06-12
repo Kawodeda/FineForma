@@ -66,3 +66,7 @@ export function quadraticEquation(a: number, b: number, c: number): number[] {
         (-b + discriminant) / (2 * a)
     ];
 }
+
+export function minByAbs(a: number, b: number): number {
+    return Math.abs(b) < Math.abs(a) ? b : a;
+}
