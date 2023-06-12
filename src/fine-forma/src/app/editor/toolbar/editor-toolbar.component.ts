@@ -27,27 +27,19 @@ export class ToolbarComponent {
         return !this._selectionService.isSelectionEmpty;
     }
 
-    onSelectClick(): void {
-        this._selectionService.selectItemAt(0, 0);
-    }
-
-    onClearSelectionClick(): void {
-        this._selectionService.clearSelection();
-    }
-
     async onDeleteClick(): Promise<void> {
         await this._itemService.deleteSelectedItem();
     }
 
     async onInsertRectangleClick(): Promise<void> {
-        await this._itemService.insertRectangle(700, 450);
+        await this._itemService.insertRectangle(this.viewerWidth / 2, this.viewerHeight / 2);
     }
 
     async onInsertCircleClick(): Promise<void> {
-        await this._itemService.insertCircle(700, 450);
+        await this._itemService.insertCircle(this.viewerWidth / 2, this.viewerHeight / 2);
     }
 
     async onInsertLineClick(): Promise<void> {
-        await this._itemService.insertLine(700, 450);
+        await this._itemService.insertLine(this.viewerWidth / 2, this.viewerHeight / 2);
     }
 }
