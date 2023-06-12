@@ -1,11 +1,11 @@
 import { IMouseEventArgs } from '..';
 import { Command, ICommand, RotateItemCommand, SelectItemAtCommand } from '../../Commands';
 import { Vector2, radiansToDegree } from '../../Math';
-import { BaseState } from './BaseState';
+import { BaseInputHandlerState } from '../State';
 import { IRotationInputHandlerStateContext } from './IRotationInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class RotationState extends BaseState {
+export class RotationState extends BaseInputHandlerState<IRotationInputHandlerStateContext> {
 
     private readonly _prevMousePosition: Vector2;
 
@@ -41,7 +41,9 @@ export class RotationState extends BaseState {
     }
 
     private _getAngle(mousePosition: Vector2): number {
-        const center = this._context.selection.single.controls.path.bounds.rectangle.center;
+        const center = this._context.selection.single.transform.applyTo(
+            this._context.selection.single.controls.path.bounds.rectangle.center
+        );
         const delta = mousePosition
             .subtract(center)
             .subtract(this._context.selection.single.position);

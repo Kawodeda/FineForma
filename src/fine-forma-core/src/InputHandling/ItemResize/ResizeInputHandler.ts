@@ -4,52 +4,51 @@ import { IHitTestService } from '../../HitTest';
 import { ISelectionContext } from '../../ISelectionContext';
 import { IViewportContext } from '../../Rendering';
 import { Selection } from '../../Selection';
-import { IRotationGrip } from '../../Ui';
 import { Viewport } from '../../Viewport';
 import { BaseInputHandler } from '../BaseInputHandler';
 import { IInputHandlerState } from '../State';
-import { IRotationInputHandlerStateContext } from './IRotationInputHandlerStateContext';
+import { IResizeInputHandlerStateContext } from './IResizeInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class RotationInputHandler extends BaseInputHandler implements IRotationInputHandlerStateContext {
-    
+export class ResizeInputHandler extends BaseInputHandler implements IResizeInputHandlerStateContext {
+
     protected override _state: IInputHandlerState;
 
-    private readonly _context: IDesignContext & ISelectionContext & IViewportContext;
+    private readonly _context: IDesignContext & IViewportContext & ISelectionContext;
     private readonly _hitTestService: IHitTestService;
-    private readonly _rotationGrip: IRotationGrip;
+    private readonly _resizeGripsSize: number;
 
     constructor(
-        rotationGrip: IRotationGrip, 
-        context: IDesignContext & ISelectionContext & IViewportContext,
-        hitTestService: IHitTestService,
+        context: IDesignContext & IViewportContext & ISelectionContext, 
+        hitTestService: IHitTestService, 
+        resizeGripsSize: number, 
         next: IChainableInputHandler | null = null
     ) {
         super(next);
 
         this._context = context;
-        this._rotationGrip = rotationGrip;
         this._hitTestService = hitTestService;
+        this._resizeGripsSize = resizeGripsSize;
         this._state = new IdleState(this);
-    }
-
-    get hitTestService(): IHitTestService {
-        return this._hitTestService;
     }
 
     get design(): Design {
         return this._context.design;
     }
 
-    get selection(): Selection {
-        return this._context.selection;
-    }
-
     get viewport(): Viewport {
         return this._context.viewport;
     }
 
-    get rotationGrip(): IRotationGrip {
-        return this._rotationGrip;
+    get selection(): Selection {
+        return this._context.selection;
+    }
+
+    get hitTestService(): IHitTestService {
+        return this._hitTestService;
+    }
+
+    get resizeGripSize(): number {
+        return this._resizeGripsSize;
     }
 }

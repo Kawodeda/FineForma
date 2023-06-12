@@ -1,12 +1,11 @@
 import { IMouseEventArgs } from '..';
 import { Command, ICommand, MoveItemCommand, SelectItemAtCommand } from '../../Commands';
-import { Item } from '../../Design';
 import { Vector2 } from '../../Math';
-import { BaseState } from './BaseState';
+import { BaseInputHandlerState } from '../State';
 import { ISelectionInputHandlerStateContext } from './ISelectionInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class SelectionDragState extends BaseState {
+export class SelectionDragState extends BaseInputHandlerState<ISelectionInputHandlerStateContext> {
 
     private readonly _prevMousePosition: Vector2;
 

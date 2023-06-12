@@ -93,7 +93,7 @@ module.exports = {
             },
             {
                 "selector": ["typeParameter"],
-                "format": ["StrictPascalCase"]
+                "format": ["PascalCase"]
             },
             {
                 "selector": "default",

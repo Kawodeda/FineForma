@@ -1,10 +1,11 @@
 import { IMouseEventArgs } from '..';
 import { Command, ICommand } from '../../Commands';
 import { Rectangle, Vector2 } from '../../Math';
-import { BaseState } from './BaseState';
+import { BaseInputHandlerState } from '../State';
+import { IRotationInputHandlerStateContext } from './IRotationInputHandlerStateContext';
 import { RotationState } from './RotationState';
 
-export class IdleState extends BaseState {
+export class IdleState extends BaseInputHandlerState<IRotationInputHandlerStateContext> {
 
     get rotationGripRectangle(): Rectangle {
         return this._context.rotationGrip.getRectangle(

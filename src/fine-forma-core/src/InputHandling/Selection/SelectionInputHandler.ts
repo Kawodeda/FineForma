@@ -1,29 +1,25 @@
-import { IChainableInputHandler, IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs } from '..';
-import { ICommand } from '../../Commands';
+import { IChainableInputHandler } from '..';
 import { IDesignContext } from '../../Design';
 import { IHitTestService } from '../../HitTest';
 import { ISelectionContext } from '../../ISelectionContext';
+import { BaseInputHandler } from '../BaseInputHandler';
 import { IInputHandlerState } from '../State';
 import { ISelectionInputHandlerStateContext } from './ISelectionInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class SelectionInputHandler implements IChainableInputHandler, ISelectionInputHandlerStateContext {
+export class SelectionInputHandler extends BaseInputHandler implements ISelectionInputHandlerStateContext {
     
-    private readonly _next: IChainableInputHandler | null;
+    protected override _state: IInputHandlerState;
+
     private readonly _hitTestService: IHitTestService;
     private readonly _context: IDesignContext & ISelectionContext;
 
-    private _state: IInputHandlerState;
-
     constructor(hitTestService: IHitTestService, context: IDesignContext & ISelectionContext, next: IChainableInputHandler | null = null) {
+        super(next);
+
         this._hitTestService = hitTestService;
-        this._next = next;
         this._context = context;
         this._state = new IdleState(this);
-    }
-
-    get next(): IChainableInputHandler | null {
-        return this._next;
     }
 
     get hitTestService(): IHitTestService {
@@ -36,33 +32,5 @@ export class SelectionInputHandler implements IChainableInputHandler, ISelection
     
     get selectionContext(): ISelectionContext {
         return this._context;
-    }
-
-    set state(state: IInputHandlerState) {
-        this._state = state;
-    }
-    
-    mouseDown(event: IMouseEventArgs): ICommand {
-        return this._state.mouseDown(event);
-    }
-    
-    mouseUp(event: IMouseEventArgs): ICommand {
-        return this._state.mouseUp(event);
-    }
-    
-    mouseMove(event: IMouseEventArgs): ICommand {
-        return this._state.mouseMove(event);
-    }
-    
-    wheel(event: IWheelEventArgs): ICommand {
-        return this._state.wheel(event);
-    }
-    
-    keyDown(event: IKeyboardEventArgs): ICommand {
-        return this._state.keyDown(event);
-    }
-    
-    keyUp(event: IKeyboardEventArgs): ICommand {
-        return this._state.keyUp(event);
     }
 }

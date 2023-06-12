@@ -1,13 +1,12 @@
+import { IInputHandlerState, IInputHandlerStateContext } from '.';
 import { IMouseEventArgs, IWheelEventArgs, IKeyboardEventArgs } from '..';
-import { Command, ICommand } from '../../Commands';
-import { IInputHandlerState } from '../State';
-import { ISelectionInputHandlerStateContext } from './ISelectionInputHandlerStateContext';
+import { ICommand, Command } from '../../Commands';
 
-export class BaseState implements IInputHandlerState {
-    
-    protected readonly _context: ISelectionInputHandlerStateContext;
+export abstract class BaseInputHandlerState<TContext extends IInputHandlerStateContext = IInputHandlerStateContext> implements IInputHandlerState {
 
-    constructor(context: ISelectionInputHandlerStateContext) {
+    protected readonly _context: TContext;
+
+    constructor(context: TContext) {
         this._context = context;
     }
 

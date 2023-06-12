@@ -19,9 +19,10 @@ export class SelectionRenderer implements IRenderer {
     }
 
     render(context: IRenderingContext): void {
-        this._applySelectionStyle(context, this._viewportContext.viewport.zoom);
+        
         for (const item of this._selectionContext.selection.items) {
             context.save();
+            this._applySelectionStyle(context, this._viewportContext.viewport.zoom);
             this._applyItemSelectionTransform(context, item);
             this._renderItemSelection(context, item);
             context.restore();

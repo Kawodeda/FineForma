@@ -33,11 +33,17 @@ import {
     RotationGripRenderer,
     RotationInputHandler,
     IRotationGrip,
-    RotationGrip
+    RotationGrip,
+    ResizeGripsRenderer,
+    ResizeInputHandler,
+    SelectionDebugRenderer,
+    IRenderer
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
 import { ExternalImageStorage } from '../../shared/external-image-storage';
+
+const DEBUG_MODE = false;
 
 @Injectable()
 export class ViewerProvider implements IViewerProvider {
@@ -55,6 +61,7 @@ export class ViewerProvider implements IViewerProvider {
 
     private _createViewer(): Viewer {
         const rotationGrip = new RotationGrip(20, 24);
+        const resizeGripSize = 10;
 
         return new Viewer(
             this._createDesign(),
@@ -68,7 +75,7 @@ export class ViewerProvider implements IViewerProvider {
                 new Vector2(0, 0),
                 1,
                 0),
-            this._createRendererFactory(rotationGrip),
+            this._createRendererFactory(rotationGrip, resizeGripSize),
             { 
                 create: executor => {
                     const hitTestService = new HitTestService(executor);
@@ -78,10 +85,15 @@ export class ViewerProvider implements IViewerProvider {
                             rotationGrip,
                             executor,
                             hitTestService,
-                            new SelectionInputHandler(
-                                hitTestService, 
+                            new ResizeInputHandler(
                                 executor,
-                                new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                                hitTestService,
+                                resizeGripSize,
+                                new SelectionInputHandler(
+                                    hitTestService, 
+                                    executor,
+                                    new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
+                                )
                             )   
                         ), 
                         executor
@@ -111,7 +123,7 @@ export class ViewerProvider implements IViewerProvider {
         ]);
     }
 
-    private _createRendererFactory(rotationGrip: IRotationGrip): IRendererFactory {
+    private _createRendererFactory(rotationGrip: IRotationGrip, resizeGripSize: number): IRendererFactory {
         const images = [
             ['masyunya', 'https://vk.com/sticker/1-71339-512'],
             ['masyunya2', 'https://vk.com/sticker/1-71326-512'],
@@ -131,18 +143,32 @@ export class ViewerProvider implements IViewerProvider {
                         new ImageContentProvider(
                             new ExternalImageStorage(images))))),
             {
-                create: (designContext, viewportContext, selectionContext) => new UiRenderer([
-                    new SelectionRenderer(
-                        selectionContext, 
-                        viewportContext,
-                        { stroke: gripsStyle.stroke }
-                    ),
-                    new RotationGripRenderer(
-                        selectionContext, 
-                        viewportContext, 
-                        { rotationGrip: rotationGrip },
-                        gripsStyle)
-                ])
+                create: (designContext, viewportContext, selectionContext) => {
+                    const uiRenderers: IRenderer[] = [
+                        new SelectionRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { stroke: gripsStyle.stroke }
+                        ),
+                        new ResizeGripsRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { gripSize: resizeGripSize },
+                            gripsStyle
+                        ),
+                        new RotationGripRenderer(
+                            selectionContext,
+                            viewportContext,
+                            { rotationGrip: rotationGrip },
+                            gripsStyle
+                        )
+                    ];
+                    if (DEBUG_MODE) {
+                        uiRenderers.push(new SelectionDebugRenderer(selectionContext, viewportContext));
+                    }
+
+                    return new UiRenderer(uiRenderers);
+                }
             }
         );
     }
