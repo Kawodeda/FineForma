@@ -31,10 +31,21 @@ export class ResizeState extends BaseInputHandlerState<IResizeInputHandlerStateC
     }
 
     override mouseMove(event: IMouseEventArgs): ICommand {
+        if (!this._context.selection.isSingle) {
+            this._context.state = new IdleState(this._context);
+
+            return Command.empty;
+        }
+
         return this._resizeSelection(this._toGripFrame(event.workspacePosition), event.shiftKey);
     }
 
     override keyDown(event: IKeyboardEventArgs): ICommand {
+        if (!this._context.selection.isSingle) {
+            this._context.state = new IdleState(this._context);
+
+            return Command.empty;
+        }
         if (event.shiftKey) {
             return this._resizeSelection(
                 this._capturedGrip.getBounds(this._selectionRectangle).center, 

@@ -26,6 +26,12 @@ export class RotationState extends BaseInputHandlerState<IRotationInputHandlerSt
     }
 
     override mouseMove(event: IMouseEventArgs): ICommand {
+        if (!this._context.selection.isSingle) {
+            this._context.state = new IdleState(this._context);
+
+            return Command.empty;
+        }
+
         const prevAngle = this._getAngle(this._prevMousePosition);
         const angle = this._getAngle(event.workspacePosition);
         const deltaAngle = angle - prevAngle;

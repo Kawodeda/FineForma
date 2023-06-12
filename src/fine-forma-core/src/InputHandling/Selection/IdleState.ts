@@ -29,7 +29,7 @@ export class IdleState extends BaseInputHandlerState<ISelectionInputHandlerState
             return super.mouseUp(event);
         }
 
-        return this._doesHitSelectedItem(event.workspacePosition)
+        return this._context.selectionContext.selection.isSingle && this._doesHitSelectedItem(event.workspacePosition)
             ? super.mouseUp(event)
             : new Command([], [], [
                 new ClearSelectionCommand()

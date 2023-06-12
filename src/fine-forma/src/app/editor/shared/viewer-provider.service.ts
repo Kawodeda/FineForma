@@ -163,6 +163,7 @@ export class ViewerProvider implements IViewerProvider {
                             gripsStyle
                         )
                     ];
+                    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                     if (DEBUG_MODE) {
                         uiRenderers.push(new SelectionDebugRenderer(selectionContext, viewportContext));
                     }
