@@ -6,7 +6,13 @@ export interface ISelectionService {
 
     get isSelectionEmpty(): boolean;
 
+    get selectionAngle(): number;
+
+    get canResetAngle(): boolean;
+
     selectItemAt(layerIndex: number, itemIndex: number): void;
 
     clearSelection(): void;
+
+    resetSelectionAngle(): void;
 }

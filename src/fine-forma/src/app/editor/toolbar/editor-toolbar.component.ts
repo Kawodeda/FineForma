@@ -27,6 +27,18 @@ export class ToolbarComponent {
         return !this._selectionService.isSelectionEmpty;
     }
 
+    get showItemAngle(): boolean {
+        return !this._selectionService.isSelectionEmpty;
+    }
+
+    get itemAngle(): number {
+        return this._selectionService.selectionAngle;
+    }
+
+    get canResetAngle(): boolean {
+        return this._selectionService.canResetAngle;
+    }
+
     async onDeleteClick(): Promise<void> {
         await this._itemService.deleteSelectedItem();
     }
@@ -41,5 +53,9 @@ export class ToolbarComponent {
 
     async onInsertLineClick(): Promise<void> {
         await this._itemService.insertLine(this.viewerWidth / 2, this.viewerHeight / 2);
+    }
+
+    onResetAngleClick(): void {
+        this._selectionService.resetSelectionAngle();
     }
 }
