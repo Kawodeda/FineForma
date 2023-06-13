@@ -4,6 +4,13 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Design.fs" />
+    <Compile Include="Domain\Math.fs" />
+    <Compile Include="Domain/Path.fs" />
+    <Compile Include="Domain/Style.fs" />
+    <Compile Include="Domain/Design.fs" />
+    <Compile Include="Json.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 </Project>
