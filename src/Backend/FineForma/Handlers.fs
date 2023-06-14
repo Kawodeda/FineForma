@@ -5,6 +5,7 @@ open Giraffe
 open FineFormaCore.Domain.Design
 open FineForma.HttpUtils
 open FineForma.StorageUtils
+open System
 
 let loadDesign (storage: string) (name: string) (next: HttpFunc) (ctx: HttpContext) =
     task {
@@ -39,3 +40,13 @@ let deleteDesign (storage: string) (name: string) (next: HttpFunc) (ctx: HttpCon
     | Ok() -> noContent next ctx
     | NotFound -> notFound next ctx
     | Error err -> error next ctx err
+
+let authenticateUser (next: HttpFunc) (ctx: HttpContext) =
+    task {
+        let! user = ctx.BindJsonAsync<Authentication.User>()
+        let token = Authentication.generateToken user
+
+        ctx.Response.Cookies.Append(Authentication.cookieId, token, CookieOptions(MaxAge = TimeSpan.FromHours(1)))
+
+        return! noContent next ctx
+    }

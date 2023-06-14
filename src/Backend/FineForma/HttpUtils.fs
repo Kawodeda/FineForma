@@ -1,6 +1,7 @@
 module FineForma.HttpUtils
 
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.Authentication.JwtBearer
 open Giraffe
 
 let success (next: HttpFunc) (ctx: HttpContext) (data: 'a) = json data next ctx
@@ -20,3 +21,6 @@ let error (next: HttpFunc) (ctx: HttpContext) (err: 'a) =
      >=> json err)
         next
         ctx
+
+let authenticate: HttpFunc -> HttpContext -> HttpFuncResult =
+    requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)

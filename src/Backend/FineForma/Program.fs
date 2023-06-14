@@ -1,8 +1,11 @@
 module FineForma.App
 
 open System
+open System.Text
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
+open Microsoft.AspNetCore.Authentication.JwtBearer
+open Microsoft.IdentityModel.Tokens
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
@@ -10,11 +13,14 @@ open Microsoft.Extensions.DependencyInjection
 open Microsoft.FSharpLu.Json
 open Newtonsoft.Json
 open Giraffe
-open FineForma
 open FineFormaCore.Domain.Math
 open FineFormaCore.Domain.Style
 open FineFormaCore.Domain.Design
 open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.CookiePolicy
+open FineForma
+open FineForma.Middlewares
+open FineForma.HttpUtils
 
 // ---------------------------------
 // Configuration
@@ -75,16 +81,28 @@ let webApp =
         >=> choose [
             route "/"
             >=> indexHandler
-            routef "/designs/%s" (Handlers.loadDesign designFileStoragePath)
+            routef "/designs/%s" (fun (name: string) ->
+                authenticate
+                >=> Handlers.loadDesign designFileStoragePath name)
             route "/designs/"
             >=> getDefaultDesignHandler
         ]
 
         POST
-        >=> choose [ routef "/designs/save/%s" (Handlers.saveDesign designFileStoragePath) ]
+        >=> choose [
+            route "/authentication/"
+            >=> Handlers.authenticateUser
+            routef "/designs/save/%s" (fun (name: string) ->
+                authenticate
+                >=> Handlers.saveDesign designFileStoragePath name)
+        ]
 
         DELETE
-        >=> choose [ routef "/designs/delete/%s" (Handlers.deleteDesign designFileStoragePath) ]
+        >=> choose [
+            routef "/designs/delete/%s" (fun (name: string) ->
+                authenticate
+                >=> Handlers.deleteDesign designFileStoragePath name)
+        ]
 
         setStatusCode 404
         >=> text "bibok"
@@ -111,9 +129,18 @@ let errorHandler (ex: Exception) (logger: ILogger) =
 let configureCors (builder: CorsPolicyBuilder) =
     builder
         .WithOrigins("http://localhost:5000", "https://localhost:5001")
+        .AllowCredentials()
         .AllowAnyMethod()
         .AllowAnyHeader()
     |> ignore
+
+let cookiePolicyOptions =
+    let options = CookiePolicyOptions()
+    options.MinimumSameSitePolicy <- SameSiteMode.Strict
+    options.HttpOnly <- HttpOnlyPolicy.Always
+    options.Secure <- CookieSecurePolicy.Always
+
+    options
 
 let configureApp (app: IApplicationBuilder) =
     let env = app.ApplicationServices.GetService<IWebHostEnvironment>()
@@ -122,7 +149,10 @@ let configureApp (app: IApplicationBuilder) =
      | true -> app.UseDeveloperExceptionPage()
      | false -> app.UseGiraffeErrorHandler(errorHandler).UseHttpsRedirection())
         .UseCors(configureCors)
+        .UseCookiePolicy(cookiePolicyOptions)
+        .Use(authenticationCookieMiddleware)
         .UseStaticFiles()
+        .UseAuthentication()
         .UseGiraffe(webApp)
 
 let configureServices (services: IServiceCollection) =
@@ -136,6 +166,18 @@ let configureServices (services: IServiceCollection) =
     jsonSettings.Converters.Add(CompactUnionJsonConverter(true))
 
     services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(jsonSettings))
+    |> ignore
+
+    services
+        .AddAuthentication(fun opt -> opt.DefaultAuthenticateScheme <- JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(fun opt ->
+            opt.TokenValidationParameters <-
+                TokenValidationParameters(
+                    IssuerSigningKey = SymmetricSecurityKey(Encoding.UTF8.GetBytes(Authentication.secret)),
+                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidIssuer = "fine-forma"
+                ))
     |> ignore
 
 let configureLogging (builder: ILoggingBuilder) =
