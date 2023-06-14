@@ -7,8 +7,21 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.FSharpLu.Json
+open Newtonsoft.Json
 open Giraffe
-open FineFormaCore.Design
+open FineForma
+open FineFormaCore.Domain.Math
+open FineFormaCore.Domain.Style
+open FineFormaCore.Domain.Design
+open Microsoft.AspNetCore.Http
+
+// ---------------------------------
+// Configuration
+// ---------------------------------
+
+let designFileStoragePath =
+    @"c:\Users\konse\source\repos\FineForma\src\Backend\Storage\Design"
 
 // ---------------------------------
 // Web app
@@ -16,31 +29,26 @@ open FineFormaCore.Design
 
 let indexHandler = json "fine forma api"
 
-let square (a: int) =
-    match a with
-    | 1 -> "Error: 1 is not supported" |> Error
-    | _ -> a * a |> Ok
-
 let design = {
     Layers = [
         {
             Items = [
                 ClosedShape {
-                    Position = zeroVector2
+                    Position = Vector2.zero
                     Transform = {
-                        Translate = zeroVector2
-                        Scale = vector2 (1, 1)
+                        Translate = Vector2.zero
+                        Scale = Vector2.create 1 1
                         Rotate = 0
                     }
                     Controls =
                         Rectangle {
-                            Corner1 = vector2 (-100, -100)
-                            Corner2 = vector2 (100, 100)
+                            Corner1 = Vector2.create -100 -100
+                            Corner2 = Vector2.create 100 100
                         }
                     Style = {|
-                        Fill = Solid { Color = rgb 255uy 0uy 0uy }
+                        Fill = Solid { Color = Color.rgb 255uy 0uy 0uy }
                         Stroke = {
-                            Style = Solid { Color = rgb 0uy 0uy 0uy }
+                            Style = Solid { Color = Color.rgb 0uy 0uy 0uy }
                             Width = 2
                             Dash = {
                                 Dashes = []
@@ -55,12 +63,31 @@ let design = {
     ]
 }
 
-let designHandler = json design
+let getDefaultDesignHandler =
+    setContentType "application/json"
+    >=> (design
+         |> Json.serialize
+         |> setBodyFromString)
 
 let webApp =
     choose [
-        GET >=> choose [ route "/" >=> indexHandler; route "/design" >=> designHandler ]
-        setStatusCode 404 >=> text "bibok"
+        GET
+        >=> choose [
+            route "/"
+            >=> indexHandler
+            routef "/designs/%s" (Handlers.loadDesign designFileStoragePath)
+            route "/designs/"
+            >=> getDefaultDesignHandler
+        ]
+
+        POST
+        >=> choose [ routef "/designs/save/%s" (Handlers.saveDesign designFileStoragePath) ]
+
+        DELETE
+        >=> choose [ routef "/designs/delete/%s" (Handlers.deleteDesign designFileStoragePath) ]
+
+        setStatusCode 404
+        >=> text "bibok"
     ]
 
 // ---------------------------------
@@ -69,7 +96,13 @@ let webApp =
 
 let errorHandler (ex: Exception) (logger: ILogger) =
     logger.LogError(ex, "An unhandled exception has occurred while executing the request.")
-    clearResponse >=> setStatusCode 500 >=> text ex.Message
+
+    clearResponse
+    >=> setStatusCode 500
+    >=> text (
+        ex.Message
+        + ex.ToString()
+    )
 
 // ---------------------------------
 // Config and Main
@@ -93,11 +126,21 @@ let configureApp (app: IApplicationBuilder) =
         .UseGiraffe(webApp)
 
 let configureServices (services: IServiceCollection) =
-    services.AddCors() |> ignore
-    services.AddGiraffe() |> ignore
+    services.AddCors()
+    |> ignore
+
+    services.AddGiraffe()
+    |> ignore
+
+    let jsonSettings = JsonSerializerSettings()
+    jsonSettings.Converters.Add(CompactUnionJsonConverter(true))
+
+    services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(jsonSettings))
+    |> ignore
 
 let configureLogging (builder: ILoggingBuilder) =
-    builder.AddConsole().AddDebug() |> ignore
+    builder.AddConsole().AddDebug()
+    |> ignore
 
 [<EntryPoint>]
 let main args =

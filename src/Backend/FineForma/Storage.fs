@@ -1,38 +1,42 @@
 module FineForma.Storage
 
-open FineForma.StorageUtils
 open FineFormaCore.Domain.Design
+open FineForma.StorageUtils
 
 let designFileExtension = "ffd"
 
-let private designPath storage id =
+let private filePath (storage: string) (id: StorageUtils.Id) =
     [| storage; $"{id}.{designFileExtension}" |]
     |> System.IO.Path.Combine
 
-let saveDesign (storage: string) (design: Design) =
-    (design
+let saveDesign (storage: string) (design: Design) (name: string) =
+    (name
      |> storageId
-     |> designPath storage,
+     |> filePath storage,
      design
      |> Json.serialize)
     ||> FileStorage.writeText
 
-let loadDesign (storage: string) (id: string) =
+let loadDesign (storage: string) (name: string) =
     async {
         let! result =
-            id
-            |> designPath storage
+            name
+            |> storageId
+            |> filePath storage
             |> FileStorage.readText
 
         return
             match result with
             | Ok content ->
-                content
-                |> Json.deserialize<Design>
+                match Json.deserialize<Design> content with
+                | Result.Ok design -> Ok design
+                | Result.Error exn -> Error exn
+            | NotFound -> NotFound
             | Error exn -> Error exn
     }
 
-let deleteDesign (storage: string) (id: string) =
-    id
-    |> designPath storage
+let deleteDesign (storage: string) (name: string) =
+    name
+    |> storageId
+    |> filePath storage
     |> FileStorage.deleteFile

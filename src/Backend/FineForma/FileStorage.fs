@@ -1,6 +1,7 @@
 module FineForma.FileStorage
 
 open System.IO
+open FineForma.StorageUtils
 
 let writeText (path: string) (content: string) =
     async {
@@ -20,18 +21,28 @@ let writeText (path: string) (content: string) =
 let readText (path: string) =
     async {
         try
-            let! content =
-                File.ReadAllTextAsync path
-                |> Async.AwaitTask
+            if
+                (File.Exists
+                 >> not)
+                    path
+            then
+                return NotFound
+            else
+                let! content =
+                    File.ReadAllTextAsync path
+                    |> Async.AwaitTask
 
-            return Ok content
+                return Ok content
         with exn ->
             return Error exn
     }
 
 let deleteFile (path: string) =
     try
-        File.Delete path
-        |> Ok
+        match File.Exists path with
+        | true ->
+            File.Delete path
+            |> Ok
+        | false -> NotFound
     with exn ->
         Error exn
