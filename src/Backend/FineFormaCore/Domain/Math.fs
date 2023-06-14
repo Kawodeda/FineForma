@@ -1,11 +1,11 @@
 module FineFormaCore.Domain.Math
 
-module Vector2 =
+type Vector2 = {
+    X: float
+    Y: float
+}
 
-    type Vector2 = {
-        X: float
-        Y: float
-    }
+module Vector2 =
 
     let create x y = {
         X = x
@@ -13,8 +13,6 @@ module Vector2 =
     }
 
     let zero = create 0 0
-
-open Vector2
 
 type Rectangle = {
     Corner1: Vector2

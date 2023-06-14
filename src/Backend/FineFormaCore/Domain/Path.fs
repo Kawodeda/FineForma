@@ -1,6 +1,6 @@
 module FineFormaCore.Domain.Path
 
-open FineFormaCore.Domain.Math.Vector2
+open FineFormaCore.Domain.Math
 
 type LineSegment = {
     Start: Vector2
