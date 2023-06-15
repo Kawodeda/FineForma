@@ -1,3 +1,5 @@
 module FineForma.Configuration
 
-let fileStoragePath = @"c:\Users\konse\source\repos\FineForma\src\Backend\Storage\"
+open FSharp.Configuration
+
+type Settings = AppSettings<"app.config">

@@ -1,10 +1,11 @@
 module FineForma.HttpUtils
 
+open System.Threading.Tasks
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Giraffe
-open System.Threading.Tasks
 open FineFormaCore.MaybeBuilder
+open FineForma.Configuration
 
 type UnauthorizedContext = { StoragePath: string }
 
@@ -20,11 +21,11 @@ type RequestContext =
 let context (ctx: HttpContext) =
     if ctx.User.Identity.IsAuthenticated then
         AuthorizedContext {
-            StoragePath = Configuration.fileStoragePath
+            StoragePath = Settings.FileStoragePath
             Username = ctx.User.Identity.Name
         }
     else
-        UnauthorizedContext { StoragePath = Configuration.fileStoragePath }
+        UnauthorizedContext { StoragePath = Settings.FileStoragePath }
 
 let authorizedContext (ctx: HttpContext) =
     match context ctx with
