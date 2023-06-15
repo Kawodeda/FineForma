@@ -17,6 +17,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbRecords.fs" />
+    <Compile Include="DataContext.fs" />
     <Compile Include="Configuration.fs" />
     <Compile Include="StorageUtils.fs" />
     <Compile Include="FileStorage.fs" />

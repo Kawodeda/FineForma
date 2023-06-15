@@ -12,6 +12,7 @@ open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
+open Microsoft.EntityFrameworkCore
 open Microsoft.FSharpLu.Json
 open Giraffe
 open Newtonsoft.Json
@@ -20,6 +21,8 @@ open FineForma.Middlewares
 open FineForma.HttpUtils
 open FineForma.Requests
 open FineForma.Handlers
+open FineForma.DataContext
+open FineForma.Configuration
 
 // ---------------------------------
 // Web app
@@ -130,6 +133,11 @@ let configureServices (services: IServiceCollection) =
                     ValidateIssuer = true,
                     ValidIssuer = "fine-forma"
                 ))
+    |> ignore
+
+    services.AddDbContext<DataContext>(fun optionsBuilder ->
+        optionsBuilder.UseNpgsql(Settings.ConnectionStrings.FineFormaDb)
+        |> ignore)
     |> ignore
 
 let configureLogging (builder: ILoggingBuilder) =

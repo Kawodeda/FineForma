@@ -7,7 +7,7 @@ type User = {
     Id: int
     Username: string
     Password: byte array
-    RegistrationDate: DateTime
+    RegistrationDate: DateOnly
 }
 
 [<CLIMutable>]

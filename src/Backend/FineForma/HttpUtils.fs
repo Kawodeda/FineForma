@@ -6,11 +6,16 @@ open Microsoft.AspNetCore.Authentication.JwtBearer
 open Giraffe
 open FineFormaCore.MaybeBuilder
 open FineForma.Configuration
+open FineForma.DataContext
 
-type UnauthorizedContext = { StoragePath: string }
+type UnauthorizedContext = {
+    StoragePath: string
+    DataContext: DataContext
+}
 
 type AuthorizedContext = {
     StoragePath: string
+    DataContext: DataContext
     Username: string
 }
 
@@ -22,10 +27,14 @@ let context (ctx: HttpContext) =
     if ctx.User.Identity.IsAuthenticated then
         AuthorizedContext {
             StoragePath = Settings.FileStoragePath
+            DataContext = ctx.GetService<DataContext>()
             Username = ctx.User.Identity.Name
         }
     else
-        UnauthorizedContext { StoragePath = Settings.FileStoragePath }
+        UnauthorizedContext {
+            StoragePath = Settings.FileStoragePath
+            DataContext = ctx.GetService<DataContext>()
+        }
 
 let authorizedContext (ctx: HttpContext) =
     match context ctx with
