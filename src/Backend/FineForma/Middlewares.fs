@@ -4,7 +4,7 @@ open System
 open Microsoft.AspNetCore.Http
 
 let authenticationCookieMiddleware (ctx: HttpContext) (next: RequestDelegate) =
-    let token = ctx.Request.Cookies[Authentication.cookieId]
+    let token = ctx.Request.Cookies[Authentication.cookieKey]
 
     if not (String.IsNullOrWhiteSpace token) then
         ctx.Request.Headers.Add("Authorization", $"Bearer {token}")

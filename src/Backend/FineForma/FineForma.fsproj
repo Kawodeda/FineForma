@@ -14,13 +14,15 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authentication.fs" />
-    <Compile Include="Middlewares.fs" />
+    <Compile Include="Configuration.fs" />
     <Compile Include="StorageUtils.fs" />
     <Compile Include="FileStorage.fs" />
     <Compile Include="Json.fs" />
     <Compile Include="Storage.fs" />
     <Compile Include="HttpUtils.fs" />
+    <Compile Include="Requests.fs" />
+    <Compile Include="Authentication.fs" />
+    <Compile Include="Middlewares.fs" />
     <Compile Include="Handlers.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

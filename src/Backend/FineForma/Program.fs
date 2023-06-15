@@ -5,29 +5,21 @@ open System.Text
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Cors.Infrastructure
 open Microsoft.AspNetCore.Authentication.JwtBearer
+open Microsoft.AspNetCore.Http
+open Microsoft.AspNetCore.CookiePolicy
 open Microsoft.IdentityModel.Tokens
 open Microsoft.AspNetCore.Hosting
 open Microsoft.Extensions.Hosting
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Microsoft.FSharpLu.Json
-open Newtonsoft.Json
 open Giraffe
-open FineFormaCore.Domain.Math
-open FineFormaCore.Domain.Style
-open FineFormaCore.Domain.Design
-open Microsoft.AspNetCore.Http
-open Microsoft.AspNetCore.CookiePolicy
+open Newtonsoft.Json
 open FineForma
 open FineForma.Middlewares
 open FineForma.HttpUtils
-
-// ---------------------------------
-// Configuration
-// ---------------------------------
-
-let designFileStoragePath =
-    @"c:\Users\konse\source\repos\FineForma\src\Backend\Storage\Design"
+open FineForma.Requests
+open FineForma.Handlers
 
 // ---------------------------------
 // Web app
@@ -35,73 +27,33 @@ let designFileStoragePath =
 
 let indexHandler = json "fine forma api"
 
-let design = {
-    Layers = [
-        {
-            Items = [
-                ClosedShape {
-                    Position = Vector2.zero
-                    Transform = {
-                        Translate = Vector2.zero
-                        Scale = Vector2.create 1 1
-                        Rotate = 0
-                    }
-                    Controls =
-                        Rectangle {
-                            Corner1 = Vector2.create -100 -100
-                            Corner2 = Vector2.create 100 100
-                        }
-                    Style = {|
-                        Fill = Solid { Color = Color.rgb 255uy 0uy 0uy }
-                        Stroke = {
-                            Style = Solid { Color = Color.rgb 0uy 0uy 0uy }
-                            Width = 2
-                            Dash = {
-                                Dashes = []
-                                DashOffset = 0
-                            }
-                        }
-                    |}
-                }
-            ]
-            ZIndex = 0
-        }
-    ]
-}
-
-let getDefaultDesignHandler =
-    setContentType "application/json"
-    >=> (design
-         |> Json.serialize
-         |> setBodyFromString)
-
 let webApp =
     choose [
         GET
         >=> choose [
             route "/"
             >=> indexHandler
-            routef "/designs/%s" (fun (name: string) ->
-                authenticate
-                >=> Handlers.loadDesign designFileStoragePath name)
+
             route "/designs/"
-            >=> getDefaultDesignHandler
+            >=> bindAuthorized parseLoadDesignRequest loadDesign
         ]
 
         POST
         >=> choose [
-            route "/authentication/"
-            >=> Handlers.authenticateUser
-            routef "/designs/save/%s" (fun (name: string) ->
-                authenticate
-                >=> Handlers.saveDesign designFileStoragePath name)
+            route "/login/"
+            >=> Authentication.login
+
+            route "/logout/"
+            >=> Authentication.logout
+
+            route "/designs/save/"
+            >=> bindAuthorizedWithAsyncRequest parseSaveDesignRequest saveDesign
         ]
 
         DELETE
         >=> choose [
-            routef "/designs/delete/%s" (fun (name: string) ->
-                authenticate
-                >=> Handlers.deleteDesign designFileStoragePath name)
+            route "/designs/delete/"
+            >=> bindAuthorizedSync parseDeleteDesignRequest deleteDesign
         ]
 
         setStatusCode 404

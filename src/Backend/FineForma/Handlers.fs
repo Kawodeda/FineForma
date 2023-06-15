@@ -1,52 +1,35 @@
 module FineForma.Handlers
 
-open Microsoft.AspNetCore.Http
-open Giraffe
-open FineFormaCore.Domain.Design
 open FineForma.HttpUtils
 open FineForma.StorageUtils
-open System
+open FineForma.Requests
 
-let loadDesign (storage: string) (name: string) (next: HttpFunc) (ctx: HttpContext) =
+let private toResponse f result =
+    match result with
+    | Ok a -> f a
+    | NotFound -> notFound
+    | Error err -> error err
+
+let loadDesign (ctx: AuthorizedContext) (request: LoadDesignRequest) =
     task {
-        let! designResult = Storage.loadDesign storage name
+        let! designResult = Storage.loadDesign ctx.StoragePath ctx.Username request.Name
 
-        return!
-            match designResult with
-            | Ok design ->
-                design
-                |> success next ctx
-            | NotFound -> notFound next ctx
-            | Error err ->
-                err
-                |> error next ctx
+        return
+            designResult
+            |> toResponse success
     }
 
 
-let saveDesign (storage: string) (name: string) (next: HttpFunc) (ctx: HttpContext) =
+let saveDesign (ctx: AuthorizedContext) (request: SaveDesignRequest) =
     task {
-        let! design = ctx.BindJsonAsync<Design>()
-        let! result = Storage.saveDesign storage design name
+        let! result = Storage.saveDesign ctx.StoragePath ctx.Username request.Design request.Name
 
-        return!
-            match result with
-            | Ok() -> created next ctx
-            | NotFound -> notFound next ctx
-            | Error err -> error next ctx err
+        return
+            result
+            |> toResponse (fun _ -> created)
     }
 
-let deleteDesign (storage: string) (name: string) (next: HttpFunc) (ctx: HttpContext) =
-    match Storage.deleteDesign storage name with
-    | Ok() -> noContent next ctx
-    | NotFound -> notFound next ctx
-    | Error err -> error next ctx err
-
-let authenticateUser (next: HttpFunc) (ctx: HttpContext) =
-    task {
-        let! user = ctx.BindJsonAsync<Authentication.User>()
-        let token = Authentication.generateToken user
-
-        ctx.Response.Cookies.Append(Authentication.cookieId, token, CookieOptions(MaxAge = TimeSpan.FromHours(1)))
-
-        return! noContent next ctx
-    }
+let deleteDesign (ctx: AuthorizedContext) (request: DeleteDesignRequest) =
+    request.Name
+    |> Storage.deleteDesign ctx.StoragePath ctx.Username
+    |> toResponse (fun _ -> noContent)

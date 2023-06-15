@@ -5,24 +5,36 @@ open FineForma.StorageUtils
 
 let designFileExtension = "ffd"
 
+let private designStorage (storage: string) =
+    System.IO.Path.Combine [| storage; "Designs" |]
+
+let private storageId (username: string) (resourceName: string) =
+    [ username; resourceName ]
+    |> String.concat "-"
+    |> StorageUtils.storageId
+
 let private filePath (storage: string) (id: StorageUtils.Id) =
     [| storage; $"{id}.{designFileExtension}" |]
     |> System.IO.Path.Combine
 
-let saveDesign (storage: string) (design: Design) (name: string) =
+let saveDesign (storage: string) (username: string) (design: Design) (name: string) =
     (name
-     |> storageId
-     |> filePath storage,
+     |> storageId username
+     |> (designStorage
+         >> filePath)
+         storage,
      design
      |> Json.serialize)
     ||> FileStorage.writeText
 
-let loadDesign (storage: string) (name: string) =
+let loadDesign (storage: string) (username: string) (name: string) =
     async {
         let! result =
             name
-            |> storageId
-            |> filePath storage
+            |> storageId username
+            |> (designStorage
+                >> filePath)
+                storage
             |> FileStorage.readText
 
         return
@@ -35,8 +47,10 @@ let loadDesign (storage: string) (name: string) =
             | Error exn -> Error exn
     }
 
-let deleteDesign (storage: string) (name: string) =
+let deleteDesign (storage: string) (username: string) (name: string) =
     name
-    |> storageId
-    |> filePath storage
+    |> storageId username
+    |> (designStorage
+        >> filePath)
+        storage
     |> FileStorage.deleteFile
