@@ -1,56 +1,64 @@
 module FineForma.Storage
 
+open System.Threading.Tasks
 open FineFormaCore.Domain.Design
-open FineForma.StorageUtils
+open FineFormaCore.Result
 
 let designFileExtension = "ffd"
 
 let private designStorage (storage: string) =
     System.IO.Path.Combine [| storage; "Designs" |]
 
-let private storageId (username: string) (resourceName: string) =
+let storageId (username: string) (resourceName: string) =
     [ username; resourceName ]
     |> String.concat "-"
     |> StorageUtils.storageId
 
-let private filePath (storage: string) (id: StorageUtils.Id) =
+let private filePath (id: StorageUtils.Id) (storage: string) =
     [| storage; $"{id}.{designFileExtension}" |]
     |> System.IO.Path.Combine
 
-let saveDesign (storage: string) (username: string) (design: Design) (name: string) =
-    (name
-     |> storageId username
-     |> (designStorage
-         >> filePath)
-         storage,
-     design
-     |> Json.serialize)
-    ||> FileStorage.writeText
+let private ensureStorageCreated (storage: string) =
+    FileStorage.createDirectory storage
+    >>>= (fun _ -> storage)
 
-let loadDesign (storage: string) (username: string) (name: string) =
+let saveDesign (storage: string) (username: string) (design: Design) (name: string) =
+    async {
+        return!
+            match
+                (storage
+                 |> designStorage
+                 |> ensureStorageCreated
+                 >>>= ignore)
+            with
+            | Error err ->
+                Error err
+                |> Task.FromResult
+                |> Async.AwaitTask
+            | Ok() ->
+                ((filePath (storageId username name) (designStorage storage),
+                  design
+                  |> Json.serialize)
+                 ||> FileStorage.writeText)
+    }
+
+let loadDesign (storage: string) (storageId: string) =
     async {
         let! result =
-            name
-            |> storageId username
-            |> (designStorage
-                >> filePath)
-                storage
+            designStorage storage
+            |> filePath storageId
             |> FileStorage.readText
 
         return
             match result with
             | Ok content ->
                 match Json.deserialize<Design> content with
-                | Result.Ok design -> Ok design
-                | Result.Error exn -> Error exn
-            | NotFound -> NotFound
-            | Error exn -> Error exn
+                | Ok design -> Ok design
+                | Error exn -> Error exn.Message
+            | Error err -> Error err
     }
 
-let deleteDesign (storage: string) (username: string) (name: string) =
-    name
-    |> storageId username
-    |> (designStorage
-        >> filePath)
-        storage
+let deleteDesign (storage: string) (storageId: string) =
+    designStorage storage
+    |> filePath storageId
     |> FileStorage.deleteFile

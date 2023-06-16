@@ -37,3 +37,4 @@ Thumbs.db
 *.report.txt
 obj
 bin
+**/Backend/Storage

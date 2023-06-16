@@ -7,7 +7,7 @@ open System.Security.Claims
 open Microsoft.AspNetCore.Http
 open Microsoft.IdentityModel.Tokens
 open Giraffe
-open FineFormaCore.ResultBuilder
+open FineFormaCore.Result
 open HttpUtils
 open DataContext
 open Security
@@ -19,10 +19,11 @@ let secret = "kawodedabibokf#CQRSXXXZZZqwertz"
 
 let cookieKey = ".FineForma.Authentication.Token"
 
-type User = { Name: string }
-
 let private generateToken (user: User) =
-    let claims = [| Claim(JwtRegisteredClaimNames.Name, user.Name) |]
+    let claims = [|
+        Claim("sub", string user.Id, ClaimValueTypes.Integer32)
+        Claim(JwtRegisteredClaimNames.Name, user.Username)
+    |]
 
     let expires = DateTime.UtcNow.AddHours(1)
     let notBefore = DateTime.UtcNow
@@ -53,7 +54,6 @@ let private registredUser (request: SignUpRequest) : DbRecords.User =
     let (password, salt) = hashPassword request.Password
 
     {
-        Id = 0
         Username = request.Username
         Password = password
         Salt = salt
@@ -73,7 +73,10 @@ let private authenticate (dataCtx: DataContext) (request: LogInRequest) =
         else
             Error "Incorrect password"
 
-let private userFromDb (request: DbRecords.User) = { Name = request.Username }
+let private userFromDb (userRecord: DbRecords.User) = {
+    Id = userRecord.Id
+    Username = userRecord.Username
+}
 
 let private addTokenToCookes (cookies: IResponseCookies) (token: string) =
     cookies.Append(cookieKey, token, CookieOptions(MaxAge = TimeSpan.FromHours(1)))

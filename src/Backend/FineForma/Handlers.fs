@@ -1,35 +1,119 @@
 module FineForma.Handlers
 
-open FineForma.HttpUtils
-open FineForma.StorageUtils
-open FineForma.Requests
+open System
+open FineFormaCore.Maybe
+open FineFormaCore.Result
+open HttpUtils
+open Requests
+open Data
+open DataContext
+open System.Threading.Tasks
 
-let private toResponse f result =
-    match result with
-    | Ok a -> f a
-    | NotFound -> notFound
-    | Error err -> error err
+let private savedDesignSource (dataCtx: DataContext) (userId: int) (designName: string) =
+    maybe {
+        let! savedDesign = findUsersSavedDesignWithName dataCtx userId designName
+        let! storageId = getSavedDesignSource dataCtx savedDesign.Id
+
+        return storageId
+    }
+
+let designInfo (design: DbRecords.Design) (storedResource: DbRecords.StoredResource) = {|
+    Name = storedResource.Name
+    LastModified = design.LastEdited
+|}
+
+let toDesignInfo (dataCtx: DataContext) (designs: DbRecords.Design list) =
+    designs
+    |> List.map (getStoredResource dataCtx)
+    |> List.map2 designInfo designs
+
+
+let listDesigns (ctx: AuthorizedContext) =
+    listUserDesigns ctx.DataContext ctx.User.Id
+    >>>= Seq.toList
+    >>>= toDesignInfo ctx.DataContext
+    |> toResponse success badRequestWithData
 
 let loadDesign (ctx: AuthorizedContext) (request: LoadDesignRequest) =
     task {
-        let! designResult = Storage.loadDesign ctx.StoragePath ctx.Username request.Name
-
-        return
-            designResult
-            |> toResponse success
-    }
-
-
-let saveDesign (ctx: AuthorizedContext) (request: SaveDesignRequest) =
-    task {
-        let! result = Storage.saveDesign ctx.StoragePath ctx.Username request.Design request.Name
+        let! result =
+            match
+                savedDesignSource ctx.DataContext ctx.User.Id request.Name
+                |> fromOption "Not found"
+            with
+            | Error err ->
+                Error err
+                |> Task.FromResult
+                |> Async.AwaitTask
+            | Ok storageId -> Storage.loadDesign ctx.StoragePath storageId
 
         return
             result
-            |> toResponse (fun _ -> created)
+            |> toResponse success (fun _ -> notFound)
     }
 
+let private saveToDb (ctx: AuthorizedContext) (request: SaveDesignRequest) =
+    let storageId = Storage.storageId ctx.User.Username request.Name
+
+    if userHasSavedDesign ctx.DataContext ctx.User.Id storageId then
+        ()
+    else
+        let storedResourceId =
+            saveStoredResource ctx.DataContext {
+                StorageId = storageId
+                Name = request.Name
+                Thumbnail = [||]
+            }
+
+        let designId =
+            match findDesignWithStorageId ctx.DataContext storageId with
+            | None ->
+                saveDesign ctx.DataContext {
+                    Source = storedResourceId
+                    LastEdited = DateTime.UtcNow
+                }
+            | Some design -> design.Id
+
+
+        createSavedDesign ctx.DataContext {
+            User = ctx.User.Id
+            Design = designId
+        }
+        |> ignore
+
+let saveDesign (ctx: AuthorizedContext) (request: SaveDesignRequest) =
+    task {
+        let! result = Storage.saveDesign ctx.StoragePath ctx.User.Username request.Design request.Name
+
+        return
+            result
+            >>>= (fun _ -> saveToDb ctx request)
+            |> toResponse (fun _ -> created) (fun err -> error err)
+    }
+
+let private bindUnit f _ = f
+
+let private deleteDesignFromDb (dataCtx: DataContext) (storageId: string) _ =
+    findDesignWithStorageId dataCtx storageId
+    |> fromOption "Not Found"
+    >>>= deleteDesign dataCtx
+
+let private deleteStoredResourceFromDb (dataCtx: DataContext) (storageId: string) _ =
+    findStoredResource dataCtx storageId
+    |> fromOption "NotFound"
+    >>>= deleteStoredResource dataCtx
+
+let deleteFromDb (dataCtx: DataContext) (userId: int) (designName: string) (storageId: string) =
+    findUsersSavedDesignWithName dataCtx userId designName
+    |> fromOption "Not found"
+    >>>= deleteSavedDesign dataCtx
+    >>= deleteDesignFromDb dataCtx storageId
+    >>= deleteStoredResourceFromDb dataCtx storageId
+    >>>= bindUnit storageId
+
 let deleteDesign (ctx: AuthorizedContext) (request: DeleteDesignRequest) =
-    request.Name
-    |> Storage.deleteDesign ctx.StoragePath ctx.Username
-    |> toResponse (fun _ -> noContent)
+    savedDesignSource ctx.DataContext ctx.User.Id request.Name
+    |> fromOption "Not found"
+    >>= deleteFromDb ctx.DataContext ctx.User.Id request.Name
+    >>= Storage.deleteDesign ctx.StoragePath
+    |> toResponse (fun _ -> noContent) (fun _ -> notFound)

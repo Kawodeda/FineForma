@@ -37,29 +37,32 @@ let webApp =
             route "/"
             >=> indexHandler
 
-            route "/designs/"
+            route "/designs/list"
+            >=> bindAuthorizedSync listDesigns
+
+            route "/designs"
             >=> bindAuthorized parseLoadDesignRequest loadDesign
         ]
 
         POST
         >=> choose [
-            route "/signup/"
+            route "/signup"
             >=> bindBody Authentication.signUp
 
-            route "/login/"
+            route "/login"
             >=> bindBodyWithCookies Authentication.logIn
 
-            route "/logout/"
+            route "/logout"
             >=> Authentication.logOut
 
-            route "/designs/save/"
-            >=> bindAuthorizedWithAsyncRequest parseSaveDesignRequest saveDesign
+            route "/designs/save"
+            >=> bindAuthorizedAsyncRequest parseSaveDesignRequest saveDesign
         ]
 
         DELETE
         >=> choose [
-            route "/designs/delete/"
-            >=> bindAuthorizedSync parseDeleteDesignRequest deleteDesign
+            route "/designs/delete"
+            >=> bindAuthorizedSyncRequest parseDeleteDesignRequest deleteDesign
         ]
 
         setStatusCode 404

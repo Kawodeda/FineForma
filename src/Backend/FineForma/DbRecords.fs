@@ -4,6 +4,7 @@ open System
 
 [<CLIMutable>]
 type User = {
+    [<DefaultValue>]
     Id: int
     Username: string
     Password: byte array
@@ -13,6 +14,7 @@ type User = {
 
 [<CLIMutable>]
 type StoredResource = {
+    [<DefaultValue>]
     Id: int
     StorageId: string
     Name: string
@@ -21,6 +23,7 @@ type StoredResource = {
 
 [<CLIMutable>]
 type Design = {
+    [<DefaultValue>]
     Id: int
     Source: int
     LastEdited: DateTime
@@ -28,6 +31,7 @@ type Design = {
 
 [<CLIMutable>]
 type SavedDesign = {
+    [<DefaultValue>]
     Id: int
     User: int
     Design: int
@@ -35,12 +39,14 @@ type SavedDesign = {
 
 [<CLIMutable>]
 type AssetType = {
+    [<DefaultValue>]
     Id: int
     Title: string
 }
 
 [<CLIMutable>]
 type Asset = {
+    [<DefaultValue>]
     Id: int
     Source: int
     Type: int

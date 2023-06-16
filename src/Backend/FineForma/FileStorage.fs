@@ -13,9 +13,9 @@ let writeText (path: string) (content: string) =
                 |> writer.WriteAsync
                 |> Async.AwaitTask
 
-            return Ok()
+            return Result.Ok()
         with exn ->
-            return Error exn
+            return Result.Error exn
     }
 
 let readText (path: string) =
@@ -26,15 +26,15 @@ let readText (path: string) =
                  >> not)
                     path
             then
-                return NotFound
+                return Result.Error "Not found"
             else
                 let! content =
                     File.ReadAllTextAsync path
                     |> Async.AwaitTask
 
-                return Ok content
+                return Result.Ok content
         with exn ->
-            return Error exn
+            return Result.Error exn.Message
     }
 
 let deleteFile (path: string) =
@@ -42,7 +42,16 @@ let deleteFile (path: string) =
         match File.Exists path with
         | true ->
             File.Delete path
-            |> Ok
-        | false -> NotFound
+            |> Result.Ok
+        | false -> Result.Error "Not found"
     with exn ->
-        Error exn
+        Result.Error exn.Message
+
+let createDirectory (path: string) =
+    try
+        Result.Ok(
+            Directory.CreateDirectory path
+            |> ignore
+        )
+    with exn ->
+        Result.Error exn

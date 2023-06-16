@@ -1,7 +1,7 @@
 module FineForma.Validation
 
 open System
-open FineFormaCore.ResultBuilder
+open FineFormaCore.Result
 open FineForma.Requests
 
 let stringIsNotEmpty paramName str =

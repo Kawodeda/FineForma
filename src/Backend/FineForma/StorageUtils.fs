@@ -9,6 +9,31 @@ type StorageResult<'a, 'err> =
     | NotFound
     | Error of 'err
 
+type StorageResultBuilder() =
+
+    member this.Bind m f =
+        match m with
+        | Ok a -> f a
+        | NotFound -> NotFound
+        | Error err -> Error err
+
+    member this.Return x = x
+
+
+let storageResult = new StorageResultBuilder()
+
+let (>>=) m f =
+    match m with
+    | Ok a -> f a
+    | NotFound -> NotFound
+    | Error err -> Error err
+
+let (|>>) m f =
+    match m with
+    | Ok a -> Ok(f a)
+    | NotFound -> NotFound
+    | Error err -> Error err
+
 type Id = string
 
 let md5 (data: byte array) : string =

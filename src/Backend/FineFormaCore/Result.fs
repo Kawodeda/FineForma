@@ -1,4 +1,4 @@
-module FineFormaCore.ResultBuilder
+module FineFormaCore.Result
 
 type ResultBuilder() =
 
@@ -18,5 +18,10 @@ let (>>>=) m f =
     match m with
     | Ok a -> Ok(f a)
     | Error err -> Error err
+
+let fromOption noneErr option =
+    match option with
+    | Some a -> Ok a
+    | None -> Error noneErr
 
 let result = new ResultBuilder()

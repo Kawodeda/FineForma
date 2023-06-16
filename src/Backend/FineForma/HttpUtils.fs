@@ -1,13 +1,19 @@
 module FineForma.HttpUtils
 
+open System.IdentityModel.Tokens.Jwt
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Giraffe
-open FineFormaCore.MaybeBuilder
-open FineFormaCore.ResultBuilder
-open FineForma.Configuration
-open FineForma.DataContext
+open FineFormaCore.Maybe
+open FineFormaCore.Result
+open Configuration
+open DataContext
+
+type User = {
+    Id: int
+    Username: string
+}
 
 type UnauthorizedContext = {
     StoragePath: string
@@ -17,19 +23,27 @@ type UnauthorizedContext = {
 type AuthorizedContext = {
     StoragePath: string
     DataContext: DataContext
-    Username: string
+    User: User
 }
 
 type RequestContext =
     | AuthorizedContext of AuthorizedContext
     | UnauthorizedContext of UnauthorizedContext
 
+let subClaimType =
+    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+
 let context (ctx: HttpContext) =
     if ctx.User.Identity.IsAuthenticated then
+        let idClaim = ctx.User.FindFirst(subClaimType)
+
         AuthorizedContext {
             StoragePath = Settings.FileStoragePath
             DataContext = ctx.GetService<DataContext>()
-            Username = ctx.User.Identity.Name
+            User = {
+                Id = int (idClaim.Value)
+                Username = ctx.User.Identity.Name
+            }
         }
     else
         UnauthorizedContext {
@@ -73,6 +87,22 @@ let error (err: 'a) (next: HttpFunc) (ctx: HttpContext) =
         next
         ctx
 
+let toStorageResponse f result =
+    match result with
+    | StorageUtils.Ok a -> f a
+    | StorageUtils.NotFound -> notFound
+    | StorageUtils.Error err -> error err
+
+let toResponse fOk fErr result =
+    match result with
+    | Ok a -> fOk a
+    | Error err -> fErr err
+
+let handlerToResponse fErr (next: HttpFunc) (httpContext: HttpContext) handler =
+    match handler with
+    | Ok a -> a next httpContext
+    | Error err -> fErr err
+
 let authenticate: HttpFunc -> HttpContext -> HttpFuncResult =
     requiresAuthentication (challenge JwtBearerDefaults.AuthenticationScheme)
 
@@ -111,7 +141,7 @@ let bindAuthorized
     let request = requestParser httpContext
     bindAuthorizedRequest request handler next httpContext
 
-let bindAuthorizedSync
+let bindAuthorizedSyncRequest
     (requestParser: HttpContext -> 'a option)
     (handler: AuthorizedContext -> 'a -> HttpFunc -> HttpContext -> HttpFuncResult)
     (next: HttpFunc)
@@ -126,7 +156,7 @@ let bindAuthorizedSync
         httpContext
 
 
-let bindAuthorizedWithAsyncRequest
+let bindAuthorizedAsyncRequest
     (requestParser: HttpContext -> Task<'a option>)
     (handler: AuthorizedContext -> 'a -> Task<HttpFunc -> HttpContext -> HttpFuncResult>)
     (next: HttpFunc)
@@ -137,6 +167,20 @@ let bindAuthorizedWithAsyncRequest
 
         return! bindAuthorizedRequest request handler next httpContext
     }
+
+let bindAuthorizedSync
+    (handler: AuthorizedContext -> HttpFunc -> HttpContext -> HttpFuncResult)
+    (next: HttpFunc)
+    (httpContext: HttpContext)
+    =
+    (authenticate
+     >=> (fun (n: HttpFunc) c ->
+         authorizedContext c
+         |> fromOption ""
+         >>>= handler
+         |> handlerToResponse (fun str -> unauthorized n c) next httpContext))
+        next
+        httpContext
 
 let private parseJson<'a, 'err> (httpContext: HttpContext) =
     task {
