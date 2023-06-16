@@ -1,9 +1,9 @@
 <div style="display: flex; align-items: center;">
     <span class="zoom-output">{{zoom | percent:'2.0-0' }}</span>
-    <button mat-icon-button style="margin-right: 0;" (click)="onZoomInClick()" [disabled]="!canZoomIn">
+    <button mat-icon-button matTooltip="Zoom in" style="margin-right: 0;" (click)="onZoomInClick()" [disabled]="!canZoomIn">
         <mat-icon>zoom_in</mat-icon>
     </button>
-    <button mat-icon-button (click)="onZoomOutClick()" [disabled]="!canZoomOut">
+    <button mat-icon-button matTooltip="Zoom out" (click)="onZoomOutClick()" [disabled]="!canZoomOut">
         <mat-icon>zoom_out</mat-icon>
     </button>
 </div>
