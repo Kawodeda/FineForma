@@ -43,11 +43,14 @@ let webApp =
 
         POST
         >=> choose [
+            route "/signup/"
+            >=> bindBody Authentication.signUp
+
             route "/login/"
-            >=> Authentication.login
+            >=> bindBodyWithCookies Authentication.logIn
 
             route "/logout/"
-            >=> Authentication.logout
+            >=> Authentication.logOut
 
             route "/designs/save/"
             >=> bindAuthorizedWithAsyncRequest parseSaveDesignRequest saveDesign

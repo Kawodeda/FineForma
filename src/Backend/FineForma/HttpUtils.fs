@@ -5,6 +5,7 @@ open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Authentication.JwtBearer
 open Giraffe
 open FineFormaCore.MaybeBuilder
+open FineFormaCore.ResultBuilder
 open FineForma.Configuration
 open FineForma.DataContext
 
@@ -41,13 +42,24 @@ let authorizedContext (ctx: HttpContext) =
     | AuthorizedContext authorizedCtx -> Some authorizedCtx
     | _ -> None
 
-let success (data: 'a) (next: HttpFunc) (ctx: HttpContext) = json data next ctx
+let success (data: 'a) (next: HttpFunc) (ctx: HttpContext) =
+    let u = typeof<unit>
+
+    match typeof<'a> with
+    | u when u = typeof<unit> -> text "" next ctx
+    | _ -> json data next ctx
 
 let created (next: HttpFunc) (ctx: HttpContext) = setStatusCode 201 next ctx
 
 let noContent (next: HttpFunc) (ctx: HttpContext) = setStatusCode 204 next ctx
 
 let badRequest (next: HttpFunc) (ctx: HttpContext) = setStatusCode 400 next ctx
+
+let badRequestWithData (data: 'a) (next: HttpFunc) (ctx: HttpContext) =
+    (setStatusCode 400
+     >=> json data)
+        next
+        ctx
 
 let unauthorized (next: HttpFunc) (ctx: HttpContext) = setStatusCode 401 next ctx
 
@@ -71,7 +83,7 @@ let private bindAuthorizedRequest
     (httpContext: HttpContext)
     =
     (authenticate
-     >=> fun n c ->
+     >=> fun (n: HttpFunc) (c: HttpContext) ->
          task {
              let result =
                  maybe {
@@ -125,3 +137,44 @@ let bindAuthorizedWithAsyncRequest
 
         return! bindAuthorizedRequest request handler next httpContext
     }
+
+let private parseJson<'a, 'err> (httpContext: HttpContext) =
+    task {
+        try
+            let! data = httpContext.BindJsonAsync<'a>()
+
+            return
+                if data :> obj = null then
+                    Error Unchecked.defaultof<'err>
+                else
+                    Ok data
+        with exn ->
+            return Error Unchecked.defaultof<'err>
+    }
+
+let bindBody (handler: UnauthorizedContext -> 'a -> Result<'b, 'err>) (next: HttpFunc) (httpContext: HttpContext) =
+    task {
+        let dataCtx = httpContext.GetService<DataContext>()
+
+        let ctx = {
+            StoragePath = Settings.FileStoragePath
+            DataContext = dataCtx
+        }
+
+        let! request = parseJson<'a, 'err> httpContext
+
+        return!
+            match
+                request
+                >>= handler ctx
+            with
+            | Ok a -> success a next httpContext
+            | Error err -> badRequestWithData err next httpContext
+    }
+
+let bindBodyWithCookies
+    (handler: IResponseCookies -> UnauthorizedContext -> 'a -> Result<'b, 'err>)
+    (next: HttpFunc)
+    (httpContext: HttpContext)
+    =
+    bindBody (handler httpContext.Response.Cookies) next httpContext

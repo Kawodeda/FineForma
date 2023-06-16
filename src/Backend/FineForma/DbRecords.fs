@@ -7,6 +7,7 @@ type User = {
     Id: int
     Username: string
     Password: byte array
+    Salt: byte array
     RegistrationDate: DateOnly
 }
 

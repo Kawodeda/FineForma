@@ -2,6 +2,7 @@ create table if not exists "User" (
 	"Id" int primary key generated always as identity,
 	"Username" varchar(100) not null unique,
 	"Password" bytea not null,
+    "Salt" bytea not null,
 	"RegistrationDate" date not null
 );
 

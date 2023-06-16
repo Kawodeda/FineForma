@@ -5,7 +5,15 @@ open Microsoft.AspNetCore.Http
 open Giraffe
 open FineFormaCore.Domain.Design
 
-type ListDesignsRequest = { StoragePath: string }
+type SignUpRequest = {
+    Username: string
+    Password: string
+}
+
+type LogInRequest = {
+    Username: string
+    Password: string
+}
 
 type LoadDesignRequest = { Name: string }
 
