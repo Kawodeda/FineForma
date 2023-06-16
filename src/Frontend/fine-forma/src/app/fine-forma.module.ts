@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IMAGE_BITMAP_PROVIDER } from './shared/i-image-bitmap-provider';
 import { ImageBitmapProvider } from './shared/image-bitmap-provider';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
     declarations: [
@@ -15,6 +16,7 @@ import { ImageBitmapProvider } from './shared/image-bitmap-provider';
     ],
     imports: [
         BrowserModule,
+        AppRoutingModule,
         FineFormaRoutingModule,
         EditorModule,
         BrowserAnimationsModule,
