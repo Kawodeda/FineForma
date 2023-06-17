@@ -14,6 +14,11 @@ module Vector2 =
 
     let zero = create 0 0
 
+type Line = {
+    Start: Vector2
+    End: Vector2
+}
+
 type Rectangle = {
     Corner1: Vector2
     Corner2: Vector2

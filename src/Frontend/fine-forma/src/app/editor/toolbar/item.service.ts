@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 
 import { IItemService } from './i-item-service';
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { AddItemToLayerAtCommand, Brushes, Command, Item, Pen, RemoveItemCommand, Vector2, Viewport, createCircle, createLine, createRectangle } from 'fine-forma-core';
 import { canvasToDesignPoint } from '../shared/reference-frame-converter';
 

@@ -41,7 +41,7 @@ import {
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
-import { ExternalImageStorage } from '../../shared/external-image-storage';
+import { ExternalImageStorage } from './external-image-storage';
 
 const DEBUG_MODE = false;
 

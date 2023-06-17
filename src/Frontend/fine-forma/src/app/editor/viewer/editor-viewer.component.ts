@@ -55,6 +55,8 @@ export class ViewerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this._canvasResizeObserver.observe(this._canvas, { box: 'content-box' });
         requestAnimationFrame(() => this._redrawViewer());
+        console.log(this.canvas?.nativeElement.clientWidth);
+        console.log(this.canvas?.nativeElement.clientHeight);
     }
 
     onMouseDown(event: MouseEvent): void {

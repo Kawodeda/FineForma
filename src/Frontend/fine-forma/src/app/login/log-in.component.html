@@ -1,0 +1,30 @@
+<div class="main-container">
+    <div class="content-container" style="padding: 15px 20px 10px 20px;">
+        <span style="font-size: 20px; font-weight: 500;">Sign in your Fine Forma account</span>
+        <form [formGroup]="loginForm" (ngSubmit)="submit()" style="margin-top: 30px;">
+            <mat-form-field>
+                <mat-label>Username</mat-label>
+                <input matInput type="text" maxlength="100" formControlName="username" required>
+                <mat-error *ngIf="usernameControl.hasError('required')">
+                    Username is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Password</mat-label>
+                <input matInput type="password" maxlength="100" formControlName="password" required>
+                <mat-error *ngIf="passwordControl.hasError('required')">
+                    Password is required
+                </mat-error>
+            </mat-form-field>
+            <button mat-button color="primary" class="form-button" type="submit" [disabled]="!loginForm.valid">
+                Sign In
+            </button>
+        </form>
+        <button mat-button class="outer-button" type="button" ffNavigateBack>Back</button>
+        <mat-error *ngIf="statusMessage !== ''">{{statusMessage}}</mat-error>
+    </div>
+    <div class="content-container" style="padding: 10px; margin-top: 20px;">
+        <span  style="font-size: 16px; margin-bottom: 5px;" mat-card-title>...or create a new account</span>
+        <button mat-button class="outer-button" color="primary" routerLink="/signup" routerLinkActive="active">Create account</button>
+    </div>
+</div>

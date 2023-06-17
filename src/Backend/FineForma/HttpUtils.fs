@@ -1,6 +1,5 @@
 module FineForma.HttpUtils
 
-open System.IdentityModel.Tokens.Jwt
 open System.Threading.Tasks
 open Microsoft.AspNetCore.Http
 open Microsoft.AspNetCore.Authentication.JwtBearer

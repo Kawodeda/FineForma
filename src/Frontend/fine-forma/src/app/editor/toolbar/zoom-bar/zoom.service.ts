@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { AddZoomAtCommand, Command, Vector2 } from 'fine-forma-core';
 
 import { IZoomService } from './i-zoom-service';
-import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../../shared/i-viewer-provider';
 import { canvasToDesignPoint } from '../../shared/reference-frame-converter';
 
 @Injectable()

@@ -16,6 +16,8 @@ open Microsoft.EntityFrameworkCore
 open Microsoft.FSharpLu.Json
 open Giraffe
 open Newtonsoft.Json
+open Newtonsoft.Json.Serialization
+open Newtonsoft.Json.Converters
 open FineForma
 open FineForma.Middlewares
 open FineForma.HttpUtils
@@ -36,6 +38,12 @@ let webApp =
         >=> choose [
             route "/"
             >=> indexHandler
+
+            route "/authenticated"
+            >=> Authentication.authenticated
+
+            route "/user/info"
+            >=> bindAuthorizedSync getUserInfo
 
             route "/designs/list"
             >=> bindAuthorizedSync listDesigns
@@ -89,7 +97,7 @@ let errorHandler (ex: Exception) (logger: ILogger) =
 
 let configureCors (builder: CorsPolicyBuilder) =
     builder
-        .WithOrigins("http://localhost:5000", "https://localhost:5001")
+        .WithOrigins("http://localhost:5000", "https://localhost:5001", "https://localhost:4200")
         .AllowCredentials()
         .AllowAnyMethod()
         .AllowAnyHeader()
@@ -125,6 +133,7 @@ let configureServices (services: IServiceCollection) =
 
     let jsonSettings = JsonSerializerSettings()
     jsonSettings.Converters.Add(CompactUnionJsonConverter(true))
+    jsonSettings.ContractResolver <- CamelCasePropertyNamesContractResolver()
 
     services.AddSingleton<Json.ISerializer>(NewtonsoftJson.Serializer(jsonSettings))
     |> ignore

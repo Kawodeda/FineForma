@@ -117,3 +117,6 @@ let deleteDesign (ctx: AuthorizedContext) (request: DeleteDesignRequest) =
     >>= deleteFromDb ctx.DataContext ctx.User.Id request.Name
     >>= Storage.deleteDesign ctx.StoragePath
     |> toResponse (fun _ -> noContent) (fun _ -> notFound)
+
+let getUserInfo (ctx: AuthorizedContext) =
+    success {| Username = ctx.User.Username |}

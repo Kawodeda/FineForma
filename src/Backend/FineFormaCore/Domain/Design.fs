@@ -1,7 +1,6 @@
 module FineFormaCore.Domain.Design
 
 open FineFormaCore.Domain.Math
-open FineFormaCore.Domain.Math.Vector2
 open FineFormaCore.Domain.Path
 open FineFormaCore.Domain.Style
 
@@ -11,7 +10,7 @@ type ClosedShapeControls =
     | Path of Path
 
 type OpenShapeControls =
-    | Line
+    | Line of Line
     | Path of Path
 
 type ClosedShapeItem = {

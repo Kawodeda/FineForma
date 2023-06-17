@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import { Command, SetViewportConstraintsCommand, Vector2, ViewportConstraints } from 'fine-forma-core';
 
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { IViewportService } from './i-viewport-service';
 import { canvasToDesignSize } from '../shared/reference-frame-converter';
 

@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import { IKeyboardEventArgs, IMouseEventArgs, IWheelEventArgs, MouseButton, Vector2 } from 'fine-forma-core';
 
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { IInputHandlingService } from './i-input-handling-service';
 import { canvasToDesignPoint } from '../shared/reference-frame-converter';
 
