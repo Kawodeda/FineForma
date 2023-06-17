@@ -100,3 +100,9 @@ let logOut (next: HttpFunc) (ctx: HttpContext) =
     ctx.Response.Cookies.Delete cookieKey
 
     noContent next ctx
+
+let authenticated (next: HttpFunc) (ctx: HttpContext) =
+    match context ctx with
+    | UnauthorizedContext u -> false
+    | AuthorizedContext a -> true
+    |> fun data -> success data next ctx
