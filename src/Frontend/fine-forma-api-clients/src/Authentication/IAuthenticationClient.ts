@@ -1,9 +1,10 @@
-import { LogInRequest } from '../Dto';
-import { AuthenticationResult } from './AuthenticationResult';
+import { LogInRequest, SignUpRequest } from '../Dto';
 
 export interface IAuthenticationClient {
 
-    logIn(request: LogInRequest): Promise<AuthenticationResult>;
+    logIn(request: LogInRequest): Promise<void>;
 
     logOut(): Promise<void>;
+
+    signUp(request: SignUpRequest): Promise<void>;
 }

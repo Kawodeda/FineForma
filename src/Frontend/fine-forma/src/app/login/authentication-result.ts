@@ -2,6 +2,7 @@ export type AuthenticationResult = Success | Failure;
 
 export type Success = Record<string, never>;
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 export type Failure = {
     message: string;
 }

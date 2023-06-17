@@ -5,11 +5,11 @@ import { IZoomService, ZOOM_SERVICE } from './i-zoom-service';
 const ZOOM_STEP = 0.2;
 
 @Component({
-    selector: 'ff-editor-zoom-panel',
-    templateUrl: 'zoom-panel.component.html',
-    styleUrls: ['zoom-panel.component.scss']
+    selector: 'ff-editor-zoom-bar',
+    templateUrl: 'zoom-bar.component.html',
+    styleUrls: ['zoom-bar.component.scss']
 })
-export class ZoomPanelComponent {
+export class ZoomBarComponent {
     
     @Input() viewerWidth = 0;
     @Input() viewerHeight = 0;

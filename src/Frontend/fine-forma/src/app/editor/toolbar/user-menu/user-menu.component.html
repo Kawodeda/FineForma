@@ -1,0 +1,11 @@
+<a [matMenuTriggerFor]="userProfileMenu" matTooltip="Manage account" class="primary-color" style="cursor: pointer;">{{username}}</a>
+<mat-menu #userProfileMenu>
+    <button mat-menu-item routerLink="/profile" routerLinkActive="active">
+        <mat-icon>account_box</mat-icon>
+        View profile
+    </button>
+    <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Log out
+    </button>
+</mat-menu>

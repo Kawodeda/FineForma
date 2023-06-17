@@ -1,0 +1,14 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+$primary-palette: mat.define-palette(mat.$deep-purple-palette, 500);
+$primary-color-500: map-get($map: $primary-palette, $key: 500);
+$primary-color-400: map-get($map: $primary-palette, $key: 400);
+
+.primary-color {
+    color: $primary-color-500;
+}
+
+.primary-color:hover {
+    color: $primary-color-400;
+}

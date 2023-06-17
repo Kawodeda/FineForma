@@ -3,9 +3,8 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthenticationResult, IAuthenticationClient, isSuccess } from 'fine-forma-api-clients';
-
-import { AUTHENTICATION_CLIENT } from './authentication-client-token';
+import { ILogInService, LOG_IN_SERVICE } from './i-log-in-service';
+import { AuthenticationResult, isSuccess } from './authentication-result';
 
 @Component({
   selector: 'ff-log-in',
@@ -15,7 +14,7 @@ import { AUTHENTICATION_CLIENT } from './authentication-client-token';
 export class LogInComponent {
     private readonly _location: Location;
     private readonly _router: Router;
-    private readonly _authenticationClient: IAuthenticationClient;
+    private readonly _logInService: ILogInService;
     // eslint-disable-next-line @typescript-eslint/unbound-method
     private readonly _usernameControl = new FormControl('', [Validators.required]);
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -27,10 +26,10 @@ export class LogInComponent {
 
     private _statusMessage = '';
 
-    constructor(location: Location, router: Router, @Inject(AUTHENTICATION_CLIENT) authenticationClient: IAuthenticationClient) {
+    constructor(location: Location, router: Router, @Inject(LOG_IN_SERVICE) logInService: ILogInService) {
         this._location = location;
         this._router = router;
-        this._authenticationClient = authenticationClient;
+        this._logInService = logInService;
     }
 
     get usernameControl(): FormControl {
@@ -50,11 +49,10 @@ export class LogInComponent {
     }
 
     submit(): void {
-        const user = {
-            username: this.usernameControl.value as string,
-            password: this.passwordControl.value as string
-        };
-        this._authenticationClient.logIn(user)
+        const username = this.usernameControl.value as string;
+        const password = this.passwordControl.value as string;
+
+        this._logInService.logIn(username, password)
             .then(result => this._processAuthentication(result))
             .catch(error => console.error(error))
     }
