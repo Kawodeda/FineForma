@@ -7,7 +7,7 @@ export class Design {
     private readonly _layers: ReadonlyCollection<Layer>;
 
     constructor(layers: readonly Layer[] | ReadonlyCollection<Layer>) {
-        if (layers instanceof ReadonlyCollection<Layer>) {
+        if (layers instanceof ReadonlyCollection) {
             this._layers = this._orderByZIindex(layers);
         }
         else {

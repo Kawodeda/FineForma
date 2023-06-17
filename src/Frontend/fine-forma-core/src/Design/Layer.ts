@@ -8,7 +8,7 @@ export class Layer {
     private readonly _zIndex: number;
 
     constructor(items: readonly Item[] | ReadonlyCollection<Item>, zIndex: number) {
-        if (items instanceof ReadonlyCollection<Item>) {
+        if (items instanceof ReadonlyCollection) {
             this._items = items;
         }
         else {

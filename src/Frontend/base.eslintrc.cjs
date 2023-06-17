@@ -92,6 +92,14 @@ module.exports = {
                 "format": ["StrictPascalCase"]
             },
             {
+                "selector": ["enum"],
+                "format": ["StrictPascalCase"]
+            },
+            {
+                "selector": ["enumMember"],
+                "format": ["StrictPascalCase"]
+            },
+            {
                 "selector": ["typeParameter"],
                 "format": ["PascalCase"]
             },

@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, GenericAbortSignal } from 'axios';
+import axios, { AxiosInstance, GenericAbortSignal, InternalAxiosRequestConfig } from 'axios';
 
-import { HttpError, Unauthorized, NotFound } from './Errors';
+import { HttpError, Unauthorized, NotFound, BadRequest } from './Errors';
 import { IApiClient } from './IApiClient';
 
 export class ApiClient implements IApiClient {
@@ -70,19 +70,31 @@ export class ApiClient implements IApiClient {
             baseURL: this._baseUrl,
             params: params
         };
+        const client = axios.create(config);
+        client.interceptors.request.use(request => this._requestInterceptor(request));
 
-        return axios.create(config);
+        return client;
+    }
+
+    private _requestInterceptor(request: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
+        request.withCredentials = true;
+
+        return request;
     }
 
     private _handleError(error: unknown): never {
         if (!HAS_RESPONSE(error) && HAS_MESSAGE(error)) {
             throw new HttpError(error.message);
         }
-        else if (HAS_RESPONSE(error) && error.response.status === 401) {
-            throw new Unauthorized(error.response.data);
-        }
-        else if (HAS_RESPONSE(error) && error.response.status === 404) {
-            throw new NotFound(error.response.data);
+        if (HAS_RESPONSE(error)) {
+            switch (error.response.status) {
+                case 400:
+                    throw new BadRequest(error.response.data);
+                case 401:
+                    throw new Unauthorized(error.response.data);
+                case 404:
+                    throw new NotFound(error.response.data);
+            }
         }
         
         throw error;
