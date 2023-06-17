@@ -1,0 +1,30 @@
+{
+    "include": [ "./src/**/*.ts", "index.ts" ],
+    "compilerOptions": {
+      "declaration": true,
+      "target": "ES2019",
+      "module": "ES2022",
+      "moduleResolution": "nodenext",
+      "rootDir": "./",
+      "baseUrl": ".",
+      "outDir": "./build/",
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,
+      "noImplicitAny": true,
+      "strictNullChecks": true,
+      "strictFunctionTypes": true,
+      "strictBindCallApply": true,
+      "strictPropertyInitialization": true,
+      "noImplicitThis": true,
+      "useUnknownInCatchVariables": true,
+      "alwaysStrict": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "exactOptionalPropertyTypes": true,
+      "noImplicitReturns": true,
+      "noUncheckedIndexedAccess": true,
+      "noImplicitOverride": true,
+      "noPropertyAccessFromIndexSignature": true,
+      "allowSyntheticDefaultImports": true
+    }
+  }
