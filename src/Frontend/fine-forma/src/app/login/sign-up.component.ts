@@ -4,6 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators }
 
 import { ISignUpService, SIGN_UP_SERVICE } from './i-sign-up-service';
 import { AuthenticationResult, isSuccess } from './authentication-result';
+import { ILogInService, LOG_IN_SERVICE } from './i-log-in-service';
 
 @Component({
     selector: 'ff-sign-up',
@@ -13,6 +14,7 @@ import { AuthenticationResult, isSuccess } from './authentication-result';
 export class SignUpComponent {
 
     private readonly _signUpService: ISignUpService;
+    private readonly _logInService: ILogInService;
     private readonly _router: Router;
     // eslint-disable-next-line @typescript-eslint/unbound-method
     private readonly _usernameControl = new FormControl('', [Validators.required]);
@@ -27,8 +29,13 @@ export class SignUpComponent {
 
     private _statusMessage = '';
 
-    constructor(@Inject(SIGN_UP_SERVICE) signUpService: ISignUpService, router: Router) {
+    constructor(
+        @Inject(SIGN_UP_SERVICE) signUpService: ISignUpService,
+        @Inject(LOG_IN_SERVICE) logInService: ILogInService, 
+        router: Router
+    ) {
         this._signUpService = signUpService;
+        this._logInService = logInService;
         this._router = router;
 
         this.passwordControl.valueChanges.subscribe(() => this._onPasswordChange());
@@ -59,15 +66,16 @@ export class SignUpComponent {
         const password = this.passwordControl.value as string;
 
         this._signUpService.signUp(username, password)
-            .then(result => this._processSignUpResult(result))
+            .then(result => this._processSignUpResult(result, username, password))
             .catch(error => console.error(error))
     }
 
-    private _processSignUpResult(result: AuthenticationResult): void {
+    private _processSignUpResult(result: AuthenticationResult, username: string, password: string): void {
         if (isSuccess(result)) {
             this._statusMessage = '';
-            this._router.navigate(['/editor'])
-                .catch(() => console.error('failed to redirect to editor'));
+            this._logInService.logIn(username, password)
+                .then(() => this._router.navigate(['/editor']))
+                .catch(error => console.error(error));
         }
         else {
             this._statusMessage = result.message;
