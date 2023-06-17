@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 import { ClearSelectionCommand, Command, RotateItemCommand, SelectItemAtCommand, Selection, nearlyEquals } from 'fine-forma-core';
 
 import { ISelectionService } from './i-selection-service';
-import { IViewerProvider, VIEWER_PROVIDER } from '../shared/i-viewer-provider';
+import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { handleAsyncAction } from '../../shared/utils';
 
 @Injectable()

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "start": "ng serve",
+    "start-https": "ng serve --ssl",
     "lint": "ng lint",
     "test": "ng test",
     "build": "ng build",
@@ -28,6 +29,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "fine-forma-core": "file:../fine-forma-core/build",
+    "fine-forma-api-clients": "file:../fine-forma-api-clients/build",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"

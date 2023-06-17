@@ -1,5 +1,6 @@
 {
     "include": [ "./src/**/*.ts", "index.ts" ],
+    "exclude": ["build"],
     "compilerOptions": {
       "declaration": true,
       "target": "ES2019",

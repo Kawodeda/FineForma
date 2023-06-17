@@ -2,7 +2,7 @@ module.exports = {
     overrides: [
         {
             files: [
-                "*.ts"
+                "./src/**/*.ts"
             ],
             extends: [
                 '../base.eslintrc.cjs'

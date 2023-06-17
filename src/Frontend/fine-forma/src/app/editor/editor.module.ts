@@ -8,13 +8,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { EditorComponent } from './editor.component';
 import { ViewerComponent } from './viewer/editor-viewer.component';
-import { ViewerProvider } from './shared/viewer-provider.service';
 import { ViewerRenderingService } from './viewer/viewer-rendering.service';
 import { SelectionService } from './toolbar/selection.service';
 import { ToolbarComponent } from './toolbar/editor-toolbar.component';
 import { SELECTION_SERVICE } from './toolbar/i-selection-service';
 import { VIEWER_RENDERING_SERVICE } from './viewer/i-viewer-rendering-service';
-import { VIEWER_PROVIDER } from './shared/i-viewer-provider';
 import { ZOOM_SERVICE } from './toolbar/zoom-panel/i-zoom-service';
 import { ZoomService } from './toolbar/zoom-panel/zoom.service';
 import { SharedModule } from '../shared/shared.module';
@@ -25,13 +23,13 @@ import { INPUT_HANDLING_SERVICE } from './viewer/i-input-handling-service';
 import { InputHandlingService } from './viewer/input-handling.service';
 import { VIEWPORT_SERVICE } from './viewer/i-viewport-service';
 import { ViewportService } from './viewer/viewport.service';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
-    imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule],
+    imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule, AppRoutingModule],
     exports: [EditorComponent],
     declarations: [EditorComponent, ViewerComponent, ToolbarComponent, ZoomPanelComponent],
     providers: [
-        { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
         { provide: SELECTION_SERVICE, useClass: SelectionService },
         { provide: ZOOM_SERVICE, useClass: ZoomService },

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { FineFormaRoutingModule } from './fine-forma-routing.module';
+import { ApiClient } from 'fine-forma-api-clients';
+
 import { FineFormaComponent } from './fine-forma.component';
 import { EditorModule } from './editor/editor.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +10,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IMAGE_BITMAP_PROVIDER } from './shared/i-image-bitmap-provider';
 import { ImageBitmapProvider } from './shared/image-bitmap-provider';
 import { AppRoutingModule } from './app-routing.module';
+import { LogInModule } from './login/log-in.module';
+import { VIEWER_PROVIDER } from './shared/i-viewer-provider';
+import { ViewerProvider } from './shared/viewer-provider.service';
+import { API_CLIENT } from './shared/api-client-token';
 
 @NgModule({
     declarations: [
@@ -17,13 +22,15 @@ import { AppRoutingModule } from './app-routing.module';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        FineFormaRoutingModule,
         EditorModule,
         BrowserAnimationsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        LogInModule
     ],
     providers: [
-        { provide: IMAGE_BITMAP_PROVIDER, useClass: ImageBitmapProvider }
+        { provide: IMAGE_BITMAP_PROVIDER, useClass: ImageBitmapProvider },
+        { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
+        { provide: API_CLIENT, useFactory: () => new ApiClient('https://localhost:5001') }
     ],
     bootstrap: [FineFormaComponent]
 })
