@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,7 +11,6 @@ import { AuthenticationResult, isSuccess } from './authentication-result';
   styleUrls: ['./log-in.component.scss']
 })
 export class LogInComponent {
-    private readonly _location: Location;
     private readonly _router: Router;
     private readonly _logInService: ILogInService;
     // eslint-disable-next-line @typescript-eslint/unbound-method
@@ -26,8 +24,7 @@ export class LogInComponent {
 
     private _statusMessage = '';
 
-    constructor(location: Location, router: Router, @Inject(LOG_IN_SERVICE) logInService: ILogInService) {
-        this._location = location;
+    constructor(router: Router, @Inject(LOG_IN_SERVICE) logInService: ILogInService) {
         this._router = router;
         this._logInService = logInService;
     }
@@ -55,10 +52,6 @@ export class LogInComponent {
         this._logInService.logIn(username, password)
             .then(result => this._processAuthentication(result))
             .catch(error => console.error(error))
-    }
-
-    navigateBack(): void {
-        this._location.back();
     }
 
     private _processAuthentication(result: AuthenticationResult): void {

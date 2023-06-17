@@ -23,8 +23,8 @@ import { INPUT_HANDLING_SERVICE } from './viewer/i-input-handling-service';
 import { InputHandlingService } from './viewer/input-handling.service';
 import { VIEWPORT_SERVICE } from './viewer/i-viewport-service';
 import { ViewportService } from './viewer/viewport.service';
-import { AppRoutingModule } from '../app-routing.module';
 import { UserMenuComponent } from './toolbar/user-menu/user-menu.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
     imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule, AppRoutingModule],

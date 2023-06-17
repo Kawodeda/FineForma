@@ -5,8 +5,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { NavigateBackDirective } from './navigate-back.directive';
+
 @NgModule({
-    declarations: [],
+    declarations: [NavigateBackDirective],
     imports: [
         CommonModule,
         FormsModule,
@@ -19,7 +21,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
         FormsModule,
         BrowserModule,
         BrowserAnimationsModule,
-        FontAwesomeModule
+        FontAwesomeModule,
+        NavigateBackDirective
     ]
 })
 export class SharedModule {
