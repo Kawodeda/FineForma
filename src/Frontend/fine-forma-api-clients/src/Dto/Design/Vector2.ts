@@ -1,6 +1,6 @@
 export type Vector2 = {
 
-    x: number;
+    x?: number;
 
-    y: number;
+    y?: number;
 }

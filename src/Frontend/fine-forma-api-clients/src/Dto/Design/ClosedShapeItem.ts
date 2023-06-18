@@ -5,11 +5,11 @@ import { Vector2 } from './Vector2'
 
 export type ClosedShapeItem = {
 
-    position: Vector2;
+    position?: Vector2;
 
-    transform: Transform;
+    transform?: Transform;
 
-    controls: ClosedShapeControls;
+    controls?: ClosedShapeControls;
 
-    style: ShapeStyle;
+    style?: ShapeStyle;
 }

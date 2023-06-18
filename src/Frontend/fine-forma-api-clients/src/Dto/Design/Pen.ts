@@ -3,9 +3,9 @@ import { DashSettings } from './DashSettings';
 
 export type Pen = {
 
-    style: Brush;
+    style?: Brush;
 
-    width: number;
+    width?: number;
 
-    dash: DashSettings;
+    dash?: DashSettings;
 }

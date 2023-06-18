@@ -1,6 +1,6 @@
 export type DashSettings = {
 
-    dashes: number[];
+    dashes?: number[];
 
-    dashOffset: number;
+    dashOffset?: number;
 }

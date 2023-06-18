@@ -1,8 +1,8 @@
-import { Vector2 } from 'fine-forma-core'
+import { Vector2 } from './Vector2';
 
 export type LineSegment = {
 
-    start: Vector2;
+    start?: Vector2;
 
-    end: Vector2;
+    end?: Vector2;
 }

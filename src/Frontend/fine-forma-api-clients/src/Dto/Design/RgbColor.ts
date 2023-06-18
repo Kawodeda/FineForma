@@ -1,10 +1,10 @@
 export type RgbColor = {
 
-    r: number;
+    r?: number;
 
-    g: number;
+    g?: number;
 
-    b: number;
+    b?: number;
 
-    a: number;
+    a?: number;
 }

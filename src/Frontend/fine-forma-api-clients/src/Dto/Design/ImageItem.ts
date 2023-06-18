@@ -5,13 +5,13 @@ import { Vector2 } from './Vector2';
 
 export type ImageItem = {
 
-    position: Vector2;
+    position?: Vector2;
 
-    transform: Transform;
+    transform?: Transform;
 
-    controls: Rectangle;
+    controls?: Rectangle;
 
-    style: ShapeStyle;
+    style?: ShapeStyle;
 
-    storageId: string;
+    storageId?: string;
 }

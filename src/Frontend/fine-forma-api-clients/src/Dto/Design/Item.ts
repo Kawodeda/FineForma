@@ -8,5 +8,5 @@ export type Item = {
 
     openShape?: OpenShapeItem;
 
-    image: ImageItem;
+    image?: ImageItem;
 }
