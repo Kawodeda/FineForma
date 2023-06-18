@@ -97,7 +97,12 @@ let errorHandler (ex: Exception) (logger: ILogger) =
 
 let configureCors (builder: CorsPolicyBuilder) =
     builder
-        .WithOrigins("http://localhost:5000", "https://localhost:5001", "https://localhost:4200")
+        .WithOrigins(
+            "http://localhost:5000",
+            "https://localhost:5001",
+            "https://localhost:4200",
+            "http://localhost:4200"
+        )
         .AllowCredentials()
         .AllowAnyMethod()
         .AllowAnyHeader()

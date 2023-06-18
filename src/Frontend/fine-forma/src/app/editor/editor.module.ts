@@ -10,7 +10,7 @@ import { EditorComponent } from './editor.component';
 import { ViewerComponent } from './viewer/editor-viewer.component';
 import { ViewerRenderingService } from './viewer/viewer-rendering.service';
 import { SelectionService } from './toolbar/selection.service';
-import { ToolbarComponent } from './toolbar/editor-toolbar.component';
+import { EditorToolbarComponent } from './toolbar/editor-toolbar.component';
 import { SELECTION_SERVICE } from './toolbar/i-selection-service';
 import { VIEWER_RENDERING_SERVICE } from './viewer/i-viewer-rendering-service';
 import { ZOOM_SERVICE } from './toolbar/zoom-bar/i-zoom-service';
@@ -23,13 +23,14 @@ import { INPUT_HANDLING_SERVICE } from './viewer/i-input-handling-service';
 import { InputHandlingService } from './viewer/input-handling.service';
 import { VIEWPORT_SERVICE } from './viewer/i-viewport-service';
 import { ViewportService } from './viewer/viewport.service';
-import { UserMenuComponent } from './toolbar/user-menu/user-menu.component';
+import { UserMenuComponent } from './app-toolbar/user-menu/user-menu.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { AppToolbarComponent } from './app-toolbar/app-toolbar.component';
 
 @NgModule({
     imports: [SharedModule, MatButtonModule, MatToolbarModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule, AppRoutingModule],
     exports: [EditorComponent],
-    declarations: [EditorComponent, ViewerComponent, ToolbarComponent, ZoomBarComponent, UserMenuComponent],
+    declarations: [EditorComponent, ViewerComponent, EditorToolbarComponent, ZoomBarComponent, UserMenuComponent, AppToolbarComponent],
     providers: [
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
         { provide: SELECTION_SERVICE, useClass: SelectionService },
