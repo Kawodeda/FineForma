@@ -12,6 +12,10 @@ export class RectangleControls implements IClosedShapeControls {
         this._rectangle = new Rectangle(corner1, corner2);
     }
 
+    get rectangle(): Rectangle {
+        return this._rectangle;
+    }
+
     get corner1(): Vector2 {
         return this._rectangle.corner1;
     }

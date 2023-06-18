@@ -4,7 +4,6 @@ import { Item } from './Item';
 import { ImageStyle } from './Style/ImageStyle';
 import { Transform } from '../../Transform';
 import { IShapeControls } from './Interfaces/IShapeControls';
-import { IItemStyle } from './Interfaces/IItemStyle';
 import { Brush, Pen } from '../../Style';
 
 export class ImageItem extends Item {
@@ -40,7 +39,7 @@ export class ImageItem extends Item {
         };
     }
 
-    override get style(): IItemStyle {
+    override get style(): ImageStyle {
         return this._style;
     }
 

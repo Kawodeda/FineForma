@@ -34,7 +34,7 @@ import {
     Vector2 
 } from 'fine-forma-core';
 
-import * as Dto from '../Dto/Design'
+import * as Dto from '../Design'
 
 export function parseDesign(dto: Dto.Design): Maybe<Design> {
     if (dto.layers == null) {
