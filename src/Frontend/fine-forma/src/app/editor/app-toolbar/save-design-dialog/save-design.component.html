@@ -1,0 +1,15 @@
+<span mat-dialog-title>Enter design name</span>
+<mat-dialog-content style="padding: 0 8px;">
+    <mat-form-field subscriptSizing="dynamic" hideRequiredMarker>
+        <mat-label>Design name</mat-label>
+        <input matInput type="text" [(ngModel)]="designName" required>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+    <button mat-button color="primary" [mat-dialog-close]="designName" [disabled]="!saveEnabled">
+        Save
+    </button>
+    <button mat-button mat-dialog-close>
+        Cancel
+    </button>
+</mat-dialog-actions>

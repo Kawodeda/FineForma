@@ -1,7 +1,6 @@
 import { Vector2 } from '../../Math';
 import { Pen } from '../../Style';
 import { Transform } from '../../Transform';
-import { IItemStyle } from './Interfaces/IItemStyle';
 import { IOpenShapeControls } from './Interfaces/IOpenShapeControls';
 import { IShapeControls } from './Interfaces/IShapeControls';
 import { Item } from './Item';
@@ -25,7 +24,7 @@ export class OpenShapeItem extends Item {
         };
     }
 
-    override get style(): IItemStyle {
+    override get style(): OpenShapeStyle {
         return this._style;
     }
 

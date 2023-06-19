@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Your designs</h2>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <div *ngIf="showPreloader else content" style="display: flex; flex-direction: column; align-items: center;">
+        <ff-design-card style="visibility: hidden;">
+        </ff-design-card>
+        <mat-spinner></mat-spinner>
+        <ff-design-card style="visibility: hidden;">
+        </ff-design-card>
+    </div>
+    <ng-template #designCards>
+        <div *ngFor="let design of designs" style="margin-bottom: 10px;">
+            <ff-design-card 
+                [name]="design.name" 
+                [lastModified]="design.lastModified" 
+                (openDesign)="openDesign($event)"
+                (deleteDesign)="deleteDesign($event)">
+            </ff-design-card>
+        </div>
+    </ng-template>
+    <ng-template #empty>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <ff-design-card style="visibility: hidden;">
+            </ff-design-card>
+            <span>There are no saved designs yet...</span>
+            <ff-design-card style="visibility: hidden;">
+            </ff-design-card>
+        </div>
+    </ng-template>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close tabindex="-1">
+        Cancel
+    </button>
+</mat-dialog-actions>
