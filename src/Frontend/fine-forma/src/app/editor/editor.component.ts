@@ -21,11 +21,9 @@ export class EditorComponent {
 
     onViewerWidthChanged(width: number): void {
         this._viewerWidth = width;
-        console.log('editor', this._viewerWidth);
     }
 
     onViewerHeightChanged(height: number): void {
         this._viewerHeight = height;
-        console.log('editor', this._viewerHeight);
     }
 }

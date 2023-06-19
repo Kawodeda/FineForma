@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, Inject, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 import { IViewerRenderingService, VIEWER_RENDERING_SERVICE } from './i-viewer-rendering-service';
 import { IInputHandlingService, INPUT_HANDLING_SERVICE } from './i-input-handling-service';
@@ -10,7 +10,7 @@ import { IViewportService, VIEWPORT_SERVICE } from './i-viewport-service';
   templateUrl: './editor-viewer.component.html',
   styleUrls: ['./editor-viewer.component.scss']
 })
-export class ViewerComponent implements AfterViewInit {
+export class ViewerComponent implements AfterViewInit, OnDestroy {
 
     @ViewChild('mainCanvas') readonly canvas: ElementRef<HTMLCanvasElement> | undefined;
 
@@ -55,8 +55,10 @@ export class ViewerComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this._canvasResizeObserver.observe(this._canvas, { box: 'content-box' });
         requestAnimationFrame(() => this._redrawViewer());
-        console.log(this.canvas?.nativeElement.clientWidth);
-        console.log(this.canvas?.nativeElement.clientHeight);
+    }
+
+    ngOnDestroy(): void {
+        this._canvasResizeObserver.disconnect();
     }
 
     onMouseDown(event: MouseEvent): void {

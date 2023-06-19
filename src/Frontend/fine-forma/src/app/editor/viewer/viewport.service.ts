@@ -4,7 +4,6 @@ import { Command, SetViewportConstraintsCommand, Vector2, ViewportConstraints } 
 
 import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { IViewportService } from './i-viewport-service';
-import { canvasToDesignSize } from '../shared/reference-frame-converter';
 
 @Injectable()
 export class ViewportService implements IViewportService {
@@ -25,9 +24,7 @@ export class ViewportService implements IViewportService {
                         constraints.workareaMargin,
                         constraints.minZoom,
                         constraints.maxZoom,
-                        canvasToDesignSize(
-                            new Vector2(viewportWidth, viewportHeight), 
-                            this._viewerProvider.viewer.viewport)
+                        new Vector2(viewportWidth, viewportHeight)
                     ))
                 ])
             );
