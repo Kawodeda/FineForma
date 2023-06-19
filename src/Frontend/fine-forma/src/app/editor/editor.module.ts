@@ -9,6 +9,7 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
 
 import { DesignsClient, IApiClient } from 'fine-forma-api-clients';
 
@@ -38,6 +39,7 @@ import { DESIGN_MANAGER } from './design-manager/i-design-manager';
 import { DesignManager } from './design-manager/design-manager.service';
 import { DesignCardComponent } from './design-manager/design-card/design-card.component';
 import { API_CLIENT } from '../shared/api-client-token';
+import { SaveDesignComponent } from './app-toolbar/save-design-dialog/save-design.component';
 
 @NgModule({
     imports: [
@@ -52,7 +54,8 @@ import { API_CLIENT } from '../shared/api-client-token';
         MatDialogModule,
         MatCardModule,
         MatProgressSpinnerModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatInputModule
     ],
     exports: [EditorComponent],
     declarations: [
@@ -63,7 +66,8 @@ import { API_CLIENT } from '../shared/api-client-token';
         UserMenuComponent, 
         AppToolbarComponent,
         DesignManagerComponent,
-        DesignCardComponent
+        DesignCardComponent,
+        SaveDesignComponent
     ],
     providers: [
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },

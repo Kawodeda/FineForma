@@ -26,11 +26,21 @@
             <mat-icon>file_open</mat-icon>
             Open
         </button>
-        <button mat-menu-item [disabled]="!userAuthorized" [matTooltip]="userAuthorized ? 'Save changes' : unauthorizedMenuMessage" matTooltipPosition="after">
+        <button 
+            mat-menu-item 
+            [disabled]="!userAuthorized" 
+            [matTooltip]="userAuthorized ? 'Save changes' : unauthorizedMenuMessage" 
+            matTooltipPosition="after"
+            (click)="saveChanges()">
             <mat-icon>save</mat-icon>
             Save
         </button>
-        <button mat-menu-item [disabled]="!userAuthorized" [matTooltip]="userAuthorized ? 'Save design with name' : unauthorizedMenuMessage" matTooltipPosition="after">
+        <button 
+            mat-menu-item 
+            [disabled]="!userAuthorized" 
+            [matTooltip]="userAuthorized ? 'Save design with name' : unauthorizedMenuMessage" 
+            matTooltipPosition="after"
+            (click)="saveAs()">
             <mat-icon>save_as</mat-icon>
             Save as
         </button>

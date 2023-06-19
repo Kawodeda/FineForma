@@ -8,7 +8,6 @@ import {
     DashSettings,
     Design,
     EllipseControls,
-    IShapeControls,
     ImageItem,
     ImageStyle,
     Item,
@@ -69,7 +68,7 @@ function buildClosedShapeItemDto(closedShapeItem: ClosedShapeItem): Dto.ClosedSh
     return {
         position: buildVector2Dto(closedShapeItem.position),
         transform: buildTransformDto(closedShapeItem.transform),
-        controls: buildClosedShapeControlsDto(closedShapeItem.controls),
+        controls: buildClosedShapeControlsDto(closedShapeItem),
         style: buildClosedShapeStyleDto(closedShapeItem.style)
     }
 }
@@ -78,7 +77,7 @@ function buildOpenShapeItemDto(openShapeItem: OpenShapeItem): Dto.OpenShapeItem 
     return {
         position: buildVector2Dto(openShapeItem.position),
         transform: buildTransformDto(openShapeItem.transform),
-        controls: buildOpenShapeControlsDto(openShapeItem.controls),
+        controls: buildOpenShapeControlsDto(openShapeItem),
         style: buildOpenShapeStyleDto(openShapeItem.style)
     }
 }
@@ -93,36 +92,42 @@ function buildImageItemDto(imageItem: ImageItem): Dto.ImageItem {
     }
 }
 
-function buildClosedShapeControlsDto(controls: IShapeControls): Dto.ClosedShapeControls {
-    if (controls instanceof RectangleControls) {
-        return {
-            rectangle: buildRectangleDto(new Rectangle(controls.corner1, controls.corner2))
-        };
-    }
-    if (controls instanceof EllipseControls) {
-        return {
-            ellipse: buildRectangleDto(controls.rectangle)
-        };
-    }
-    if (controls instanceof PathControls) {
-        return {
-            path: buildClosedPathDto(controls.path)
-        };
+function buildClosedShapeControlsDto(closedShapeItem: ClosedShapeItem): Dto.ClosedShapeControls {
+    const item = closedShapeItem as unknown;
+    if (typeof item === 'object' && item != null && '_controls' in item) {
+        if (item._controls instanceof RectangleControls) {
+            return {
+                rectangle: buildRectangleDto(new Rectangle(item._controls.corner1, item._controls.corner2))
+            };
+        }
+        if (item._controls instanceof EllipseControls) {
+            return {
+                ellipse: buildRectangleDto(item._controls.rectangle)
+            };
+        }
+        if (item._controls instanceof PathControls) {
+            return {
+                path: buildClosedPathDto(item._controls.path)
+            };
+        }   
     }
 
     throw new Error('Unable to build closed shape controls dto');
 }
 
-function buildOpenShapeControlsDto(controls: IShapeControls): Dto.OpenShapeControls {
-    if (controls instanceof LineControls) {
-        return {
-            line: buildLineDto(controls.start, controls.end)
-        };
-    }
-    if (controls instanceof PathControls) {
-        return {
-            path: buildOpenPathDto(controls.path)
-        };
+function buildOpenShapeControlsDto(openShapeItem: OpenShapeItem): Dto.OpenShapeControls {
+    const item = openShapeItem as unknown;
+    if (typeof item === 'object' && item != null && '_controls' in item) {
+        if (item._controls instanceof LineControls) {
+            return {
+                line: buildLineDto(item._controls.start, item._controls.end)
+            };
+        }
+        if (item._controls instanceof PathControls) {
+            return {
+                path: buildOpenPathDto(item._controls.path)
+            };
+        }
     }
 
     throw new Error('Unable to build closed shape controls dto');

@@ -26,14 +26,14 @@ type ClosedShapeItem = {
 type OpenShapeItem = {
     Position: Vector2
     Transform: Transform
-    Contols: OpenShapeControls
+    Controls: OpenShapeControls
     Style: {| Stroke: Pen |}
 }
 
 type ImageItem = {
     Position: Vector2
     Transform: Transform
-    Contols: Rectangle
+    Controls: Rectangle
     Style: {|
         Border: Pen
         Fill: Brush

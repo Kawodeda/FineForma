@@ -18,6 +18,9 @@ open Giraffe
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open Newtonsoft.Json.Converters
+open FineFormaCore.Domain
+open FineFormaCore.Domain.Math
+open FineFormaCore.Domain.Design
 open FineForma
 open FineForma.Middlewares
 open FineForma.HttpUtils
@@ -31,6 +34,33 @@ open FineForma.Configuration
 // ---------------------------------
 
 let indexHandler = json "fine forma api"
+
+// let design: Design = {
+//     Layers = [
+//         {
+//             Items = [
+//                 Image {
+//                     Position = Vector2.create 0 0
+//                     Transform = {
+//                         Translate = Vector2.create 0 0
+//                         Scale = Vector2.create 1 1
+//                         Rotate = 40
+//                     }
+//                     Controls = {
+//                         Corner1 = Vector2.create -50 -50
+//                         Corner2 = Vector2.create 50 50
+//                     }
+//                     Style = {
+//                         Border = {
+
+//                         }
+//                     }
+//                 }
+//             ]
+//             ZIndex = 1
+//         }
+//     ]
+// }
 
 let webApp =
     choose [

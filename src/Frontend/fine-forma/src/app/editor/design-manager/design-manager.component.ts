@@ -1,9 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, TemplateRef, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 import { DESIGN_MANAGER, IDesignInfo, IDesignManager } from './i-design-manager';
 import { ConfirmActionComponent } from '../../shared/confirm-action/confirm-action.component';
+import { NgIfContext } from '@angular/common';
 
 @Component({
     selector: 'ff-design-manager',
@@ -12,6 +13,9 @@ import { ConfirmActionComponent } from '../../shared/confirm-action/confirm-acti
 
 export class DesignManagerComponent {
     
+    @ViewChild('designCards', { static: true }) designCards: TemplateRef<NgIfContext<boolean>> | null = null;
+    @ViewChild('empty', { static: true }) empty: TemplateRef<NgIfContext<boolean>> | null = null;
+
     private readonly _dialogRef: MatDialogRef<DesignManagerComponent>;
     private readonly _snackBar: MatSnackBar;
     private readonly _dialog: MatDialog;
@@ -32,6 +36,10 @@ export class DesignManagerComponent {
         this._designManager = designManager;
 
         this._updateDesignsList();
+    }
+
+    get content(): TemplateRef<NgIfContext<boolean>> | null {
+        return this.designs.length === 0 ? this.empty : this.designCards;
     }
 
     get designs(): IDesignInfo[] {
