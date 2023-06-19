@@ -5,3 +5,5 @@ export * from './src/Dto';
 export * from './src/Authentication';
 export * from './src/IUserClient';
 export * from './src/UserClient';
+export * from './src/IDesignsClient';
+export * from './src/DesignsClient';

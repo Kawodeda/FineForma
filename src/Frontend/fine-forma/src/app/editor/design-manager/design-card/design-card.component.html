@@ -1,0 +1,15 @@
+<mat-card>
+    <span mat-card-title style="margin-left: 10px;">{{name}}</span>
+    <mat-card-content style="padding: 0 10px 10px 10px;">
+        <div style="display: flex; align-items: center;">
+            <span>Last modified: {{lastModified | date}}</span>
+            <mat-divider [vertical]="true" style="height: 2em; width: 0; margin-left: 10px; margin-right: 5px;"></mat-divider>
+            <button mat-button (click)="open()" tabindex="-1">
+                Open
+            </button>
+            <button mat-button (click)="delete()" color="warn" tabindex="-1">
+                Delete
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

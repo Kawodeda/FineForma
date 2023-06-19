@@ -1,7 +1,8 @@
 import { IApiClient } from './IApiClient';
 import * as Dto from './Dto';
+import { IDesignsClient } from '..';
 
-export class DesignsClient {
+export class DesignsClient implements IDesignsClient {
 
     private readonly _apiClient: IApiClient;
 
