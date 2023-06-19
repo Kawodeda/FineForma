@@ -175,6 +175,12 @@ module.exports = {
 
                     "constructor",
 
+                    "public-decorated-set",
+                    "protected-decorated-set",
+                    "private-decorated-set",
+
+                    "decorated-set",
+
                     "public-static-get",
                     "protected-static-get",
                     "private-static-get",
@@ -210,10 +216,6 @@ module.exports = {
                     "private-static-set",
                     "#private-static-set",
 
-                    "public-decorated-set",
-                    "protected-decorated-set",
-                    "private-decorated-set",
-
                     "public-instance-set",
                     "protected-instance-set",
                     "private-instance-set",
@@ -229,8 +231,6 @@ module.exports = {
                     "static-set",
                     "instance-set",
                     "abstract-set",
-
-                    "decorated-set",
 
                     "set",
 

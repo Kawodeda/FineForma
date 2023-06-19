@@ -43,6 +43,14 @@ export class ImageItem extends Item {
         return this._style;
     }
 
+    get strokeStyle(): Pen {
+        return this._style.border;
+    }
+
+    get fillStyle(): Brush {
+        return this._style.fill;
+    }
+
     override equals(other: ImageItem): boolean {
         return super.equals(other)
             && this.storageId === other.storageId;

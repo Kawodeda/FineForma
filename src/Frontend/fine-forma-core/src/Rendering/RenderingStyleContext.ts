@@ -1,5 +1,5 @@
 import { IStyleContext } from '../Design';
-import { Pen, Brush, IFillStyleContext, IColorPreview } from '../Style';
+import { Pen, Brush, IFillStyleContext, IColorPreview, Brushes } from '../Style';
 import { IRenderingContext } from './IRenderingContext';
 
 export class RenderingStyleContext implements IStyleContext {
@@ -11,7 +11,9 @@ export class RenderingStyleContext implements IStyleContext {
     }
 
     setStrokeStyle(stroke: Pen): void {
-        stroke.style.addToStyle(
+        const strokeStyle = stroke.width != 0 ? stroke.style : Brushes.transparent();
+        
+        strokeStyle.addToStyle(
             new StrokeStyleAdapter(this._context));
         this._context.setLineWidth(stroke.width);
         this._context.setLineDash(Array.from(stroke.dash.dashes), stroke.dash.dashOffset);

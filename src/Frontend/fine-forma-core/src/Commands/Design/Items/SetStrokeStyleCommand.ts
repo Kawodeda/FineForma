@@ -27,5 +27,14 @@ export class SetStrokeStyleCommand extends ItemCommand {
 
 export interface IItemWithStroke extends Item {
 
+    get strokeStyle(): Pen;
+
     setStrokeStyle(stroke: Pen): IItemWithStroke;
+}
+
+export function isItemWithStroke(item: Item): item is IItemWithStroke {
+    return 'setStrokeStyle' in item 
+        && typeof item.setStrokeStyle === 'function'
+        && 'strokeStyle' in item
+        && item.strokeStyle instanceof Pen;
 }

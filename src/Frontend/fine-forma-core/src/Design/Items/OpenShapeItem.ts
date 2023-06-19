@@ -28,6 +28,10 @@ export class OpenShapeItem extends Item {
         return this._style;
     }
 
+    get strokeStyle(): Pen {
+        return this._style.stroke;
+    }
+
     override setPosition(position: Vector2): Item {
         return new OpenShapeItem(
             position,

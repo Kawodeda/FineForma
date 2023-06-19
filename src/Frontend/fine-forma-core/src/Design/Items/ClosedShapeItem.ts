@@ -28,6 +28,14 @@ export class ClosedShapeItem extends Item {
         return this._style;
     }
 
+    get strokeStyle(): Pen {
+        return this._style.stroke;
+    }
+
+    get fillStyle(): Brush {
+        return this._style.fill;
+    }
+
     override setPosition(position: Vector2): ClosedShapeItem {
         return new ClosedShapeItem(
             position,
