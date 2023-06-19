@@ -40,6 +40,10 @@ export class AppToolbarComponent {
         return 'Sign in your account to access this';
     }
 
+    createNewDesign(): void {
+        this._designManager.createDesign();
+    }
+
     openDesignManager(): void {
         this._dialog.open(DesignManagerComponent);
     }

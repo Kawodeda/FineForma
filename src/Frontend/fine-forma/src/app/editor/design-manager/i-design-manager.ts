@@ -8,6 +8,8 @@ export interface IDesignManager {
 
     get currentDesignName(): string;
 
+    createDesign(): void;
+
     listDesigns(): Promise<IDesignInfo[]>;
 
     openDesign(name: string): Promise<void>;

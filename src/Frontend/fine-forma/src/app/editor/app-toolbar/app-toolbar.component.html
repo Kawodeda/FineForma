@@ -13,7 +13,7 @@
         <ff-user-menu></ff-user-menu>
     </ng-template>
     <mat-menu #appMenu>
-        <button mat-menu-item matTooltip="Create new design" matTooltipPosition="after">
+        <button mat-menu-item matTooltip="Create new design" matTooltipPosition="after" (click)="createNewDesign()">
             <mat-icon>create</mat-icon>
             New
         </button>

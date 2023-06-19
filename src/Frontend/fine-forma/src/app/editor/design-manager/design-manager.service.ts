@@ -6,6 +6,7 @@ import { IDesignInfo, IDesignManager } from './i-design-manager';
 import { DESIGNS_CLIENT } from './designs-client-token';
 import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { buildDesignDto } from '../../../../../fine-forma-api-clients/src/Dto/Builders/DesignDtoBuilder';
+import { Design, Layer } from 'fine-forma-core';
 
 @Injectable()
 export class DesignManager implements IDesignManager {
@@ -33,6 +34,10 @@ export class DesignManager implements IDesignManager {
         }
 
         return this._currentDesignName;
+    }
+
+    createDesign(): void {
+        this._viewerProvider.viewer.design = new Design([new Layer([], 0)]);
     }
 
     async listDesigns(): Promise<IDesignInfo[]> {
