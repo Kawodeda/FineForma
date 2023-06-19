@@ -40,6 +40,9 @@ import { DesignManager } from './design-manager/design-manager.service';
 import { DesignCardComponent } from './design-manager/design-card/design-card.component';
 import { API_CLIENT } from '../shared/api-client-token';
 import { SaveDesignComponent } from './app-toolbar/save-design-dialog/save-design.component';
+import { ColorPickerComponent } from './toolbar/color-picker/color-picker.component';
+import { ITEM_STYLE_SERVICE } from './toolbar/i-item-style-service';
+import { ItemStyleService } from './toolbar/item-style.service';
 
 @NgModule({
     imports: [
@@ -67,7 +70,8 @@ import { SaveDesignComponent } from './app-toolbar/save-design-dialog/save-desig
         AppToolbarComponent,
         DesignManagerComponent,
         DesignCardComponent,
-        SaveDesignComponent
+        SaveDesignComponent,
+        ColorPickerComponent
     ],
     providers: [
         { provide: VIEWER_RENDERING_SERVICE, useClass: ViewerRenderingService },
@@ -77,7 +81,8 @@ import { SaveDesignComponent } from './app-toolbar/save-design-dialog/save-desig
         { provide: INPUT_HANDLING_SERVICE, useClass: InputHandlingService },
         { provide: VIEWPORT_SERVICE, useClass: ViewportService },
         { provide: DESIGNS_CLIENT, useFactory: (apiClient: IApiClient) => new DesignsClient(apiClient), deps: [API_CLIENT] },
-        { provide: DESIGN_MANAGER, useClass: DesignManager }
+        { provide: DESIGN_MANAGER, useClass: DesignManager },
+        { provide: ITEM_STYLE_SERVICE, useClass: ItemStyleService }
     ]
 })
 export class EditorModule { }

@@ -27,5 +27,14 @@ export class SetFillStyleCommand extends ItemCommand {
 
 export interface IItemWithFill extends Item {
 
+    get fillStyle(): Brush;
+
     setFillStyle(fill: Brush): IItemWithFill;
+}
+
+export function isItemWithFill(item: Item): item is IItemWithFill {
+    return 'setFillStyle' in item 
+        && typeof item.setFillStyle === 'function'
+        && 'fillStyle' in item
+        && item.fillStyle instanceof Brush;
 }

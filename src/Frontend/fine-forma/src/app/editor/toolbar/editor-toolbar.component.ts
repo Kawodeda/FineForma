@@ -2,6 +2,9 @@ import { Component, Inject, Input } from '@angular/core';
 
 import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
 import { IItemService, ITEM_SERVICE } from './i-item-service';
+import { IRgbColor } from './rgb-color';
+import { IItemStyleService, ITEM_STYLE_SERVICE } from './i-item-style-service';
+import { handleAsyncAction } from '../../shared/utils';
 
 @Component({
     selector: 'ff-editor-toolbar',
@@ -15,13 +18,16 @@ export class EditorToolbarComponent {
 
     private readonly _selectionService: ISelectionService;
     private readonly _itemService: IItemService;
+    private readonly _itemStyleService: IItemStyleService;
 
     constructor(
         @Inject(SELECTION_SERVICE) selectionService: ISelectionService,
-        @Inject(ITEM_SERVICE) itemService: IItemService
+        @Inject(ITEM_SERVICE) itemService: IItemService,
+        @Inject(ITEM_STYLE_SERVICE) itemStyleService: IItemStyleService
     ) {
         this._selectionService = selectionService;
         this._itemService = itemService;
+        this._itemStyleService = itemStyleService;
     }
 
     get canDelete(): boolean {
@@ -38,6 +44,26 @@ export class EditorToolbarComponent {
 
     get canResetAngle(): boolean {
         return this._selectionService.canResetAngle;
+    }
+
+    get hasFillColor(): boolean {
+        return this._itemStyleService.hasFillColor;
+    }
+
+    get fillColor(): IRgbColor {
+        return this._itemStyleService.hasFillColor ? this._itemStyleService.fillColor : this.defaultColor;
+    }
+
+    get hasBorderColor(): boolean {
+        return this._itemStyleService.hasBorderColor;
+    }
+
+    get borderColor(): IRgbColor {
+        return this._itemStyleService.hasBorderColor ? this._itemStyleService.borderColor : this.defaultColor;
+    }
+
+    get defaultColor(): IRgbColor {
+        return { r: 0, g: 0, b: 0 };
     }
 
     async onDeleteClick(): Promise<void> {
@@ -58,5 +84,21 @@ export class EditorToolbarComponent {
 
     onResetAngleClick(): void {
         this._selectionService.resetSelectionAngle();
+    }
+
+    onFillColorChanged(color: IRgbColor): void {
+        if (this._itemStyleService.hasFillColor) {
+            handleAsyncAction(
+                this._itemStyleService.setFillColor(color)
+            );
+        }
+    }
+
+    onBorderColorChanged(color: IRgbColor): void {
+        if (this._itemStyleService.hasBorderColor) {
+            handleAsyncAction(
+                this._itemStyleService.setBorderColor(color)
+            );
+        }
     }
 }
