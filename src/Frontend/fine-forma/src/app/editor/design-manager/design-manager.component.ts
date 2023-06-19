@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 import { DESIGN_MANAGER, IDesignInfo, IDesignManager } from './i-design-manager';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmActionComponent } from '../../shared/confirm-action/confirm-action.component';
 
 @Component({
     selector: 'ff-design-manager',
@@ -13,6 +14,7 @@ export class DesignManagerComponent {
     
     private readonly _dialogRef: MatDialogRef<DesignManagerComponent>;
     private readonly _snackBar: MatSnackBar;
+    private readonly _dialog: MatDialog;
     private readonly _designManager: IDesignManager;
     
     private _designs: IDesignInfo[] = [];
@@ -21,14 +23,15 @@ export class DesignManagerComponent {
     constructor(
         dialogRef: MatDialogRef<DesignManagerComponent>,
         snackBar: MatSnackBar,
+        dialog: MatDialog,
         @Inject(DESIGN_MANAGER) designManager: IDesignManager
     ) {
         this._dialogRef = dialogRef;
         this._snackBar = snackBar;
+        this._dialog = dialog;
         this._designManager = designManager;
-        this._designManager.listDesigns()
-            .then(designs => this._designs = designs)
-            .finally(() => this._showPreloader = false)
+
+        this._updateDesignsList();
     }
 
     get designs(): IDesignInfo[] {
@@ -44,5 +47,31 @@ export class DesignManagerComponent {
         this._designManager.openDesign(name)
             .catch(error => this._snackBar.open(error as string, 'Close'))
             .finally(() => this._dialogRef.close());
+    }
+
+    deleteDesign(name: string): void {
+        const confirmDeleteDialog = this._dialog.open(
+            ConfirmActionComponent, 
+            { data: { actionTitle: `delete design '${name}'` } }
+        );
+        confirmDeleteDialog.afterClosed().subscribe((value: string) => {
+            const confirmed = new Boolean(JSON.parse(value)).valueOf();
+            if (confirmed) {
+                this._showPreloader = true;
+                this._designManager.deleteDesign(name)
+                    .then(() => this._updateDesignsList())
+                    .catch(error => {
+                        this._snackBar.open(error as string, 'Close');
+                        this._dialogRef.close();
+                    });
+            }
+        });       
+    }
+
+    private _updateDesignsList(): void {
+        this._showPreloader = true;
+        this._designManager.listDesigns()
+            .then(designs => this._designs = designs)
+            .finally(() => this._showPreloader = false)
     }
 }

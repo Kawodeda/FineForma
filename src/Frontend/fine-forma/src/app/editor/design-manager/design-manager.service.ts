@@ -38,6 +38,10 @@ export class DesignManager implements IDesignManager {
         });
     }
 
+    deleteDesign(name: string): Promise<void> {
+        return this._designsClient.deleteDesign(name);
+    }
+
     private _parseDesignInfo(info: DesignInfo): IDesignInfo {
         return {
             name: info.name,

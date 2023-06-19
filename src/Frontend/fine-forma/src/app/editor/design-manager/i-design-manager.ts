@@ -7,6 +7,8 @@ export interface IDesignManager {
     listDesigns(): Promise<IDesignInfo[]>;
 
     openDesign(name: string): Promise<void>;
+
+    deleteDesign(name: string): Promise<void>;
 }
 
 export interface IDesignInfo {
