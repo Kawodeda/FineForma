@@ -20,6 +20,18 @@
         <button mat-icon-button color="warn" matTooltip="Remove element" (click)="onDeleteClick()" [disabled]="!canDelete">
             <mat-icon>delete</mat-icon>
         </button>
+        <div *ngIf="hasFillColor" style="margin-right: 10px; display: flex; align-items: center;">
+            <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
+            <span class="angle-output-font" style="margin: 0 10px;">Fill color</span>
+            <ff-color-picker [color]="fillColor" (colorChange)="onFillColorChanged($event)" matTooltip="Pick element's fill color">
+            </ff-color-picker>
+        </div>
+        <div *ngIf="hasBorderColor" style="margin-right: 10px; display: flex; align-items: center;">
+            <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
+            <span class="angle-output-font" style="margin: 0 10px;">Border color</span>
+            <ff-color-picker [color]="borderColor" (colorChange)="onBorderColorChanged($event)" matTooltip="Pick element's border color">
+            </ff-color-picker>
+        </div>
         <div *ngIf="showItemAngle" style="display: flex; align-items: center;">
             <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
             <span class="angle-output angle-output-font">Angle: </span>
