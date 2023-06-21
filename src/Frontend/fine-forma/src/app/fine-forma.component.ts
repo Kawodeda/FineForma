@@ -18,5 +18,9 @@ export class FineFormaComponent implements OnInit {
 
     ngOnInit(): void {
         this._userService.updateState();
+        // const link = document.createElement('a');
+        // link.href = 'https://localhost:5001/render';
+        // link.setAttribute('download', 'result.svg');
+        // link.click();
     }
 }

@@ -10,6 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { DesignsClient, IApiClient } from 'fine-forma-api-clients';
 
@@ -58,7 +59,8 @@ import { ItemStyleService } from './toolbar/item-style.service';
         MatCardModule,
         MatProgressSpinnerModule,
         MatSnackBarModule,
-        MatInputModule
+        MatInputModule,
+        MatSliderModule
     ],
     exports: [EditorComponent],
     declarations: [

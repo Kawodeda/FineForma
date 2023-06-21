@@ -54,12 +54,16 @@ export class EditorToolbarComponent {
         return this._itemStyleService.hasFillColor ? this._itemStyleService.fillColor : this.defaultColor;
     }
 
-    get hasBorderColor(): boolean {
-        return this._itemStyleService.hasBorderColor;
+    get hasBorder(): boolean {
+        return this._itemStyleService.hasBorder;
     }
 
     get borderColor(): IRgbColor {
-        return this._itemStyleService.hasBorderColor ? this._itemStyleService.borderColor : this.defaultColor;
+        return this._itemStyleService.hasBorder ? this._itemStyleService.borderColor : this.defaultColor;
+    }
+
+    get borderWidth(): number {
+        return this._itemStyleService.hasBorder ? this._itemStyleService.borderWidth : 0;
     }
 
     get defaultColor(): IRgbColor {
@@ -95,9 +99,17 @@ export class EditorToolbarComponent {
     }
 
     onBorderColorChanged(color: IRgbColor): void {
-        if (this._itemStyleService.hasBorderColor) {
+        if (this._itemStyleService.hasBorder) {
             handleAsyncAction(
                 this._itemStyleService.setBorderColor(color)
+            );
+        }
+    }
+
+    onBorderWidthChanged(width: number): void {
+        if (this._itemStyleService.hasBorder) {
+            handleAsyncAction(
+                this._itemStyleService.setBorderWidth(width)
             );
         }
     }

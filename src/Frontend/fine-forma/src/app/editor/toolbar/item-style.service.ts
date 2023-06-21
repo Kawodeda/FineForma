@@ -19,7 +19,7 @@ export class ItemStyleService implements IItemStyleService {
         return this._hasSelectedItem && isItemWithFill(this._selectedItem);
     }
 
-    get hasBorderColor(): boolean {
+    get hasBorder(): boolean {
         return this._hasSelectedItem && isItemWithStroke(this._selectedItem);
     }
     
@@ -41,6 +41,14 @@ export class ItemStyleService implements IItemStyleService {
         }
 
         throw new Error('Item has no border color');
+    }
+
+    get borderWidth(): number {
+        if (isItemWithStroke(this._selectedItem)) {
+            return this._selectedItem.strokeStyle.width;
+        }
+
+        throw new Error('Item has no border width');
     }
 
     private get _hasSelectedItem(): boolean {
@@ -67,7 +75,7 @@ export class ItemStyleService implements IItemStyleService {
 
     async setBorderColor(borderColor: IRgbColor): Promise<void> {
         if (!isItemWithStroke(this._selectedItem)) {
-            throw new Error('Unable to set fill color');
+            throw new Error('Unable to set border color');
         }
 
         const { layerIndex, itemIndex } = this._viewerProvider.viewer.design.getIndexOf(this._selectedItem);
@@ -76,6 +84,23 @@ export class ItemStyleService implements IItemStyleService {
             new SetStrokeStyleCommand(
                 this._selectedItem, 
                 this._penWithColor(this._selectedItem.strokeStyle, borderColor)
+            )
+        ], [], [
+            new SelectItemAtCommand(layerIndex, itemIndex)
+        ]));
+    }
+
+    async setBorderWidth(borderWidth: number): Promise<void> {
+        if (!isItemWithStroke(this._selectedItem)) {
+            throw new Error('Unable to set border width');
+        }
+
+        const { layerIndex, itemIndex } = this._viewerProvider.viewer.design.getIndexOf(this._selectedItem);
+
+        return this._viewerProvider.viewer.execute(new Command([
+            new SetStrokeStyleCommand(
+                this._selectedItem, 
+                this._penWithWidth(this._selectedItem.strokeStyle, borderWidth)
             )
         ], [], [
             new SelectItemAtCommand(layerIndex, itemIndex)
@@ -104,6 +129,14 @@ export class ItemStyleService implements IItemStyleService {
         return new Pen(
             this._toBrush(color),
             pen.width,
+            pen.dash
+        );
+    }
+
+    private _penWithWidth(pen: Pen, width: number): Pen {
+        return new Pen(
+            pen.style,
+            width,
             pen.dash
         );
     }

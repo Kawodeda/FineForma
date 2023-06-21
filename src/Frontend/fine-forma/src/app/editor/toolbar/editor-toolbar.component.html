@@ -26,11 +26,16 @@
             <ff-color-picker [color]="fillColor" (colorChange)="onFillColorChanged($event)" matTooltip="Pick element's fill color">
             </ff-color-picker>
         </div>
-        <div *ngIf="hasBorderColor" style="margin-right: 10px; display: flex; align-items: center;">
+        <div *ngIf="hasBorder" style="margin-right: 10px; display: flex; align-items: center;">
             <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>
             <span class="angle-output-font" style="margin: 0 10px;">Border color</span>
             <ff-color-picker [color]="borderColor" (colorChange)="onBorderColorChanged($event)" matTooltip="Pick element's border color">
             </ff-color-picker>
+            <mat-divider [vertical]="true" style="height: 1.75em; width: 0; margin-left: 10px;"></mat-divider>
+            <span class="angle-output-font" style="margin: 0 10px;">Border width</span>
+            <mat-slider min="0" max="10" discrete matTooltip="Select element's border width">
+                <input matSliderThumb [value]="borderWidth" (valueChange)="onBorderWidthChanged($event)">
+            </mat-slider>
         </div>
         <div *ngIf="showItemAngle" style="display: flex; align-items: center;">
             <mat-divider [vertical]="true" style="height: 1.75em; width: 0;"></mat-divider>

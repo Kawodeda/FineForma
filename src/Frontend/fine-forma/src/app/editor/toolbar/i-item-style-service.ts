@@ -7,13 +7,17 @@ export interface IItemStyleService {
 
     get hasFillColor(): boolean;
 
-    get hasBorderColor(): boolean;
+    get hasBorder(): boolean;
 
     get fillColor(): IRgbColor;
 
     get borderColor(): IRgbColor;
 
+    get borderWidth(): number;
+
     setFillColor(fillColor: IRgbColor): Promise<void>;
 
     setBorderColor(borderColor: IRgbColor): Promise<void>;
+
+    setBorderWidth(borderWidth: number): Promise<void>;
 }
