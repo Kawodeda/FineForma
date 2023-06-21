@@ -28,7 +28,8 @@ open FineForma.Requests
 open FineForma.Handlers
 open FineForma.DataContext
 open FineForma.Configuration
-
+open Microsoft.Net.Http
+open System.Net
 // ---------------------------------
 // Web app
 // ---------------------------------
@@ -80,6 +81,11 @@ let webApp =
 
             route "/designs"
             >=> bindAuthorized parseLoadDesignRequest loadDesign
+
+            route "/render"
+            >=> setContentType "image/svg+xml"
+            >=> setHttpHeader Headers.HeaderNames.ContentDisposition "attachment; filename=result.svg"
+            >=> streamFile true @"C:\Users\konse\source\repos\FineForma\src\Backend\Storage\Designs\apple.svg" None None
         ]
 
         POST
@@ -131,7 +137,8 @@ let configureCors (builder: CorsPolicyBuilder) =
             "http://localhost:5000",
             "https://localhost:5001",
             "https://localhost:4200",
-            "http://localhost:4200"
+            "http://localhost:4200",
+            "https://158.160.73.45:443"
         )
         .AllowCredentials()
         .AllowAnyMethod()
@@ -140,7 +147,7 @@ let configureCors (builder: CorsPolicyBuilder) =
 
 let cookiePolicyOptions =
     let options = CookiePolicyOptions()
-    options.MinimumSameSitePolicy <- SameSiteMode.Strict
+    options.MinimumSameSitePolicy <- SameSiteMode.None
     options.HttpOnly <- HttpOnlyPolicy.Always
     options.Secure <- CookieSecurePolicy.Always
 
@@ -186,7 +193,7 @@ let configureServices (services: IServiceCollection) =
     |> ignore
 
     services.AddDbContext<DataContext>(fun optionsBuilder ->
-        optionsBuilder.UseNpgsql(Settings.ConnectionStrings.FineFormaDb)
+        optionsBuilder.UseNpgsql(Settings.ConnectionStrings.FineFormaDbYandex)
         |> ignore)
     |> ignore
 

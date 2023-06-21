@@ -3,6 +3,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>FineForma.App</AssemblyName>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FSharp.Configuration" Version="3.0.0-beta1" />

@@ -18,6 +18,7 @@ import { USER_CLIENT } from './shared/user-client-token';
 import { USER_SERVICE } from './shared/i-user-service';
 import { UserService } from './shared/user.service';
 import { AUTHENTICATION_CLIENT } from './shared/authentication-client-token';
+import { environment } from '../environments/environment';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,7 @@ import { AUTHENTICATION_CLIENT } from './shared/authentication-client-token';
     providers: [
         { provide: IMAGE_BITMAP_PROVIDER, useClass: ImageBitmapProvider },
         { provide: VIEWER_PROVIDER, useClass: ViewerProvider },
-        { provide: API_CLIENT, useFactory: () => new ApiClient('https://localhost:5001') },
+        { provide: API_CLIENT, useFactory: () => new ApiClient(environment.backendUrl) },
         { provide: USER_CLIENT, useFactory: (apiClient: IApiClient) => new UserClient(apiClient), deps: [API_CLIENT] },
         { provide: USER_SERVICE, useClass: UserService },
         { provide: AUTHENTICATION_CLIENT, useFactory: (apiClient: IApiClient) => new AuthenticationClient(apiClient), deps: [API_CLIENT] }
