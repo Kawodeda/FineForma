@@ -66,6 +66,10 @@ export class EditorToolbarComponent {
         return this._itemStyleService.hasBorder ? this._itemStyleService.borderWidth : 0;
     }
 
+    get hasDashes(): boolean {
+        return this._itemStyleService.hasBorder ? this._itemStyleService.hasDashes : false;
+    }
+
     get defaultColor(): IRgbColor {
         return { r: 0, g: 0, b: 0 };
     }
@@ -110,6 +114,14 @@ export class EditorToolbarComponent {
         if (this._itemStyleService.hasBorder) {
             handleAsyncAction(
                 this._itemStyleService.setBorderWidth(width)
+            );
+        }
+    }
+
+    onDashesToggleChanged(): void {
+        if (this._itemStyleService.hasBorder) {
+            handleAsyncAction(
+                this._itemStyleService.toggleDashes()
             );
         }
     }

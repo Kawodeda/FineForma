@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { DesignsClient, IApiClient } from 'fine-forma-api-clients';
 
@@ -60,7 +61,8 @@ import { ItemStyleService } from './toolbar/item-style.service';
         MatProgressSpinnerModule,
         MatSnackBarModule,
         MatInputModule,
-        MatSliderModule
+        MatSliderModule,
+        MatCheckboxModule
     ],
     exports: [EditorComponent],
     declarations: [

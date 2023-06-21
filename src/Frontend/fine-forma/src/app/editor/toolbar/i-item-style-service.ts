@@ -15,9 +15,13 @@ export interface IItemStyleService {
 
     get borderWidth(): number;
 
+    get hasDashes(): boolean;
+
     setFillColor(fillColor: IRgbColor): Promise<void>;
 
     setBorderColor(borderColor: IRgbColor): Promise<void>;
 
     setBorderWidth(borderWidth: number): Promise<void>;
+
+    toggleDashes(): Promise<void>;
 }

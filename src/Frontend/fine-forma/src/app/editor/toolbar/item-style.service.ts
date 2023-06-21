@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 
-import { Brush, Color, Command, Item, Pen, RgbColor, SelectItemAtCommand, SetFillStyleCommand, SetStrokeStyleCommand, SolidBrush, isItemWithFill, isItemWithStroke } from 'fine-forma-core';
+import { Brush, Color, Command, DashSettings, Item, Pen, RgbColor, SelectItemAtCommand, SetFillStyleCommand, SetStrokeStyleCommand, SolidBrush, isItemWithFill, isItemWithStroke } from 'fine-forma-core';
 
 import { IViewerProvider, VIEWER_PROVIDER } from '../../shared/i-viewer-provider';
 import { IItemStyleService } from './i-item-style-service';
@@ -49,6 +49,14 @@ export class ItemStyleService implements IItemStyleService {
         }
 
         throw new Error('Item has no border width');
+    }
+
+    get hasDashes(): boolean {
+        if (isItemWithStroke(this._selectedItem)) {
+            return !this._selectedItem.strokeStyle.dash.equals(DashSettings.empty);
+        }
+
+        throw new Error('Item has no dashes');
     }
 
     private get _hasSelectedItem(): boolean {
@@ -107,6 +115,24 @@ export class ItemStyleService implements IItemStyleService {
         ]));
     }
 
+    async toggleDashes(): Promise<void> {
+        if (!isItemWithStroke(this._selectedItem)) {
+            throw new Error('Unable to set dashes');
+        }
+
+        const dashes = this.hasDashes ? [] : [10, 10];
+        const { layerIndex, itemIndex } = this._viewerProvider.viewer.design.getIndexOf(this._selectedItem);
+
+        return this._viewerProvider.viewer.execute(new Command([
+            new SetStrokeStyleCommand(
+                this._selectedItem, 
+                this._penWithDashes(this._selectedItem.strokeStyle, dashes)
+            )
+        ], [], [
+            new SelectItemAtCommand(layerIndex, itemIndex)
+        ]));
+    }
+
     private _isSolidBrush(brush: Brush): brush is SolidBrush {
         return brush instanceof SolidBrush;
     }
@@ -138,6 +164,14 @@ export class ItemStyleService implements IItemStyleService {
             pen.style,
             width,
             pen.dash
+        );
+    }
+
+    private _penWithDashes(pen: Pen, dashes: number[]): Pen {
+        return new Pen(
+            pen.style,
+            pen.width,
+            new DashSettings(dashes, pen.dash.dashOffset)
         );
     }
 }
