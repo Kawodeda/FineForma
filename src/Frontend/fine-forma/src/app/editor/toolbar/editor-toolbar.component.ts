@@ -1,4 +1,5 @@
 import { Component, Inject, Input } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ISelectionService, SELECTION_SERVICE } from './i-selection-service';
 import { IItemService, ITEM_SERVICE } from './i-item-service';
@@ -6,6 +7,7 @@ import { IRgbColor } from './rgb-color';
 import { IItemStyleService, ITEM_STYLE_SERVICE } from './i-item-style-service';
 import { handleAsyncAction } from '../../shared/utils';
 import { IShapeDrawingService, SHAPE_DRAWING_SERVICE } from './i-shape-drawing-service';
+import { IImageInsertService, IMAGE_INSERT_SERVICE } from './i-image-insert-service';
 
 @Component({
     selector: 'ff-editor-toolbar',
@@ -21,17 +23,25 @@ export class EditorToolbarComponent {
     private readonly _itemService: IItemService;
     private readonly _itemStyleService: IItemStyleService;
     private readonly _shapeDrawingService: IShapeDrawingService;
+    private readonly _imageInsertService: IImageInsertService;
+    private readonly _snackBar: MatSnackBar;
+
+    private _canInsertImage = true;
 
     constructor(
         @Inject(SELECTION_SERVICE) selectionService: ISelectionService,
         @Inject(ITEM_SERVICE) itemService: IItemService,
         @Inject(ITEM_STYLE_SERVICE) itemStyleService: IItemStyleService,
-        @Inject(SHAPE_DRAWING_SERVICE) shapeDrawingService: IShapeDrawingService
+        @Inject(SHAPE_DRAWING_SERVICE) shapeDrawingService: IShapeDrawingService,
+        @Inject(IMAGE_INSERT_SERVICE) imageInsertService: IImageInsertService,
+        snackBar: MatSnackBar
     ) {
         this._selectionService = selectionService;
         this._itemService = itemService;
         this._itemStyleService = itemStyleService;
         this._shapeDrawingService = shapeDrawingService;
+        this._imageInsertService = imageInsertService;
+        this._snackBar = snackBar;
     }
 
     get canDelete(): boolean {
@@ -80,6 +90,10 @@ export class EditorToolbarComponent {
 
     get isDrawing(): boolean {
         return this._shapeDrawingService.isDrawing;
+    }
+
+    get canInsertImage(): boolean {
+        return this._canInsertImage;
     }
 
     async onDeleteClick(): Promise<void> {
@@ -136,5 +150,19 @@ export class EditorToolbarComponent {
 
     startShapeDrawing(): void {
         this._shapeDrawingService.startDrawing();
+    }
+
+    fileSelected(event: Event): void {
+        const fileInput = event.target as HTMLInputElement;
+        const file = fileInput.files?.item(0);
+        if (file != null) {
+            this._canInsertImage = false;
+            this._imageInsertService.insertImage(file, this.viewerWidth / 2, this.viewerHeight / 2)
+                .catch(error => this._snackBar.open(error as string, 'Close'))
+                .finally(() => { 
+                    fileInput.value = '';
+                    this._canInsertImage = true; 
+                });
+        }
     }
 }
