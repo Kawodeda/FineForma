@@ -17,6 +17,9 @@
                 Line
             </button>
         </mat-menu>
+        <button mat-icon-button color="primary" matTooltip="Draw shape" (click)="startShapeDrawing()">
+            <mat-icon>create</mat-icon>
+        </button>
         <button mat-icon-button color="warn" matTooltip="Remove element" (click)="onDeleteClick()" [disabled]="!canDelete">
             <mat-icon>delete</mat-icon>
         </button>

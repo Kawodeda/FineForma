@@ -45,7 +45,8 @@ import {
     ClosedShapeItem,
     Transform,
     PathControls,
-    ClosedShapeStyle
+    ClosedShapeStyle,
+    ShapeDrawingInputHandler
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
@@ -58,6 +59,8 @@ export class ViewerProvider implements IViewerProvider {
 
     private readonly _viewer: Viewer;
 
+    private _shapeDrawingInputHandler: ShapeDrawingInputHandler | null = null;
+
     constructor() {
         this._viewer = this._createViewer();
         this._viewer.selection = new Selection(this._viewer.design.layers.get(0).items.get(0));
@@ -65,6 +68,14 @@ export class ViewerProvider implements IViewerProvider {
 
     get viewer(): Viewer {
         return this._viewer;
+    }
+
+    get shapeDrawingInputHandler(): ShapeDrawingInputHandler {
+        if (this._shapeDrawingInputHandler == null) {
+            throw new Error('Shape drawing input handler is not initialized');
+        }
+
+        return this._shapeDrawingInputHandler;
     }
 
     private _createViewer(): Viewer {
@@ -87,8 +98,7 @@ export class ViewerProvider implements IViewerProvider {
             { 
                 create: executor => {
                     const hitTestService = new HitTestService(executor);
-
-                    return new InputReceiver(
+                    this._shapeDrawingInputHandler = new ShapeDrawingInputHandler(
                         new RotationInputHandler(
                             rotationGrip,
                             executor,
@@ -103,7 +113,11 @@ export class ViewerProvider implements IViewerProvider {
                                     new ViewportInputHandler({ wheelZoomSensitivity: 1, wheelScrollSensitivity: 1 })
                                 )
                             )   
-                        ), 
+                        )
+                    );
+
+                    return new InputReceiver(
+                        this._shapeDrawingInputHandler, 
                         executor
                     )
                 } 
