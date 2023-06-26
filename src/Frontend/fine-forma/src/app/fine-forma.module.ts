@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ApiClient, AuthenticationClient, IApiClient, UserClient } from 'fine-forma-api-clients';
+import { ApiClient, AuthenticationClient, IApiClient, ImagesClient, UserClient } from 'fine-forma-api-clients';
 
 import { FineFormaComponent } from './fine-forma.component';
 import { EditorModule } from './editor/editor.module';
@@ -19,6 +19,7 @@ import { USER_SERVICE } from './shared/i-user-service';
 import { UserService } from './shared/user.service';
 import { AUTHENTICATION_CLIENT } from './shared/authentication-client-token';
 import { environment } from '../environments/environment';
+import { IMAGES_CLIENT } from './shared/images-client-token';
 
 @NgModule({
     declarations: [
@@ -38,7 +39,8 @@ import { environment } from '../environments/environment';
         { provide: API_CLIENT, useFactory: () => new ApiClient(environment.backendUrl) },
         { provide: USER_CLIENT, useFactory: (apiClient: IApiClient) => new UserClient(apiClient), deps: [API_CLIENT] },
         { provide: USER_SERVICE, useClass: UserService },
-        { provide: AUTHENTICATION_CLIENT, useFactory: (apiClient: IApiClient) => new AuthenticationClient(apiClient), deps: [API_CLIENT] }
+        { provide: AUTHENTICATION_CLIENT, useFactory: (apiClient: IApiClient) => new AuthenticationClient(apiClient), deps: [API_CLIENT] },
+        { provide: IMAGES_CLIENT, useFactory: (apiClient: IApiClient) => new ImagesClient(apiClient), deps: [API_CLIENT] }
     ],
     bootstrap: [FineFormaComponent]
 })
