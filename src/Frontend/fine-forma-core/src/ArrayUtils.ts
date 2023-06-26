@@ -1,3 +1,16 @@
+export function first<T>(array: readonly T[]): T {
+    if (array.length === 0) {
+        throw new Error('Given array was empty');
+    }
+
+    const result = array[0];
+    if (result === undefined) {
+        throw new Error();
+    }
+
+    return result;
+}
+
 export function last<T>(array: readonly T[]): T {
     if (array.length === 0) {
         throw new Error('Given array was empty');

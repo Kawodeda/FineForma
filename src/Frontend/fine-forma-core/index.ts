@@ -13,3 +13,4 @@ export * from './src/InputHandling';
 export * from './src/ArrayUtils';
 export * from './src/HitTest';
 export * from './src/Ui';
+export * from './src/Splineworks';
