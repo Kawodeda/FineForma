@@ -7,3 +7,5 @@ export * from './src/IUserClient';
 export * from './src/UserClient';
 export * from './src/IDesignsClient';
 export * from './src/DesignsClient';
+export * from './src/IImagesClient';
+export * from './src/ImagesClient';

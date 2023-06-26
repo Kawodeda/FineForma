@@ -140,7 +140,7 @@ let uploadImage (ctx: UnauthorizedContext) (next: HttpFunc) (httpContext: HttpCo
 
 let downloadImage (ctx: UnauthorizedContext) (next: HttpFunc) (httpContext: HttpContext) =
     task {
-        let! image = Storage.loadImage ctx.StoragePath (string httpContext.Request.Query["name"])
+        let! image = Storage.loadImage ctx.StoragePath (string httpContext.Request.Query["storageId"])
 
         return
             match image with
