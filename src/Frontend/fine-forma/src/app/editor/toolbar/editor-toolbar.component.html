@@ -20,6 +20,10 @@
         <button mat-icon-button color="primary" matTooltip="Draw shape" (click)="startShapeDrawing()" [disabled]="isDrawing">
             <mat-icon>create</mat-icon>
         </button>
+        <button mat-icon-button matTooltip="Insert image" (click)="imageUpload.click()" [disabled]="!canInsertImage">
+            <mat-icon>photo</mat-icon>
+        </button>
+        <input #imageUpload type="file" (change)="fileSelected($event)" style="display: none;">
         <button mat-icon-button color="warn" matTooltip="Remove element" (click)="onDeleteClick()" [disabled]="!canDelete">
             <mat-icon>delete</mat-icon>
         </button>

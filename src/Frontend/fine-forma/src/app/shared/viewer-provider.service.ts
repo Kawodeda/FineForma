@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 
 import { 
     Brushes, 
@@ -50,7 +50,9 @@ import {
 } from 'fine-forma-core';
 
 import { IViewerProvider } from './i-viewer-provider';
-import { ExternalImageStorage } from './external-image-storage';
+import { ImageStorage } from './image-storage';
+import { IImagesClient } from 'fine-forma-api-clients';
+import { IMAGES_CLIENT } from './images-client-token';
 
 const DEBUG_MODE = false;
 
@@ -58,10 +60,12 @@ const DEBUG_MODE = false;
 export class ViewerProvider implements IViewerProvider {
 
     private readonly _viewer: Viewer;
+    private readonly _imagesClient: IImagesClient;
 
     private _shapeDrawingInputHandler: ShapeDrawingInputHandler | null = null;
 
-    constructor() {
+    constructor(@Inject(IMAGES_CLIENT) imagesClient: IImagesClient) {
+        this._imagesClient = imagesClient;
         this._viewer = this._createViewer();
         this._viewer.selection = new Selection(this._viewer.design.layers.get(0).items.get(0));
     }
@@ -143,25 +147,19 @@ export class ViewerProvider implements IViewerProvider {
                     Transform.createIdentity(),
                     new PathControls(this._pathApple()),
                     new ClosedShapeStyle(new Pen(Brushes.black(), 0), Brushes.red())
-                ),
-                createImage(700, 600, 200, 200, 'masyunya')
-                .setBorder(new Pen(Brushes.black(), 0))
-                .build(),
-                createImage(800, 200, 200, 200, 'sima2')
-                .setBorder(new Pen(Brushes.black(), 0))
-                .build()
+                )
             ], 1)
         ]);
     }
 
     private _createRendererFactory(rotationGrip: IRotationGrip, resizeGripSize: number): IRendererFactory {
-        const images = [
-            ['masyunya', 'https://vk.com/sticker/1-71339-512'],
-            ['masyunya2', 'https://vk.com/sticker/1-71326-512'],
-            ['masyunya3', 'https://vk.com/sticker/1-71367-512'],
-            ['sima', 'https://vk.com/sticker/1-79353-512'],
-            ['sima2', 'https://vk.com/sticker/1-79342-512']
-        ] as [string, string][];
+        // const images = [
+        //     ['masyunya', 'https://vk.com/sticker/1-71339-512'],
+        //     ['masyunya2', 'https://vk.com/sticker/1-71326-512'],
+        //     ['masyunya3', 'https://vk.com/sticker/1-71367-512'],
+        //     ['sima', 'https://vk.com/sticker/1-79353-512'],
+        //     ['sima2', 'https://vk.com/sticker/1-79342-512']
+        // ] as [string, string][];
         const gripsStyle = { 
             stroke: new Pen(new SolidBrush(new RgbColor(0, 144, 255, 255)), 2),
             fill: Brushes.white() 
@@ -172,7 +170,7 @@ export class ViewerProvider implements IViewerProvider {
                 new LayerRenderer(
                     new ItemRendererFactory(
                         new ImageContentProvider(
-                            new ExternalImageStorage(images))))),
+                            new ImageStorage(this._imagesClient))))),
             {
                 create: (designContext, viewportContext, selectionContext) => {
                     const uiRenderers: IRenderer[] = [

@@ -64,6 +64,18 @@ export class ApiClient implements IApiClient {
         }
     }
 
+    async downloadFile(endpoint: string): Promise<Blob> {
+        try {
+            const client = this._createClient();
+            const response = await client.get(endpoint, { responseType: 'blob' });
+
+            return response.data as Blob;
+        }
+        catch (error) {
+            this._handleError(error);
+        }
+    } 
+
     private _createClient(params?: unknown): AxiosInstance {
         const config = {
             // eslint-disable-next-line @typescript-eslint/naming-convention

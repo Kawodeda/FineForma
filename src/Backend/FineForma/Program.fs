@@ -30,6 +30,7 @@ open FineForma.DataContext
 open FineForma.Configuration
 open Microsoft.Net.Http
 open System.Net
+open Microsoft.AspNetCore.Http.Features
 // ---------------------------------
 // Web app
 // ---------------------------------
@@ -86,6 +87,9 @@ let webApp =
             >=> setContentType "image/svg+xml"
             >=> setHttpHeader Headers.HeaderNames.ContentDisposition "attachment; filename=result.svg"
             >=> streamFile true @"C:\Users\konse\source\repos\FineForma\src\Backend\Storage\Designs\apple.svg" None None
+
+            route "/images"
+            >=> bindUnauthorized downloadImage
         ]
 
         POST
@@ -101,6 +105,9 @@ let webApp =
 
             route "/designs/save"
             >=> bindAuthorizedAsyncRequest parseSaveDesignRequest saveDesign
+
+            route "/images/upload"
+            >=> bindUnauthorized uploadImage
         ]
 
         DELETE
@@ -196,6 +203,9 @@ let configureServices (services: IServiceCollection) =
         optionsBuilder.UseNpgsql(Settings.ConnectionStrings.FineFormaDbYandex)
         |> ignore)
     |> ignore
+
+// services.Configure<FormOptions>(fun (opt: FormOptions) -> opt.MultipartBodyLengthLimit <- Int64.MaxValue)
+// |> ignore
 
 let configureLogging (builder: ILoggingBuilder) =
     builder.AddConsole().AddDebug()
