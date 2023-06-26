@@ -5,6 +5,7 @@ import { IItemService, ITEM_SERVICE } from './i-item-service';
 import { IRgbColor } from './rgb-color';
 import { IItemStyleService, ITEM_STYLE_SERVICE } from './i-item-style-service';
 import { handleAsyncAction } from '../../shared/utils';
+import { IShapeDrawingService, SHAPE_DRAWING_SERVICE } from './i-shape-drawing-service';
 
 @Component({
     selector: 'ff-editor-toolbar',
@@ -19,15 +20,18 @@ export class EditorToolbarComponent {
     private readonly _selectionService: ISelectionService;
     private readonly _itemService: IItemService;
     private readonly _itemStyleService: IItemStyleService;
+    private readonly _shapeDrawingService: IShapeDrawingService;
 
     constructor(
         @Inject(SELECTION_SERVICE) selectionService: ISelectionService,
         @Inject(ITEM_SERVICE) itemService: IItemService,
-        @Inject(ITEM_STYLE_SERVICE) itemStyleService: IItemStyleService
+        @Inject(ITEM_STYLE_SERVICE) itemStyleService: IItemStyleService,
+        @Inject(SHAPE_DRAWING_SERVICE) shapeDrawingService: IShapeDrawingService
     ) {
         this._selectionService = selectionService;
         this._itemService = itemService;
         this._itemStyleService = itemStyleService;
+        this._shapeDrawingService = shapeDrawingService;
     }
 
     get canDelete(): boolean {
@@ -72,6 +76,10 @@ export class EditorToolbarComponent {
 
     get defaultColor(): IRgbColor {
         return { r: 0, g: 0, b: 0 };
+    }
+
+    get isDrawing(): boolean {
+        return this._shapeDrawingService.isDrawing;
     }
 
     async onDeleteClick(): Promise<void> {
@@ -124,5 +132,9 @@ export class EditorToolbarComponent {
                 this._itemStyleService.toggleDashes()
             );
         }
+    }
+
+    startShapeDrawing(): void {
+        this._shapeDrawingService.startDrawing();
     }
 }

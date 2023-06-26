@@ -70,3 +70,7 @@ export function quadraticEquation(a: number, b: number, c: number): number[] {
 export function minByAbs(a: number, b: number): number {
     return Math.abs(b) < Math.abs(a) ? b : a;
 }
+
+export function distance(a: Vector2, b: Vector2): number {
+    return b.subtract(a).magnitude;
+}

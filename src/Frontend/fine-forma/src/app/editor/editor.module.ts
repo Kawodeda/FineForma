@@ -45,6 +45,8 @@ import { SaveDesignComponent } from './app-toolbar/save-design-dialog/save-desig
 import { ColorPickerComponent } from './toolbar/color-picker/color-picker.component';
 import { ITEM_STYLE_SERVICE } from './toolbar/i-item-style-service';
 import { ItemStyleService } from './toolbar/item-style.service';
+import { SHAPE_DRAWING_SERVICE } from './toolbar/i-shape-drawing-service';
+import { ShapeDrawingService } from './toolbar/shape-drawing.service';
 
 @NgModule({
     imports: [
@@ -86,7 +88,8 @@ import { ItemStyleService } from './toolbar/item-style.service';
         { provide: VIEWPORT_SERVICE, useClass: ViewportService },
         { provide: DESIGNS_CLIENT, useFactory: (apiClient: IApiClient) => new DesignsClient(apiClient), deps: [API_CLIENT] },
         { provide: DESIGN_MANAGER, useClass: DesignManager },
-        { provide: ITEM_STYLE_SERVICE, useClass: ItemStyleService }
+        { provide: ITEM_STYLE_SERVICE, useClass: ItemStyleService },
+        { provide: SHAPE_DRAWING_SERVICE, useClass: ShapeDrawingService }
     ]
 })
 export class EditorModule { }
