@@ -147,13 +147,7 @@ export class ViewerProvider implements IViewerProvider {
                     Transform.createIdentity(),
                     new PathControls(this._pathApple()),
                     new ClosedShapeStyle(new Pen(Brushes.black(), 0), Brushes.red())
-                ),
-                createImage(700, 600, 200, 200, '0db1ddeacc0992d7194bcad78cacb95d')
-                .setBorder(new Pen(Brushes.black(), 0))
-                .build(),
-                // createImage(800, 200, 200, 200, 'sima2')
-                // .setBorder(new Pen(Brushes.black(), 0))
-                // .build()
+                )
             ], 1)
         ]);
     }

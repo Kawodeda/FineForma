@@ -47,6 +47,8 @@ import { ITEM_STYLE_SERVICE } from './toolbar/i-item-style-service';
 import { ItemStyleService } from './toolbar/item-style.service';
 import { SHAPE_DRAWING_SERVICE } from './toolbar/i-shape-drawing-service';
 import { ShapeDrawingService } from './toolbar/shape-drawing.service';
+import { IMAGE_INSERT_SERVICE } from './toolbar/i-image-insert-service';
+import { ImageInsertService } from './toolbar/image-insert.service';
 
 @NgModule({
     imports: [
@@ -89,7 +91,8 @@ import { ShapeDrawingService } from './toolbar/shape-drawing.service';
         { provide: DESIGNS_CLIENT, useFactory: (apiClient: IApiClient) => new DesignsClient(apiClient), deps: [API_CLIENT] },
         { provide: DESIGN_MANAGER, useClass: DesignManager },
         { provide: ITEM_STYLE_SERVICE, useClass: ItemStyleService },
-        { provide: SHAPE_DRAWING_SERVICE, useClass: ShapeDrawingService }
+        { provide: SHAPE_DRAWING_SERVICE, useClass: ShapeDrawingService },
+        { provide: IMAGE_INSERT_SERVICE, useClass: ImageInsertService }
     ]
 })
 export class EditorModule { }
