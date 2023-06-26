@@ -15,7 +15,7 @@ export class PreparedState extends BaseInputHandlerState {
                 event.workspacePosition, 
                 Transform.createIdentity(),
                 new PathControls(new ClosedPath([])),
-                new ClosedShapeStyle(new Pen(Brushes.black(), 0), Brushes.black()));
+                new ClosedShapeStyle(new Pen(Brushes.black(), 1), Brushes.black()));
             
             this._context.state = new DrawingState(this._context, [], item);
 

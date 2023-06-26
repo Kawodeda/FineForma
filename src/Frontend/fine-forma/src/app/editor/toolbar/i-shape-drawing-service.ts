@@ -4,5 +4,7 @@ export const SHAPE_DRAWING_SERVICE = new InjectionToken<IShapeDrawingService>('s
 
 export interface IShapeDrawingService {
     
+    get isDrawing(): boolean;
+
     startDrawing(): void;
 }

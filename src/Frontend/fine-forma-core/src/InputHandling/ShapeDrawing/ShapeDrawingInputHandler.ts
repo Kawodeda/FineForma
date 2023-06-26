@@ -14,6 +14,10 @@ export class ShapeDrawingInputHandler extends BaseInputHandler {
         this._state = new IdleState(this);
     }
 
+    get isDrawing(): boolean {
+        return !(this._state instanceof IdleState);
+    }
+
     startDrawing(): void {
         this._state = new PreparedState(this);
     }

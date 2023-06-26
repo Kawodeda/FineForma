@@ -78,6 +78,10 @@ export class EditorToolbarComponent {
         return { r: 0, g: 0, b: 0 };
     }
 
+    get isDrawing(): boolean {
+        return this._shapeDrawingService.isDrawing;
+    }
+
     async onDeleteClick(): Promise<void> {
         await this._itemService.deleteSelectedItem();
     }
