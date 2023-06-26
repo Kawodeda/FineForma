@@ -8,6 +8,10 @@ open Requests
 open Data
 open DataContext
 open System.Threading.Tasks
+open Microsoft.AspNetCore.Http
+open Giraffe
+open Microsoft.AspNetCore.Http.Features
+open System.Threading
 
 let private savedDesignSource (dataCtx: DataContext) (userId: int) (designName: string) =
     maybe {
@@ -120,3 +124,26 @@ let deleteDesign (ctx: AuthorizedContext) (request: DeleteDesignRequest) =
 
 let getUserInfo (ctx: AuthorizedContext) =
     success {| Username = ctx.User.Username |}
+
+let uploadImage (ctx: UnauthorizedContext) (next: HttpFunc) (httpContext: HttpContext) =
+    task {
+        let image = httpContext.Request.Form.Files.GetFile("image")
+
+        let! result =
+            image.OpenReadStream()
+            |> Storage.saveImage ctx.StoragePath image.FileName
+
+        return
+            result
+            |> toResponse createdWithData (fun err -> error err)
+    }
+
+let downloadImage (ctx: UnauthorizedContext) (next: HttpFunc) (httpContext: HttpContext) =
+    task {
+        let! image = Storage.loadImage ctx.StoragePath (string httpContext.Request.Query["name"])
+
+        return
+            match image with
+            | Error _ -> notFound
+            | Ok content -> streamData true (new System.IO.MemoryStream(content)) None None
+    }

@@ -64,6 +64,13 @@ let success (data: 'a) (next: HttpFunc) (ctx: HttpContext) =
 
 let created (next: HttpFunc) (ctx: HttpContext) = setStatusCode 201 next ctx
 
+
+let createdWithData (data: 'a) (next: HttpFunc) (ctx: HttpContext) =
+    (setStatusCode 201
+     >=> json data)
+        next
+        ctx
+
 let noContent (next: HttpFunc) (ctx: HttpContext) = setStatusCode 204 next ctx
 
 let badRequest (next: HttpFunc) (ctx: HttpContext) = setStatusCode 400 next ctx
@@ -213,6 +220,24 @@ let bindBody (handler: UnauthorizedContext -> 'a -> Result<'b, 'err>) (next: Htt
             with
             | Ok a -> success a next httpContext
             | Error err -> badRequestWithData err next httpContext
+    }
+
+let bindUnauthorized
+    (handler: UnauthorizedContext -> HttpFunc -> HttpContext -> Task<HttpFunc -> 'a -> HttpFuncResult>)
+    (next: HttpFunc)
+    (httpContext: HttpContext)
+    =
+    task {
+        let dataCtx = httpContext.GetService<DataContext>()
+
+        let ctx = {
+            StoragePath = Settings.FileStoragePath
+            DataContext = dataCtx
+        }
+
+        let! result = handler ctx next httpContext
+
+        return! result next httpContext
     }
 
 let bindBodyWithCookies

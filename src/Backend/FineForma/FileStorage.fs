@@ -1,7 +1,7 @@
 module FineForma.FileStorage
 
 open System.IO
-open FineForma.StorageUtils
+open System.Threading.Tasks
 
 let writeText (path: string) (content: string) =
     async {
@@ -55,3 +55,27 @@ let createDirectory (path: string) =
         )
     with exn ->
         Result.Error exn
+
+let write (path: string) (content: Stream) =
+    async {
+        use file = File.OpenWrite path
+
+        do!
+            file
+            |> content.CopyToAsync
+            |> Async.AwaitTask
+
+        return Ok()
+    }
+
+let read (path: string) =
+    async {
+        if not (File.Exists path) then
+            return Error "Not found"
+        else
+            let! content =
+                File.ReadAllBytesAsync path
+                |> Async.AwaitTask
+
+            return Ok content
+    }
