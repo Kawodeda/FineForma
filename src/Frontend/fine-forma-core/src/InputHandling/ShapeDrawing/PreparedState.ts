@@ -6,8 +6,9 @@ import { Brushes, Pen } from '../../Style';
 import { Transform } from '../../Transform';
 import { BaseInputHandlerState } from '../State';
 import { DrawingState } from './DrawingState';
+import { IShapeDrawingInputHandlerStateContext } from './IShapeDrawingInputHandlerStateContext';
 
-export class PreparedState extends BaseInputHandlerState {
+export class PreparedState extends BaseInputHandlerState<IShapeDrawingInputHandlerStateContext> {
     
     override mouseDown(event: IMouseEventArgs): ICommand {
         if (event.button === 'left') {

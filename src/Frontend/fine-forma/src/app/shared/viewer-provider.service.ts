@@ -99,6 +99,8 @@ export class ViewerProvider implements IViewerProvider {
                 create: executor => {
                     const hitTestService = new HitTestService(executor);
                     this._shapeDrawingInputHandler = new ShapeDrawingInputHandler(
+                        0.1,
+                        0.15,
                         new RotationInputHandler(
                             rotationGrip,
                             executor,

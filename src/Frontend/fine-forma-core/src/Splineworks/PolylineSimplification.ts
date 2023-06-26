@@ -8,7 +8,7 @@ export function simplify(polyline: readonly Vector2[], tolerance: number): LineS
     do {
         removed = simplifyParallelSegments(result, tolerance);
     } while (removed)
-    console.log('simplification result', result);
+    
     return toSegments(result);
 }
 
@@ -79,17 +79,6 @@ function clampToMinAbs(value: number, minAbs: number): number {
     }
 
     return value;
-}
-
-function fromSegments(segments: readonly LineSegment[]): Vector2[] {
-    return segments.flatMap((segment, index) => {
-        const prevSegmentEnd = segments[index - 1]?.end;
-        if (prevSegmentEnd != null && segment.start.equals(prevSegmentEnd)) {
-            return [segment.end];
-        }
-
-        return [segment.start, segment.end];
-    });
 }
 
 function toSegments(points: readonly Vector2[]): LineSegment[] {

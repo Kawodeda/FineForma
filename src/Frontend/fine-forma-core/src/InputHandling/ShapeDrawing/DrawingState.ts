@@ -1,19 +1,20 @@
 import { IMouseEventArgs } from '..';
-import { add, last } from '../../ArrayUtils';
+import { add } from '../../ArrayUtils';
 import { AddItemCommand, Command, ICommand, RemoveItemCommand } from '../../Commands';
 import { ClosedShapeItem, Item, OpenShapeItem, PathControls } from '../../Design';
 import { Vector2 } from '../../Math';
 import { ClosedPath, Segment } from '../../Path';
-import { simplify } from '../../Splineworks';
-import { BaseInputHandlerState, IInputHandlerStateContext } from '../State';
+import { interpolate, simplify } from '../../Splineworks';
+import { BaseInputHandlerState } from '../State';
+import { IShapeDrawingInputHandlerStateContext } from './IShapeDrawingInputHandlerStateContext';
 import { IdleState } from './IdleState';
 
-export class DrawingState extends BaseInputHandlerState {
+export class DrawingState extends BaseInputHandlerState<IShapeDrawingInputHandlerStateContext> {
 
     private readonly _points: readonly Vector2[];
     private readonly _drawnItem: Item;
 
-    constructor(context: IInputHandlerStateContext, points: readonly Vector2[], drawnItem: Item) {
+    constructor(context: IShapeDrawingInputHandlerStateContext, points: readonly Vector2[], drawnItem: Item) {
         super(context);
 
         this._points = points;
@@ -33,29 +34,16 @@ export class DrawingState extends BaseInputHandlerState {
     }
 
     override mouseMove(event: IMouseEventArgs): ICommand {
-        console.log('points', this._points);
         const newPoint = this._drawnItem.transform.matrix.inverse().applyTo(event.workspacePosition.subtract(this._drawnItem.position));
         const updatedPoints = add(this._points, newPoint);
-        console.log('updated points', updatedPoints);
-        const simplifiedPath = simplify(updatedPoints, 0.1);
-        const updatedItem = this._setPath(this._drawnItem, simplifiedPath);
-        console.log('path', simplifiedPath);
+        const refinedPath = interpolate(simplify(updatedPoints, this._context.simplificationTolerance), this._context.interpolationFactor);
+        const updatedItem = this._setPath(this._drawnItem, refinedPath);
         this._context.state = new DrawingState(this._context, updatedPoints, updatedItem);
 
         return new Command([
             new RemoveItemCommand(this._drawnItem),
             new AddItemCommand(updatedItem)
         ]);
-    }
-
-    private _pathEnd(): Vector2 {
-        if (this._drawnItem.controls.path.segments.length !== 0) {
-            const lastSegment = last(this._drawnItem.controls.path.segments);
-
-            return lastSegment.end;
-        }
-
-        return Vector2.zero;
     }
 
     private _setPath(item: Item, segments: readonly Segment[]): Item {
