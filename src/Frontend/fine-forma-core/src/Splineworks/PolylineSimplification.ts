@@ -2,13 +2,13 @@ import { first, last } from '../ArrayUtils';
 import { Vector2, distance } from '../Math';
 import { LineSegment } from '../Path';
 
-export function simplify(polyline: readonly LineSegment[], tolerance: number): LineSegment[] {
-    const result = fromSegments(polyline);
+export function simplify(polyline: readonly Vector2[], tolerance: number): LineSegment[] {
+    const result = [...polyline];
     let removed = false;
     do {
         removed = simplifyParallelSegments(result, tolerance);
     } while (removed)
-
+    console.log('simplification result', result);
     return toSegments(result);
 }
 
@@ -50,7 +50,7 @@ function formSingleLine(point1: Vector2 | undefined, point2: Vector2 | undefined
     const v1 = point1.subtract(point2);
     const v2 = point2.subtract(point3);
 
-    const diff = Vector2.angle(v1, v2);
+    const diff = angle(v1, v2);
 
     const factor = 1.5;
     if (Math.min(d1, d2) <= tooCloseDistance) {
@@ -58,6 +58,14 @@ function formSingleLine(point1: Vector2 | undefined, point2: Vector2 | undefined
     }
     
     return diff <= tolerance;
+}
+
+function angle(point1: Vector2, point2: Vector2): number {
+    return Math.acos(dotProduct(point1, point2) / (point1.magnitude * point2.magnitude));
+}
+
+function dotProduct(point1: Vector2, point2: Vector2): number {
+    return point1.x * point2.x + point1.y * point2.y;
 }
 
 function clampToMinAbs(value: number, minAbs: number): number {
@@ -85,6 +93,5 @@ function fromSegments(segments: readonly LineSegment[]): Vector2[] {
 }
 
 function toSegments(points: readonly Vector2[]): LineSegment[] {
-    return points.slice(1)
-        .map((point, index) => new LineSegment(points[index - 1] ?? point, point));
+    return points.map((point, index) => new LineSegment(point, points[index + 1] ?? first(points)));
 }
