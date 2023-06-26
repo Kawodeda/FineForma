@@ -7,3 +7,4 @@ export * from './RotateItemCommand';
 export * from './ResizeItemCommand';
 export * from './SetStrokeStyleCommand';
 export * from './SetFillStyleCommand';
+export * from './AddItemCommand';

@@ -11,3 +11,4 @@ export * from './Viewport/ViewportInputHandler';
 export * from './Selection/SelectionInputHandler';
 export * from './ItemRotation/RotationInputHandler';
 export * from './ItemResize/ResizeInputHandler';
+export * from './ShapeDrawing/ShapeDrawingInputHandler';
